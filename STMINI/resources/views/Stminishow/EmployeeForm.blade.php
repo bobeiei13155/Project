@@ -7,6 +7,7 @@
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Product Name">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Something">
         </div>
         <div class="form-group">
             <label for="description">Description</label>
