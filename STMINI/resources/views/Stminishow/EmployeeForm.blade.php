@@ -1,27 +1,43 @@
 @extends('layouts.stmininav')
 @section('body')
-<div class="table-responsive">
+<div class="container">
+    <br>
     <h2>เพิ่มพนักงาน</h2>
     <form action="" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
+        <div class="form-group">    
+            <div class="row">
+                <div class="col-sm-2">
+                    <select class="form-control" name="Title_Emp">
+                            <option value="Mr">Mr</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms">Ms</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="First name">
+                </div>
+                <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+        </div>
+        </form>
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Product Name">
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="LName_Emp">Username</label>
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp">
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" name="description" id="description" placeholder="Description">
-        </div>
-        <div class="form-group">
-            <label for="type">Category</label>
-            <select class="form-control" name="category">
-                    <option value="men">Men</option>
-                    <option value="women">WoMen</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="type">Price</label>
-            <input type="text" class="form-control" name="price" id="price" placeholder="Price" required>
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="LName_Emp">Password</label>
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp">
+                </div>
+            </div>
         </div>
         <button type="submit" name="submit" class="btn btn-success">Submit</button>
     </form>

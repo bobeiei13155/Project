@@ -14,7 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return view('Stminishow.EmployeeForm');
     }
 
     /**
@@ -24,7 +24,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('Stminishow.EmployeeForm');
+
     }
 
     /**

@@ -12,7 +12,7 @@
     <link href="{{asset('/css/sidebar.css')}}" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark my-md-0 mr-md-3">
+<nav class="navbar navbar-dark bg-dark my-md-0 mr-md-2">
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">STMINI</h5>
       <a class="p-2 text-dark" href="#">Home</a>

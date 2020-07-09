@@ -14,5 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/Stminishow/createEmployee','Stminishow\EmployeeController@create');
-Route::get('/Stminishow/createPosition','Stminishow\PositionController@create');
+Route::get('/Stminishow/createEmployee','Stminishow\EmployeeController@index');
+Route::get('/Stminishow/createPosition','Stminishow\PositionController@index');
+Route::post('/Stminishow/createPosition','Stminishow\PositionController@store');
+Route::get('/Stminishow/editPosition/{Id_Position}','Stminishow\PositionController@edit');
+Route::post('/Stminishow/updatePosition/{Id_Position}','Stminishow\PositionController@update');

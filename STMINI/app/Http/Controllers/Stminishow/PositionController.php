@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Stminishow;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\position;
 class PositionController extends Controller
 {
     /**
@@ -14,7 +14,9 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
+        $positions= position::all();
+
+        return view('Stminishow.PositionForm',compact("positions"));
     }
 
     /**
@@ -24,7 +26,7 @@ class PositionController extends Controller
      */
     public function create()
     {
-        return view('Stminishow.PositionForm');
+       //
     }
 
     /**
@@ -35,7 +37,14 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'Name_Position' => 'required|unique:positions|max:255'
+        ]);
+        $position = new position;
+        $position->Name_Position = $request->Name_Position;
+        $position->save();
+        return redirect('/Stminishow/createPosition');
+        
     }
 
     /**
@@ -55,9 +64,10 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Id_Position)
     {
-        //
+        $position=position::find($Id_Position);
+        return view('Stminishow.EditPositionForm',['positions'=>$position]);
     }
 
     /**
@@ -67,9 +77,16 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Id_Position)
     {
-        //
+        $request->validate([
+            'Name_Position' => 'required|unique:positions|max:255'
+        ]);
+
+        $position=position::find($Id_Position);
+        $position->Name_Position=$request->Name_Position;
+        $position->save();
+        return redirect('/Stminishow/createPosition');
     }
 
     /**
