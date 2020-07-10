@@ -10,7 +10,7 @@
         </ul>
     </div>
 @endif
-<div class="container-md">
+<div class="container">
     <br>
     <h2>Create Position</h2>
     <form action="/Stminishow/createPosition" method="post" enctype="multipart/form-data">
@@ -26,7 +26,7 @@
         <button type="submit" name="submit" class="btn btn-success">Submit</button>
     </form>
 </div>
-<div class="container-md my-2">
+<div class="container my-2">
 <table class="table">
   <thead class="thead-dark">
     <tr>
