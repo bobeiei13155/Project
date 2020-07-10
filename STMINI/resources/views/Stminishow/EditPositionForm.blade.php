@@ -13,7 +13,7 @@
 <div class="container-md">
     <br>
     <h2>Edit Position</h2>
-    <form action="/Stminishow/updatePosition/{{$position->Id_Position}}" method="post" enctype="multipart/form-data">
+    <form action="/Stminishow/updatePosition/{{$position->Id_Position}}" method="post">
         {{csrf_field()}}
         <div class="form-group">
             <div class="row">

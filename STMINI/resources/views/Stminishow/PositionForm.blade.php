@@ -45,7 +45,7 @@
           <a href="/Stminishow/editPosition/{{$position->Id_Position}}" class ="btn btn-info">Edit</a>
       </td>
       <td>
-          <a href="#" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deletePosition/{{$position->Id_Position}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
       </td>
     </tr>
       @endforeach

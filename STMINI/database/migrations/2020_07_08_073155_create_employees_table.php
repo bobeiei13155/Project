@@ -18,7 +18,8 @@ class CreateEmployeesTable extends Migration
             $table->string('Title_Emp');
             $table->string('FName_Emp');
             $table->string('LName_Emp');
-            $table->string('Email')->unique();
+            $table->string('Email_Emp')->unique();
+            $table->string('Username_Emp');
             $table->string('Password_Emp');
             $table->string('Idcard_Emp');
             $table->integer('Salary_Emp'); 

@@ -66,8 +66,9 @@ class PositionController extends Controller
      */
     public function edit($Id_Position)
     {
-        $position=position::find($Id_Position);
-        return view('Stminishow.EditPositionForm',['positions'=>$position]);
+         $position=position::find($Id_Position);
+       
+         return view('Stminishow.EditPositionForm',['position'=>$position]);
     }
 
     /**
@@ -77,7 +78,7 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Id_Position)
+    public function update(Request $request,$Id_Position)
     {
         $request->validate([
             'Name_Position' => 'required|unique:positions|max:255'
@@ -95,8 +96,9 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($Id_Position)
     {
-        //
+        position::destroy($Id_Position);
+        return redirect('/Stminishow/createPosition');
     }
 }
