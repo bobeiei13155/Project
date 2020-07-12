@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    //
+    public function Position()
+    {
+        return $this->belongsTO(Position::class);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Stminishow;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Position;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -14,9 +16,28 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('Stminishow.EmployeeForm');
+        $list= DB::table('provinces')->get();
+        return view('Stminishow.EmployeeForm')->with('list',$list)->with('positions',Position::all());
     }
-
+    
+    public function fetch(Request $request)
+    {
+       $id= $request->get('select');
+       $result=array();
+       $query=DB::table('provinces')
+       ->join('amphures','provinces.id','=','amphures.province_id')
+       ->select('amphures.name_th')
+       ->where('provinces.id',$id)
+       ->groupBy('amphures.name_th')
+       ->get();
+       $output='<option value="">เลือกอำเภอของท่าน</option>';
+       foreach ($query as $row){
+            $output.='<option value="'.$row->name_th.'">'.$row->name_th.'</option>';
+       }
+       echo $output;
+       
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

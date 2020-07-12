@@ -20,3 +20,4 @@ Route::post('/Stminishow/createPosition','Stminishow\PositionController@store');
 Route::get('/Stminishow/editPosition/{Id_Position}','Stminishow\PositionController@edit');
 Route::post('/Stminishow/updatePosition/{Id_Position}','Stminishow\PositionController@update');
 Route::get('/Stminishow/deletePosition/{Id_Position}','Stminishow\PositionController@delete');
+Route::post('/Stminishow/createEmployee/fetch','Stminishow\EmployeeController@fetch')->name('Employee.fetch');
