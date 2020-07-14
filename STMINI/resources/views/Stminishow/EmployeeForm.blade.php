@@ -114,6 +114,10 @@
     </div>
         <div class="form-group">
             <div class="row">
+            <div class="col-md-6">
+                    <label for="Bdate_Emp">เบอร์โทร</label>
+                    <input type="text" class="form-control" name="Bdate_Emp" id="Bdate_Emp"  placeholder="เบอร์โทร">
+                </div>
                 <div class="col-md-6">
                     <label for="Bdate_Emp">วันเกิด</label>
                     <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp">
@@ -122,14 +126,7 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
-                    <label for="Bdate_Emp">เบอร์โทร</label>
-                    <input type="text" class="form-control" name="Bdate_Emp" id="Bdate_Emp"  placeholder="เบอร์โทร">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
+               
                 <div class="col-md-6">
                     <label for="LName_Emp">เงินเดือน</label>
                     <input type="text" class="form-control" name="LName_Emp" id="LName_Emp"  placeholder="เงินเดือน">

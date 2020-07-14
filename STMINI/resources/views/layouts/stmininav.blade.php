@@ -24,11 +24,20 @@
                     Employee
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/Stminishow/createEmployee">Employee</a>
-                    <a class="dropdown-item" href="/Stminishow/createPosition">Position</a>
-                    </div>
-                    </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/Stminishow/createEmployee">Employee</a>
+                        <a class="dropdown-item" href="/Stminishow/createPosition">Position</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/Stminishow/createEmployee">Employee</a>
+                        <a class="dropdown-item" href="/Stminishow/createPosition">Position</a>
+                  </div>
                 </li>
               </ul>
             </div>
