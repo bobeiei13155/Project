@@ -16,28 +16,62 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $list= DB::table('provinces')->get();
+        $list= DB::table('province')
+        ->orderBy('PROVINCE_NAME','asc')->get();
         return view('Stminishow.EmployeeForm')->with('list',$list)->with('positions',Position::all());
     }
     
-    public function fetch(Request $request)
+    public function f_amphures(Request $request)
     {
        $id= $request->get('select');
        $result=array();
-       $query=DB::table('provinces')
-       ->join('amphures','provinces.id','=','amphures.province_id')
-       ->select('amphures.name_th')
-       ->where('provinces.id',$id)
-       ->groupBy('amphures.name_th')
+       $query=DB::table('province')
+       ->join('amphur','province.PROVINCE_ID','=','amphur.PROVINCE_ID')
+       ->select('amphur.AMPHUR_NAME','amphur.AMPHUR_ID')
+       ->where('province.PROVINCE_ID',$id)
+       ->groupBy('amphur.AMPHUR_NAME','amphur.AMPHUR_ID')
        ->get();
        $output='<option value="">เลือกอำเภอของท่าน</option>';
        foreach ($query as $row){
-            $output.='<option value="'.$row->name_th.'">'.$row->name_th.'</option>';
+            $output.='<option value="'.$row->AMPHUR_ID.'">'.$row->AMPHUR_NAME.'</option>';
        }
        echo $output;
        
     }
     
+    public function f_districts(Request $request)
+    {
+       $id= $request->get('select');
+       $result=array();
+       $query=DB::table('amphur')
+       ->join('district','amphur.AMPHUR_ID','=','district.AMPHUR_ID')
+       ->select('district.DISTRICT_NAME','district.DISTRICT_ID')
+       ->where('amphur.AMPHUR_ID',$id)
+       ->groupBy('district.DISTRICT_NAME','district.DISTRICT_ID')
+       ->get();
+       $output='<option value="">เลือกตำบลของท่าน</option>';
+       foreach ($query as $row){
+            $output.='<option value="'.$row->DISTRICT_ID.'">'.$row->DISTRICT_NAME.'</option>';
+       }
+       echo $output;
+       
+    }
+    
+    public function f_postcode(Request $request)
+    {
+       $id= $request->get('select');
+       $result=array();
+       $query=DB::table('district')
+       ->select('POSTCODE')
+       ->where('district.DISTRICT_ID',$id)
+       ->get();
+       $output='<option value="">เลือกรหัสไปรษณีย์ของท่าน</option>';
+       foreach ($query as $row){
+            $output.='<option value="'.$row->POSTCODE.'" selected>'.$row->POSTCODE.'</option>';
+       }
+       echo $output;
+       
+    }
     /**
      * Show the form for creating a new resource.
      *
