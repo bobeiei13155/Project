@@ -32,3 +32,6 @@ Route::post('/Stminishow/createCategory','Stminishow\CategoryController@store');
 Route::get('/Stminishow/editCategory/{Id_Category}','Stminishow\CategoryController@edit');
 Route::post('/Stminishow/updateCategory/{Id_Category}','Stminishow\CategoryController@update');
 Route::get('/Stminishow/deleteCategory/{Id_Category}','Stminishow\CategoryController@delete');
+
+Route::get('/Stminishow/createCarmodel','Stminishow\CarmodelController@index');
+Route::post('/Stminishow/createCarmodel','Stminishow\CarmodelController@store');

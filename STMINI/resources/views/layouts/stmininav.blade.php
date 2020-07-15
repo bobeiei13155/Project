@@ -36,6 +36,7 @@
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/Stminishow/createCategory">Category</a>
+                        <a class="dropdown-item" href="/Stminishow/createCarmodel">Carmodel</a>
                   </div>
                 </li>
               </ul>
