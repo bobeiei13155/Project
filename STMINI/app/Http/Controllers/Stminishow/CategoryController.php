@@ -94,7 +94,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($Id_Category)
+    public function delete($Id_Category)
     {
         category::destroy($Id_Category);
         return redirect('/Stminishow/createCategory');

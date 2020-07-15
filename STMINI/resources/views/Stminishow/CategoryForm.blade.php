@@ -46,10 +46,10 @@
           <a href="/Stminishow/editCategory/{{$category->Id_Category}}" class ="btn btn-info">Edit</a>
       </td>
       <td>
-          <a href="/Stminishow/deletePosition/{{$category->Id_Category}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteCategory/{{$category->Id_Category}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
       </td>
     </tr>
-      @endforeach
+    @endforeach
   </tbody>
 </table>
 </div>
