@@ -12,18 +12,18 @@
 @endif
 <div class="container">
     <br>
-    <h2>Edit Position</h2>
-    <form action="/Stminishow/updatePosition/{{$position->Id_Position}}" method="post">
+    <h2>แก้ไข ประเภทสินค้า </h2>
+    <form action="/Stminishow/updateCategory/{{$category->Id_Category}}" method="post">
         {{csrf_field()}}
         <div class="form-group">
             <div class="row">
                 <div class="col-md-5">
-                    <label for="Name_Position">Position Name</label>
-                    <input type="text" class="form-control" name="Name_Position" id="Name_Position" placeholder="Position Name" value="{{$position->Name_Position}}">
+                    <label for="Name_Category">ชื่อประเภทสินค้า</label>
+                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" value="{{$category->Name_Category}}">
                 </div>
             </div>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">Update</button>
+        <button type="submit" name="submit" class="btn btn-success">อัปเดต</button>
     </form>
 </div>
 @endsection
