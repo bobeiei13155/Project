@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Stminishow;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Carmodel;
-class CarmodelController extends Controller
+use App\color;
+class ColorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,8 @@ class CarmodelController extends Controller
      */
     public function index()
     {
-        $carmodels= Carmodel::all();
-
-        return view('Stminishow.CarmodelForm',compact("carmodels"));
+        $colors= color::all();
+        return view('Stminishow.ColorForm',compact("colors"));
     }
 
     /**
@@ -38,12 +37,12 @@ class CarmodelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Name_Carmodel' => 'required|unique:Carmodels|max:255'
+            'Name_Color' => 'required|unique:colors|max:255'
         ]);
-        $Carmodel = new Carmodel;
-        $Carmodel->Name_Carmodel = $request->Name_Carmodel;
-        $Carmodel->save();
-        return redirect('/Stminishow/createCarmodel');
+        $color = new color;
+        $color->Name_Color = $request->Name_Color;
+        $color->save();
+        return redirect('/Stminishow/createColor');
     }
 
     /**
@@ -63,11 +62,11 @@ class CarmodelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($Id_Carmodel)
+    public function edit($Id_Color)
     {
-        $carmodels=carmodel::find($Id_Carmodel);
+        $colors=color::find($Id_Color);
        
-          return view('Stminishow.EditCarmodelForm',['carmodel'=>$carmodels]);
+        return view('Stminishow.EditColorForm',['color'=>$colors]);
     }
 
     /**
@@ -77,15 +76,16 @@ class CarmodelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Id_Carmodel)
+    public function update(Request $request, $Id_Color)
     {
         $request->validate([
-            'Name_Carmodel' => 'required|unique:Carmodels|max:255'
+            'Name_Color' => 'required|unique:colors|max:255'
         ]);
-        $carmodels=carmodel::find($Id_Carmodel);
-        $carmodels->Name_Carmodel = $request->Name_Carmodel;
-        $carmodels->save();
-        return redirect('/Stminishow/createCarmodel');
+
+        $color=color::find($Id_Color);
+        $color->Name_Color=$request->Name_Color;
+        $color->save();
+        return redirect('/Stminishow/createColor');
     }
 
     /**
@@ -94,9 +94,9 @@ class CarmodelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($Id_Category)
+    public function delete($Id_Color)
     {
-        carmodel::destroy($Id_Category);
-        return redirect('/Stminishow/createCarmodel');
+        color::destroy($Id_Color);
+        return redirect('/Stminishow/createColor');
     }
 }

@@ -13,14 +13,14 @@
 </div>
 <div class="container">
     <br>
-    <h2>เพิ่มรุ่นรถ</h2>
-    <form action="/Stminishow/createCarmodel" method="post" enctype="multipart/form-data">
+    <h2>เพิ่มสี</h2>
+    <form action="/Stminishow/createColor" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
             <div class="row">
                 <div class="col-md-5">
-                    <label for="Name_Carmodel">ชื่อรุ่นรถ</label>
-                    <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" placeholder="ชื่อรุ่นรถ">
+                    <label for="Name_Color">ชื่อสี</label>
+                    <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสี">
                 </div>
             </div>
         </div>
@@ -32,21 +32,21 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">รหัส</th>
-      <th scope="col">ชื่อรุ่นรถ</th>
+      <th scope="col">ชื่อสี</th>
       <th scope="col">แก้ไข</th>
       <th scope="col">ลบ</th>
     </tr>
   </thead>
   <tbody>
-  @foreach($carmodels as $carmodel) 
+  @foreach($colors as $color) 
       <tr>
-      <th scope="row">{{$carmodel->Id_Carmodel}}</th>
-      <td>{{$carmodel->Name_Carmodel}}</td>
+      <th scope="row">{{$color->Id_Color}}</th>
+      <td>{{$color->Name_Color}}</td>
       <td>
-          <a href="/Stminishow/editCarmodel/{{$carmodel->Id_Carmodel}}" class ="btn btn-info">Edit</a>
+          <a href="/Stminishow/editColor/{{$color->Id_Color}}" class ="btn btn-info">Edit</a>
       </td>
       <td>
-          <a href="/Stminishow/deleteCarmodel/{{$carmodel->Id_Carmodel}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteColor/{{$color->Id_Color}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
       </td>
     </tr>
     @endforeach

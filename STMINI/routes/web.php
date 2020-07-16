@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/Stminishow/createEmployee','Stminishow\EmployeeController@index');
-Route::post('/Stminishow/createEmployee/f_amphures','Stminishow\EmployeeController@f_amphures')->name('Employee.f_amphures');
+cRoute::post('/Stminishow/createEmployee/f_amphures','Stminishow\EmployeeController@f_amphures')->name('Employee.f_amphures');
 Route::post('/Stminishow/createEmployee/f_districts','Stminishow\EmployeeController@f_districts')->name('Employee.f_districts');
 Route::post('/Stminishow/createEmployee/f_postcode','Stminishow\EmployeeController@f_postcode')->name('Employee.f_postcode');
 
@@ -35,3 +35,12 @@ Route::get('/Stminishow/deleteCategory/{Id_Category}','Stminishow\CategoryContro
 
 Route::get('/Stminishow/createCarmodel','Stminishow\CarmodelController@index');
 Route::post('/Stminishow/createCarmodel','Stminishow\CarmodelController@store');
+Route::get('/Stminishow/editCarmodel/{Id_Carmodel}','Stminishow\CarmodelController@edit');
+Route::post('/Stminishow/updateCarmodel/{Id_Carmodel}','Stminishow\CarmodelController@update');
+Route::get('/Stminishow/deleteCarmodel/{Id_Carmodel}','Stminishow\CarmodelController@delete');
+
+Route::get('/Stminishow/createColor','Stminishow\ColorController@index');
+Route::post('/Stminishow/createColor','Stminishow\ColorController@store');
+Route::get('/Stminishow/editColor/{Id_Color}','Stminishow\ColorController@edit');
+Route::post('/Stminishow/updateColor/{Id_Color}','Stminishow\ColorController@update');
+Route::get('/Stminishow/deleteColor/{Id_Color}','Stminishow\ColorController@delete');

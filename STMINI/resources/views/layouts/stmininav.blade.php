@@ -37,6 +37,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/Stminishow/createCategory">Category</a>
                         <a class="dropdown-item" href="/Stminishow/createCarmodel">Carmodel</a>
+                        <a class="dropdown-item" href="/Stminishow/createColor">Color</a>
                   </div>
                 </li>
               </ul>
