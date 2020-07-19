@@ -12,7 +12,7 @@
     <link href="{{asset('/css/sidebar.css')}}" rel="stylesheet">
 </head>
 <body>
-     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">STMINI</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/Stminishow/createEmployee">Employee</a>
+                        <a class="dropdown-item" href="/Stminishow/showEmployee">Employee</a>
                         <a class="dropdown-item" href="/Stminishow/createPosition">Position</a>
                   </div>
                 </li>
@@ -43,6 +43,8 @@
               </ul>
             </div>
       </nav>
+       
+   
     <div id="page-content-wrapper">
       <div class="container-fluid">
         @yield('body')

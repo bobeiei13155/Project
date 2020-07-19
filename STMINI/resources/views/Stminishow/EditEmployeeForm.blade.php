@@ -14,14 +14,14 @@
 <div class="container ">
     <br>
     <h2>เพิ่มพนักงาน</h2>
-    <form action="/Stminishow/createEmployee" method="post" enctype="multipart/form-data">
+    <form action="/Stminishow/updateEmployee/{{$employee->Id_Emp}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">    
             <div class="row">
                 <div class="col-sm-2">
                     <label for="Title_Emp">คำนำหน้า</label>
                         <select class="form-control" name="Title_Emp">
-                        <option value="" selected>เลือกคำนำหน้า</option>  
+                        <option value="{{$employee->Title_Emp}}" selected>{{$employee->Title_Emp}}</option>  
                                 <option value="Mr">นาย</option>
                                 <option value="Miss">นาง</option>
                                 <option value="Ms">นางสาว</option>
@@ -29,11 +29,11 @@
                 </div>
                 <div class="col-md-4">
                     <label for="FName_Emp">ชื่อ</label>
-                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ">
+                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" value="{{$employee->FName_Emp}}">
                 </div>
                 <div class="col-md-4">
                     <label for="LName_Emp">นามสกุล</label>
-                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล">
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" value="{{$employee->LName_Emp}}">
                 </div>
                 <div class="col-sm-2">
                     <label for="Position_Id">ตำแหน่ง</label>
@@ -50,11 +50,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="Username_Emp">ยูสเซอร์เนม</label>
-                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ยูสเซอร์เนม">
+                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ยูสเซอร์เนม" value="{{$employee->Username_Emp}}">
                 </div>
                 <div class="col-md-6">
                     <label for="Password_Emp">พาสเวิร์ด</label>
-                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="พาสเวิร์ด">
+                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="พาสเวิร์ด" value="{{$employee->Password_Emp}}">
                 </div>
             </div>
         </div>
@@ -70,16 +70,16 @@
                 </div>
             <div class="col-md-3">
                         <label for="Address_Emp">ที่อยู่</label>
-                        <input type="text" class="form-control" name="Address_Emp" id="Address_Emp"  placeholder="ที่อยู่">
+                        <input type="text" class="form-control" name="Address_Emp" id="Address_Emp"  placeholder="ที่อยู่" value="{{$employee->Address_Emp}}">
                     </div>
                 <div class="col-md-3">
                     <label for="Email_Emp">อีเมล</label>
-                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล">
+                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล"  value="{{$employee->Email_Emp}}" >
                 </div>
                 
                 <div class="col-md-3">
                     <label for="Idcard_Emp">รหัสบัตรประชาชน</label>
-                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน">
+                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" value="{{$employee->Idcard_Emp}}">
                 </div>
             </div>
         </div>
@@ -126,11 +126,11 @@
             <div class="row">
             <div class="col-md-6">
                     <label for="Tel_Emp">เบอร์โทร</label>
-                    <input type="text" class="form-control" name="Tel_Emp" id="Tel_Emp"  placeholder="เบอร์โทร">
+                    <input type="text" class="form-control" name="Tel_Emp" id="Tel_Emp"  placeholder="เบอร์โทร" value="{{$employee->Tel_Emp}}">
                 </div>
                 <div class="col-md-6">
                     <label for="Bdate_Emp">วันเกิด</label>
-                    <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp">
+                    <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp"  value="{{$employee->Bdate_Emp}}">
                 </div>
             </div>
         </div>
@@ -139,7 +139,7 @@
                
                 <div class="col-md-6">
                     <label for="Salary_Emp">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp"  placeholder="เงินเดือน">
+                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp"  placeholder="เงินเดือน" value="{{$employee->Salary_Emp}}">
                 </div>
             </div>
         </div>

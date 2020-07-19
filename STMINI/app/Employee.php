@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    public function Position()
+    protected $primaryKey = 'Id_Emp';
+
+    public function position()
     {
         return $this->belongsTO(Position::class);
     }

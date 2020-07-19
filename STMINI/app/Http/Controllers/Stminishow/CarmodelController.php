@@ -14,7 +14,7 @@ class CarmodelController extends Controller
      */
     public function index()
     {
-        $carmodels= Carmodel::all();
+        $carmodels= Carmodel::paginate(3);
 
         return view('Stminishow.CarmodelForm',compact("carmodels"));
     }

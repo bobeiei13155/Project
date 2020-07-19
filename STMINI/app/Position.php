@@ -8,7 +8,7 @@ class Position extends Model
 {
     protected $primaryKey = 'Id_Position';
 
-    public function Employee()
+    public function employee()
     {
         return $this->hasMany(Employee::class);
     }

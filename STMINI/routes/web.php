@@ -16,10 +16,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//Employee
+Route::get('/Stminishow/showEmployee','Stminishow\EmployeeController@ShowEmp');
 Route::get('/Stminishow/createEmployee','Stminishow\EmployeeController@index');
-cRoute::post('/Stminishow/createEmployee/f_amphures','Stminishow\EmployeeController@f_amphures')->name('Employee.f_amphures');
+Route::post('/Stminishow/createEmployee','Stminishow\EmployeeController@store');
+Route::post('/Stminishow/createEmployee/f_amphures','Stminishow\EmployeeController@f_amphures')->name('Employee.f_amphures');
 Route::post('/Stminishow/createEmployee/f_districts','Stminishow\EmployeeController@f_districts')->name('Employee.f_districts');
 Route::post('/Stminishow/createEmployee/f_postcode','Stminishow\EmployeeController@f_postcode')->name('Employee.f_postcode');
+Route::get('/Stminishow/editEmployee/{Id_Emp}','Stminishow\EmployeeController@edit');
+Route::post('/Stminishow/updateEmployee/{Id_Emp}','Stminishow\EmployeeController@update');
+
+
+
+
+
+
+
 
 Route::get('/Stminishow/createPosition','Stminishow\PositionController@index');
 Route::post('/Stminishow/createPosition','Stminishow\PositionController@store');

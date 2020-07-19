@@ -52,5 +52,7 @@
     @endforeach
   </tbody>
 </table>
+{{$carmodels->links()}}
 </div>
+
 @endsection
