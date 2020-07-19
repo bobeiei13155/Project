@@ -16,6 +16,7 @@
       <th scope="col">Delete</th>
     </tr>
   </thead>
+  
   <tbody>
   @foreach($employees as $employee) 
       <tr>

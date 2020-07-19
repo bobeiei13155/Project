@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     {
         $list= DB::table('province')
         ->orderBy('PROVINCE_NAME','asc')->get();
-        return view('Stminishow.ShowEmployeeForm')->with('list',$list)->with('positions',Position::all());
+        return view('Stminishow.EmployeeForm')->with('list',$list)->with('positions',Position::all());
     }
     
     public function f_amphures(Request $request)

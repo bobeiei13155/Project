@@ -27,9 +27,13 @@ Route::get('/Stminishow/editEmployee/{Id_Emp}','Stminishow\EmployeeController@ed
 Route::post('/Stminishow/updateEmployee/{Id_Emp}','Stminishow\EmployeeController@update');
 
 
-
-
-
+//Member
+Route::get('/Stminishow/showMember','Stminishow\MemberController@ShowMem');
+Route::get('/Stminishow/createMember','Stminishow\MemberController@index');
+Route::post('/Stminishow/createMember','Stminishow\MemberController@store');
+Route::post('/Stminishow/createMember/f_amphures','Stminishow\MemberController@f_amphures')->name('Member.f_amphures');
+Route::post('/Stminishow/createMember/f_districts','Stminishow\MemberController@f_districts')->name('Member.f_districts');
+Route::post('/Stminishow/createMember/f_postcode','Stminishow\MemberController@f_postcode')->name('Member.f_postcode');
 
 
 
