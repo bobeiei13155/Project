@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Stminishow;
 
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
+use App\Telemp;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -17,61 +19,58 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $list= DB::table('province')
-        ->orderBy('PROVINCE_NAME','asc')->get();
-        return view('Stminishow.EmployeeForm')->with('list',$list)->with('positions',Position::all());
+        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+        $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+        return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
     }
-    
+
     public function f_amphures(Request $request)
     {
-       $id= $request->get('select');
-       $result=array();
-       $query=DB::table('province')
-       ->join('amphur','province.PROVINCE_ID','=','amphur.PROVINCE_ID')
-       ->select('amphur.AMPHUR_NAME','amphur.AMPHUR_ID')
-       ->where('province.PROVINCE_ID',$id)
-       ->groupBy('amphur.AMPHUR_NAME','amphur.AMPHUR_ID')
-       ->get();
-       $output='<option value="">เลือกอำเภอของท่าน</option>';
-       foreach ($query as $row){
-            $output.='<option value="'.$row->AMPHUR_ID.'">'.$row->AMPHUR_NAME.'</option>';
-       }
-       echo $output;
-       
+        $id = $request->get('select');
+        $result = array();
+        $query = DB::table('province')
+            ->join('amphur', 'province.PROVINCE_ID', '=', 'amphur.PROVINCE_ID')
+            ->select('amphur.AMPHUR_NAME', 'amphur.AMPHUR_ID')
+            ->where('province.PROVINCE_ID', $id)
+            ->groupBy('amphur.AMPHUR_NAME', 'amphur.AMPHUR_ID')
+            ->get();
+        $output = '<option value="">เลือกอำเภอของท่าน</option>';
+        foreach ($query as $row) {
+            $output .= '<option value="' . $row->AMPHUR_ID . '">' . $row->AMPHUR_NAME . '</option>';
+        }
+        echo $output;
     }
-    
+
     public function f_districts(Request $request)
     {
-       $id= $request->get('select');
-       $result=array();
-       $query=DB::table('amphur')
-       ->join('district','amphur.AMPHUR_ID','=','district.AMPHUR_ID')
-       ->select('district.DISTRICT_NAME','district.DISTRICT_ID')
-       ->where('amphur.AMPHUR_ID',$id)
-       ->groupBy('district.DISTRICT_NAME','district.DISTRICT_ID')
-       ->get();
-       $output='<option value="">เลือกตำบลของท่าน</option>';
-       foreach ($query as $row){
-            $output.='<option value="'.$row->DISTRICT_ID.'">'.$row->DISTRICT_NAME.'</option>';
-       }
-       echo $output;
-       
+        $id = $request->get('select');
+        $result = array();
+        $query = DB::table('amphur')
+            ->join('district', 'amphur.AMPHUR_ID', '=', 'district.AMPHUR_ID')
+            ->select('district.DISTRICT_NAME', 'district.DISTRICT_ID')
+            ->where('amphur.AMPHUR_ID', $id)
+            ->groupBy('district.DISTRICT_NAME', 'district.DISTRICT_ID')
+            ->get();
+        $output = '<option value="">เลือกตำบลของท่าน</option>';
+        foreach ($query as $row) {
+            $output .= '<option value="' . $row->DISTRICT_ID . '">' . $row->DISTRICT_NAME . '</option>';
+        }
+        echo $output;
     }
-    
+
     public function f_postcode(Request $request)
     {
-       $id= $request->get('select');
-       $result=array();
-       $query=DB::table('district')
-       ->select('POSTCODE')
-       ->where('district.DISTRICT_ID',$id)
-       ->get();
-       $output='<option value="">เลือกรหัสไปรษณีย์ของท่าน</option>';
-       foreach ($query as $row){
-            $output.='<option value="'.$row->POSTCODE.'" selected>'.$row->POSTCODE.'</option>';
-       }
-       echo $output;
-       
+        $id = $request->get('select');
+        $result = array();
+        $query = DB::table('district')
+            ->select('POSTCODE')
+            ->where('district.DISTRICT_ID', $id)
+            ->get();
+        $output = '<option value="">เลือกรหัสไปรษณีย์ของท่าน</option>';
+        foreach ($query as $row) {
+            $output .= '<option value="' . $row->POSTCODE . '" selected>' . $row->POSTCODE . '</option>';
+        }
+        echo $output;
     }
     /**
      * Show the form for creating a new resource.
@@ -80,8 +79,9 @@ class EmployeeController extends Controller
      */
     public function ShowEmp()
     {
-        $employees= employee::all();
-        return view('Stminishow.ShowEmployeeForm',compact("employees"));
+        $employees = employee::all();
+        return view('Stminishow.ShowEmployeeForm', compact("employees"))
+            ->with('positions', Position::all());
     }
 
     /**
@@ -92,41 +92,64 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
-            'Title_Emp' => 'required',
-            'FName_Emp' => 'required|unique:employees',
-            'LName_Emp' => 'required|unique:employees',
-            'Position_Id'=> 'required',
-            'Username_Emp' => 'required|unique:employees',
-            'Password_Emp' => 'required|unique:employees',
-            'Idcard_Emp' => 'required|unique:employees',
-            'Email_Emp' => 'required|email|unique:employees',
-            'Address_Emp' => 'required',
-            'Bdate_Emp' => 'required',
-            'Salary_Emp'=> 'required',
-            'Sex_Emp'=> 'required',
-            'Tel_Emp' => 'required|unique:employees',
-            'Subdistrict_Id'=> 'required'
+
+                 'FName_Emp' => 'required',
+                'LName_Emp' => 'required',
+                'Position_Id' => 'required',
+                'Username_Emp' => 'required',
+                'Password_Emp' => 'required',
+                'Idcard_Emp' => 'required',
+                'Email_Emp' => 'required|email',
+                'Address_Emp' => 'required',
+                'Bdate_Emp' => 'required',
+                'Salary_Emp' => 'required',
+                'Sex_Emp' => 'required',
+               'Province_Id' =>'required',
+                'District_Id' => 'required',
+                'Postcode_Id' => 'required',
+                'Subdistrict_Id' => 'required'
 
         ]);
-        $employee = new Employee;
-        $employee->Title_Emp = $request->Title_Emp;
-        $employee->FName_Emp = $request->FName_Emp;
-        $employee->LName_Emp = $request->LName_Emp;
-        $employee->Position_Id = $request->Position_Id;
+
+        $GenId = DB::table('employees')->select('Id_Emp')->get();
+        $GenId_Emp = substr($GenId,-6,3)+1;
+        if ($GenId_Emp < 10) {
+            $Id_Emp = "EMP" . "-" . "00" . $GenId_Emp;
+        } elseif ($GenId_Emp >= 10 && $GenId_Emp < 100) {
+            $Id_Emp = "EMP" . "-" . "0" . $GenId_Emp;
+        }
+        elseif ($GenId_Emp >= 100) {
+        $Id_Emp = "EMP" . "-" . $GenId_Emp;
+    }
+
+        
+          $employee = new Employee;
+          $employee->FName_Emp = $request->FName_Emp;
+          $employee->Id_Emp = $Id_Emp;
+
+         $employee->LName_Emp = $request->LName_Emp;
+         $employee->Position_Id = $request->Position_Id;
         $employee->Username_Emp = $request->Username_Emp;
         $employee->Password_Emp = $request->Password_Emp;
         $employee->Idcard_Emp = $request->Idcard_Emp;
         $employee->Email_Emp = $request->Email_Emp;
         $employee->Address_Emp = $request->Address_Emp;
         $employee->Bdate_Emp = $request->Bdate_Emp;
-        $employee->Tel_Emp = $request->Tel_Emp;
         $employee->Salary_Emp = $request->Salary_Emp;
-        $employee->Sex_Emp =$request->Sex_Emp;
+        $employee->Sex_Emp = $request->Sex_Emp;
+        $employee->Province_Id = $request->Province_Id;
+        $employee->District_Id = $request->District_Id;
+        $employee->Postcode_Id = $request->Postcode_Id;
         $employee->Subdistrict_Id = $request->Subdistrict_Id;
-        $employee->save();
-        return redirect('/Stminishow/showEmployee');
+         $employee->save();
+
+        // $telemp = new Telemp;
+        // $telemp->Tel_Emp = $request->Tel_Emp;
+        // $telemp->save();
+
+         return redirect('/Stminishow/showEmployee');
     }
 
     /**
@@ -148,10 +171,11 @@ class EmployeeController extends Controller
      */
     public function edit($Id_Emp)
     {
-        $employees=Employee::find($Id_Emp);
-        $list= DB::table('province')
-        ->orderBy('PROVINCE_NAME','asc')->get();
-        return view('Stminishow.EditEmployeeForm',['employee'=>$employees])->with('list',$list)->with('positions',Position::all());
+        $employees = Employee::find($Id_Emp);
+        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+        $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+        $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
+        return view('Stminishow.EditEmployeeForm', ['employee' => $employees])->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list)->with('positions', Position::all());
     }
 
     /**
@@ -161,9 +185,31 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Id_Emp)
     {
-        //
+        $request->validate([
+            //
+        ]);
+
+        $employee = Employee::find($Id_Emp);
+
+        $employee->FName_Emp = $request->FName_Emp;
+        $employee->LName_Emp = $request->LName_Emp;
+        $employee->Position_Id = $request->Position_Id;
+        $employee->Username_Emp = $request->Username_Emp;
+        $employee->Password_Emp = $request->Password_Emp;
+        $employee->Idcard_Emp = $request->Idcard_Emp;
+        $employee->Email_Emp = $request->Email_Emp;
+        $employee->Address_Emp = $request->Address_Emp;
+        $employee->Bdate_Emp = $request->Bdate_Emp;
+        $employee->Salary_Emp = $request->Salary_Emp;
+        $employee->Sex_Emp = $request->Sex_Emp;
+        $employee->Province_Id = $request->Province_Id;
+        $employee->District_Id = $request->District_Id;
+        $employee->Postcode_Id = $request->Postcode_Id;
+        $employee->Subdistrict_Id = $request->Subdistrict_Id;
+        $employee->save();
+        return redirect('/Stminishow/showEmployee');
     }
 
     /**
@@ -172,8 +218,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($Id_Emp)
     {
-        //
+        Employee::destroy($Id_Emp);
+        return redirect('/Stminishow/showEmployee');
     }
 }

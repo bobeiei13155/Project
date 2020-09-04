@@ -1,5 +1,6 @@
 @extends('layouts.stmininav')
 @section('body')
+
 <div class="container">
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -11,15 +12,15 @@
     </div>
 @endif
 </div>
-<div class="container">
+<div class="container font_green">
     <br>
     <h2>เพิ่มรุ่นรถ</h2>
     <form action="/Stminishow/createCarmodel" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
-        <div class="form-group">
+        <div class="form-group" >
             <div class="row">
                 <div class="col-md-5">
-                    <label for="Name_Carmodel">ชื่อรุ่นรถ</label>
+                    <label for="Name_Carmodel" class="font_green">ชื่อรุ่นรถ</label>
                     <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" placeholder="ชื่อรุ่นรถ">
                 </div>
             </div>
