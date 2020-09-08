@@ -11,7 +11,7 @@
     </div>
 @endif
 </div>
-<div class="container">
+<div class="container  font_green">
     <br>
     <h2>เพิ่มประเภทสินค้า</h2>
     <form action="/Stminishow/createCategory" method="post" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="Name_Category">ชื่อประเภทสินค้า</label>
-                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" placeholder="ชื่อประเภทสินค้า">
+                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" placeholder="ชื่อประเภทสินค้า" >
                 </div>
             </div>
         </div>
@@ -29,17 +29,17 @@
 </div>
 <div class="container my-2">
 <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Category</th>
-      <th scope="col">Edit</th>
-      <th scope="col">Delete</th>
+  <thead class="thead-green">
+    <tr class="line">
+      <th scope="col">รหัสประเภทสินค้า</th>
+      <th scope="col">ชื่อประเภทสินค้า</th>
+      <th scope="col">แก้ไข</th>
+      <th scope="col">ลบ</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody >
   @foreach($categories as $category) 
-      <tr>
+      <tr class="font_green ">
       <th scope="row">{{$category->Id_Category}}</th>
       <td>{{$category->Name_Category}}</td>
       <td>

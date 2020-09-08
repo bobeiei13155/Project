@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Telemp extends Model
 {   
-    
+    public $incrementing = false;
     protected $primaryKey = 'Id_Emp';
-
-    public function employeetel()
+    protected $fillable = ['Id_Emp','Tel_Emp'];
+    public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Telemp::class);
     }
+ 
 }

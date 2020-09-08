@@ -72,7 +72,7 @@
 
                 <div class="col-md-3">
                     <label for="Idcard_Emp" class="font_green">รหัสบัตรประชาชน</label>
-                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน">
+                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
 
                 <div class="col-md-6">
                     <label for="Salary_Emp" class="font_green">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน">
+                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0" >
                 </div>
             </div>
         </div>

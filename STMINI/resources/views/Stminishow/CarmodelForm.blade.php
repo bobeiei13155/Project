@@ -17,9 +17,9 @@
     <h2>เพิ่มรุ่นรถ</h2>
     <form action="/Stminishow/createCarmodel" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
-        <div class="form-group" >
-            <div class="row">
-                <div class="col-md-5">
+        <div class="form-group font_green" >
+            <div class="row ">
+                <div class="col-md-5 ">
                     <label for="Name_Carmodel" class="font_green">ชื่อรุ่นรถ</label>
                     <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" placeholder="ชื่อรุ่นรถ">
                 </div>
@@ -28,10 +28,10 @@
         <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
     </form>
 </div>
-<div class="container my-2">
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
+<div class="container my-2 ">
+<table class="table ">
+  <thead class="thead-green">
+    <tr class="line">
       <th scope="col">รหัส</th>
       <th scope="col">ชื่อรุ่นรถ</th>
       <th scope="col">แก้ไข</th>
@@ -40,7 +40,7 @@
   </thead>
   <tbody>
   @foreach($carmodels as $carmodel) 
-      <tr>
+      <tr class="font_green">
       <th scope="row">{{$carmodel->Id_Carmodel}}</th>
       <td>{{$carmodel->Name_Carmodel}}</td>
       <td>

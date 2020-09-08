@@ -1,9 +1,10 @@
 <?php
-
+namespace App\Http\Controllers;
 namespace App\Http\Controllers\Stminishow;
-
+use Illuminate\Database\Eloquent\Collection;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
@@ -17,6 +18,30 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+    public function searchEmp(Request $request)
+    {
+        //dd($request->searchEmp);
+
+        $searchEmp = $request->searchEmp;
+
+        // if ($searchposition != Null){
+
+        // };
+        // $datasearch = json_decode(json_encode($searchposition), true);
+
+        //  dd($searchposition);
+        $employees = DB::table('employees')
+            ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
+            ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
+            ->orwhere('FName_Emp', "LIKE", "%{$searchEmp}%")
+            ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->get();  
+        return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
+    }
+
+
     public function index()
     {
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
@@ -79,10 +104,11 @@ class EmployeeController extends Controller
      */
     public function ShowEmp()
     {
-        $employees = employee::all();
+        $employees = employee::paginate(5); 
         return view('Stminishow.ShowEmployeeForm', compact("employees"))
             ->with('positions', Position::all());
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -95,61 +121,63 @@ class EmployeeController extends Controller
 
         $request->validate([
 
-                 'FName_Emp' => 'required',
-                'LName_Emp' => 'required',
-                'Position_Id' => 'required',
-                'Username_Emp' => 'required',
-                'Password_Emp' => 'required',
-                'Idcard_Emp' => 'required',
-                'Email_Emp' => 'required|email',
-                'Address_Emp' => 'required',
-                'Bdate_Emp' => 'required',
-                'Salary_Emp' => 'required',
-                'Sex_Emp' => 'required',
-               'Province_Id' =>'required',
-                'District_Id' => 'required',
-                'Postcode_Id' => 'required',
-                'Subdistrict_Id' => 'required'
+            'FName_Emp' => 'required',
+            // 'LName_Emp' => 'required',
+            // 'Position_Id' => 'required',
+            // 'Username_Emp' => 'required',
+            // 'Password_Emp' => 'required',
+            // 'Idcard_Emp' => 'required',
+            // 'Email_Emp' => 'required|email',
+            // 'Address_Emp' => 'required',
+            // 'Bdate_Emp' => 'required',
+            // 'Salary_Emp' => 'required',
+            // 'Sex_Emp' => 'required',
+            // 'Province_Id' => 'required',
+            // 'District_Id' => 'required',
+            // 'Postcode_Id' => 'required',
+            // 'Subdistrict_Id' => 'required',
+            'Tel_Emp.*' => 'required',
 
         ]);
 
-        $GenId = DB::table('employees')->select('Id_Emp')->get();
-        $GenId_Emp = substr($GenId,-6,3)+1;
+        $GenId = DB::table('employees')->max('Id_Emp');
+        $GenId_Emp = substr($GenId, 11, 14) + 1;
         if ($GenId_Emp < 10) {
-            $Id_Emp = "EMP" . "-" . "00" . $GenId_Emp;
+            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_Emp;
         } elseif ($GenId_Emp >= 10 && $GenId_Emp < 100) {
-            $Id_Emp = "EMP" . "-" . "0" . $GenId_Emp;
+            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_Emp;
+        } elseif ($GenId_Emp >= 100) {
+            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . $GenId_Emp;
         }
-        elseif ($GenId_Emp >= 100) {
-        $Id_Emp = "EMP" . "-" . $GenId_Emp;
-    }
+        $employee = new Employee;
+        $employee->FName_Emp = $request->FName_Emp;
+        $employee->Id_Emp = $Id_Emp;
+        // $employee->LName_Emp = $request->LName_Emp;
+        // $employee->Position_Id = $request->Position_Id;
+        // $employee->Username_Emp = $request->Username_Emp;
+        // $employee->Password_Emp = $request->Password_Emp;
+        // $employee->Idcard_Emp = $request->Idcard_Emp;
+        // $employee->Email_Emp = $request->Email_Emp;
+        // $employee->Address_Emp = $request->Address_Emp;
+        // $employee->Bdate_Emp = $request->Bdate_Emp;
+        // $employee->Salary_Emp = $request->Salary_Emp;
+        // $employee->Sex_Emp = $request->Sex_Emp;
+        // $employee->Province_Id = $request->Province_Id;
+        // $employee->District_Id = $request->District_Id;
+        // $employee->Postcode_Id = $request->Postcode_Id;
+        // $employee->Subdistrict_Id = $request->Subdistrict_Id;
+        $employee->save();
 
-        
-          $employee = new Employee;
-          $employee->FName_Emp = $request->FName_Emp;
-          $employee->Id_Emp = $Id_Emp;
+        foreach ($request['Tel_Emp'] as $item => $value) {
+            $request2 = array(
+                'Id_Emp' => $Id_Emp,
+                'Tel_Emp' => $request['Tel_Emp'][$item]
+            );
+            Telemp::create($request2);
+        };
 
-         $employee->LName_Emp = $request->LName_Emp;
-         $employee->Position_Id = $request->Position_Id;
-        $employee->Username_Emp = $request->Username_Emp;
-        $employee->Password_Emp = $request->Password_Emp;
-        $employee->Idcard_Emp = $request->Idcard_Emp;
-        $employee->Email_Emp = $request->Email_Emp;
-        $employee->Address_Emp = $request->Address_Emp;
-        $employee->Bdate_Emp = $request->Bdate_Emp;
-        $employee->Salary_Emp = $request->Salary_Emp;
-        $employee->Sex_Emp = $request->Sex_Emp;
-        $employee->Province_Id = $request->Province_Id;
-        $employee->District_Id = $request->District_Id;
-        $employee->Postcode_Id = $request->Postcode_Id;
-        $employee->Subdistrict_Id = $request->Subdistrict_Id;
-         $employee->save();
 
-        // $telemp = new Telemp;
-        // $telemp->Tel_Emp = $request->Tel_Emp;
-        // $telemp->save();
-
-         return redirect('/Stminishow/showEmployee');
+        //  return redirect('/Stminishow/showEmployee');
     }
 
     /**
@@ -175,7 +203,11 @@ class EmployeeController extends Controller
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
         $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
         $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
-        return view('Stminishow.EditEmployeeForm', ['employee' => $employees])->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list)->with('positions', Position::all());
+        $telemps = DB::table('telemps')->where('Id_Emp', $Id_Emp)->get();
+        // echo"<pre>";
+        // print_r($telemps);
+        // echo"</pre>";
+        return view('Stminishow.EditEmployeeForm', ['employee' => $employees])->with('telemps', $telemps)->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list)->with('positions', Position::all());
     }
 
     /**
@@ -187,27 +219,64 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $Id_Emp)
     {
+
         $request->validate([
-            //
+            'Tel_Emp.*' => 'required'
         ]);
 
-        $employee = Employee::find($Id_Emp);
+        $Tel_Emp = DB::table('telemps')
+            ->select('telemps.Id_Emp')
+            ->where('telemps.Id_Emp', '=', $Id_Emp)->get();
 
-        $employee->FName_Emp = $request->FName_Emp;
-        $employee->LName_Emp = $request->LName_Emp;
-        $employee->Position_Id = $request->Position_Id;
-        $employee->Username_Emp = $request->Username_Emp;
-        $employee->Password_Emp = $request->Password_Emp;
-        $employee->Idcard_Emp = $request->Idcard_Emp;
-        $employee->Email_Emp = $request->Email_Emp;
-        $employee->Address_Emp = $request->Address_Emp;
-        $employee->Bdate_Emp = $request->Bdate_Emp;
-        $employee->Salary_Emp = $request->Salary_Emp;
-        $employee->Sex_Emp = $request->Sex_Emp;
-        $employee->Province_Id = $request->Province_Id;
-        $employee->District_Id = $request->District_Id;
-        $employee->Postcode_Id = $request->Postcode_Id;
-        $employee->Subdistrict_Id = $request->Subdistrict_Id;
+
+        $data = json_decode(json_encode($Tel_Emp), true);
+
+        // Telemp::destroy([$data]);
+
+        //   dd($data);
+
+
+        //  dd($Tel_Emp);
+
+        if ($data != []) {
+            Telemp::destroy([$data]);
+            foreach ($request['Tel_Emp'] as $item => $value) {
+                $request2 = array(
+                    'Id_Emp' => $Id_Emp,
+                    'Tel_Emp' => $request['Tel_Emp'][$item]
+                );
+                Telemp::create($request2);
+            }
+        } else {
+            foreach ($request['Tel_Emp'] as $item => $value) {
+                $request2 = array(
+                    'Id_Emp' => $Id_Emp,
+                    'Tel_Emp' => $request['Tel_Emp'][$item]
+                );  
+                Telemp::create($request2);
+            }
+        }
+
+
+
+
+        $employee = Employee::find($Id_Emp);
+        // $employee->FName_Emp = $request->FName_Emp;
+        // $employee->LName_Emp = $request->LName_Emp;
+        // $employee->Position_Id = $request->Position_Id;
+        // $employee->Username_Emp = $request->Username_Emp;
+        // $employee->Password_Emp = $request->Password_Emp;
+        // $employee->Idcard_Emp = $request->Idcard_Emp;
+        // $employee->Email_Emp = $request->Email_Emp;
+        // $employee->Address_Emp = $request->Address_Emp;
+        // $employee->Bdate_Emp = $request->Bdate_Emp;
+        // $employee->Salary_Emp = $request->Salary_Emp;
+        // $employee->Sex_Emp = $request->Sex_Emp;
+        // $employee->Province_Id = $request->Province_Id;
+        // $employee->District_Id = $request->District_Id;
+        // $employee->Postcode_Id = $request->Postcode_Id;
+        // $employee->Subdistrict_Id = $request->Subdistrict_Id;
+
         $employee->save();
         return redirect('/Stminishow/showEmployee');
     }

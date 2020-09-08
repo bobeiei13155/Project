@@ -149,25 +149,44 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="Tel_Emp">เบอร์โทร</label>
-                    <input type="text" class="form-control" name="Tel_Emp" id="Tel_Emp" placeholder="เบอร์โทร" value="{{$employee->Tel_Emp}}">
-                </div>
-                <div class="col-md-6">
-                    <label for="Bdate_Emp">วันเกิด</label>
+                    <label for="Bdate_Emp" class="font_green">วันเกิด</label>
                     <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp" value="{{$employee->Bdate_Emp}}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Salary_Emp" class="font_green">เงินเดือน</label>
+                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0" value="{{$employee->Salary_Emp}}">
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="row">
-
                 <div class="col-md-6">
-                    <label for="Salary_Emp">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" value="{{$employee->Salary_Emp}}">
+                    <table class="table table-borderd" id="tel">
+                        <tr>
+                            <th class="font_green th1">เบอร์โทรศัพท์</th>
+                            <th><input type="button" class="btn btn-success addRowTel" value="+"></th>
+                        </tr>
+                        @foreach($telemps as $row)
+                        <tr>
+                        
+                            <th>
+                               
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp"  value="{{$row->TEL_EMP}}"placeholder="เบอร์โทรศัพท์"  maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </div>
+                               
+                            </th>
+                            <th><input type="button" class="btn btn-danger remove" value="x"></th>
+                        </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
-
+       
+                        
         <button type="submit" name="submit" class="btn btn-success">แก้ไข</button>
 
         <a class="btn btn-danger my-2" href="/Stminishow/showEmployee">กลับ</a>
@@ -225,6 +244,20 @@
                 }
             })
         }
+    });
+
+    $('.addRowTel').on('click', function() {
+        addRowTel();
+    });
+
+
+    function addRowTel() {
+        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"  maxlength="10"></td>' +
+            '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
+        $('#tel').append(addrow);
+    }
+    $(document).on('click', '.remove', function() {
+        $(this).parent().parent().remove();
     });
 </script>
 

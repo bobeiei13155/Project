@@ -11,12 +11,12 @@
     </div>
     @endif
 </div>
-<div class="container">
+<div class="container font_green">
     <br>
     <h2>เพิ่มสี</h2>
     <form action="/Stminishow/createColor" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
-        <div class="form-group">
+        <div class="form-group ">
             <div class="row">
                 <div class="col-md-5">
                     <label for="Name_Color">ชื่อสี</label>
@@ -29,9 +29,9 @@
 </div>
 <div class="container my-2">
     <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">รหัส</th>
+    <thead class="thead-green">
+    <tr class="line">
+                <th scope="col">รหัสสี</th>
                 <th scope="col">ชื่อสี</th>
                 <th scope="col">แก้ไข</th>
                 <th scope="col">ลบ</th>
@@ -39,7 +39,7 @@
         </thead>
         <tbody>
             @foreach($colors as $color)
-            <tr>
+            <tr class="font_green">
                 <th scope="row">{{$color->Id_Color}}</th>
                 <td>{{$color->Name_Color}}</td>
                 <td>

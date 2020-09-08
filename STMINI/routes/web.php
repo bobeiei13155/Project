@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 //พนักงาน
+
+Route::get('/Stminishow/SearchEmployee', 'Stminishow\EmployeeController@searchEmp');
+
 Route::get('/Stminishow/showEmployee', 'Stminishow\EmployeeController@ShowEmp');
 Route::get('/Stminishow/createEmployee', 'Stminishow\EmployeeController@index');
 Route::post('/Stminishow/createEmployee', 'Stminishow\EmployeeController@store');
@@ -26,7 +30,6 @@ Route::post('/Stminishow/createEmployee/f_postcode', 'Stminishow\EmployeeControl
 Route::get('/Stminishow/editEmployee/{Id_Emp}', 'Stminishow\EmployeeController@edit');
 Route::post('/Stminishow/updateEmployee/{Id_Emp}', 'Stminishow\EmployeeController@update');
 Route::get('/Stminishow/deleteEmployee/{Id_Position}', 'Stminishow\EmployeeController@delete');
-
 //ตำแหน่ง
 Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');
 Route::post('/Stminishow/createPosition', 'Stminishow\PositionController@store');
