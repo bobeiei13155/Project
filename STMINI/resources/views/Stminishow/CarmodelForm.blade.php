@@ -12,9 +12,22 @@
     </div>
 @endif
 </div>
+<form action="/Stminishow/SearchCarmodel" method="GET" enctype="multipart/form-data">
+    <div class="container  font_green">
+        <br>
+        <h2 class="font_green">ข้อมูลประเภทสินค้า</h2>
+
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" name="searchCMD" class="form-control" style="width: 200px;">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" name="submit" class="btn btn-green "><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
 <div class="container font_green">
-    <br>
-    <h2>เพิ่มรุ่นรถ</h2>
     <form action="/Stminishow/createCarmodel" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group font_green" >
@@ -32,7 +45,7 @@
 <table class="table ">
   <thead class="thead-green">
     <tr class="line">
-      <th scope="col">รหัส</th>
+      <th scope="col">รหัสประเภทสินค้า</th>
       <th scope="col">ชื่อรุ่นรถ</th>
       <th scope="col">แก้ไข</th>
       <th scope="col">ลบ</th>

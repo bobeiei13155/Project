@@ -11,10 +11,11 @@
     </div>
     @endif
 </div>
+<form action="/Stminishow/SearchCategory" method="GET" enctype="multipart/form-data">
 <div class="container  font_green">
     <br>
-    <h2 class="font_green">ข้อมูลประเภทสินค้า</h2>
-    <form action="/Stminishow/SearchCategory" method="GET" enctype="multipart/form-data">
+    <h2 class="font_green">ค้นหาข้อมูลประเภทสินค้า</h2>
+    
         <div class="row">
             <div class="col-md-2">
                 <input type="text" name="searchCRP" class="form-control" style="width: 200px;">
@@ -23,19 +24,7 @@
                 <button type="submit" name="submit" class="btn btn-green "><i class="fas fa-search"></i></button>
             </div>
         </div>
-    </form>
-    <form action="/Stminishow/createCategory" method="post" enctype="multipart/form-data">
-        {{csrf_field()}}
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-5">
-                    <label for="Name_Category">ชื่อประเภทสินค้า</label>
-                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" placeholder="ชื่อประเภทสินค้า">
-                </div>
-            </div>
-        </div>
-        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
-    </form>
+
 </div>
 <div class="container my-2">
     <table class="table">
@@ -47,9 +36,10 @@
                 <th scope="col">ลบ</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach($categories as $category)
-            <tr class="font_green ">
+            <tr class=" font_green ">
                 <th scope="row">{{$category->Id_Category}}</th>
                 <td>{{$category->Name_Category}}</td>
                 <td>
@@ -61,6 +51,10 @@
             </tr>
             @endforeach
         </tbody>
+
+
     </table>
+
 </div>
+</form>
 @endsection

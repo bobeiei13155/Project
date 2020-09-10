@@ -31,6 +31,7 @@ Route::get('/Stminishow/editEmployee/{Id_Emp}', 'Stminishow\EmployeeController@e
 Route::post('/Stminishow/updateEmployee/{Id_Emp}', 'Stminishow\EmployeeController@update');
 Route::get('/Stminishow/deleteEmployee/{Id_Emp}', 'Stminishow\EmployeeController@delete');
 //ตำแหน่ง
+
 Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');
 Route::post('/Stminishow/createPosition', 'Stminishow\PositionController@store');
 Route::get('/Stminishow/editPosition/{Id_Position}', 'Stminishow\PositionController@edit');
@@ -48,6 +49,7 @@ Route::post('/Stminishow/createMember/f_postcode', 'Stminishow\MemberController@
 
 
 //ประเภทสินค้า
+Route::get('/Stminishow/SearchCategory', 'Stminishow\CategoryController@searchCRP');
 Route::get('/Stminishow/createCategory', 'Stminishow\CategoryController@index');
 Route::post('/Stminishow/createCategory', 'Stminishow\CategoryController@store');
 Route::get('/Stminishow/editCategory/{Id_Category}', 'Stminishow\CategoryController@edit');
@@ -55,6 +57,7 @@ Route::post('/Stminishow/updateCategory/{Id_Category}', 'Stminishow\CategoryCont
 Route::get('/Stminishow/deleteCategory/{Id_Category}', 'Stminishow\CategoryController@delete');
 
 //รุ่นรถ
+Route::get('/Stminishow/SearchCarmodel', 'Stminishow\CarmodelController@searchCMD');
 Route::get('/Stminishow/createCarmodel', 'Stminishow\CarmodelController@index');
 Route::post('/Stminishow/createCarmodel', 'Stminishow\CarmodelController@store');
 Route::get('/Stminishow/editCarmodel/{Id_Carmodel}', 'Stminishow\CarmodelController@edit');

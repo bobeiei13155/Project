@@ -10,9 +10,9 @@
         </ul>
     </div>
 @endif
-<div class="container">
+<div class="container font_green">
     <br>
-    <h2>แก้ไข ประเภทสินค้า </h2>
+    <h2>แก้ไขประเภทสินค้า </h2>
     <form action="/Stminishow/updateCategory/{{$category->Id_Category}}" method="post">
         {{csrf_field()}}
         <div class="form-group">
@@ -24,6 +24,7 @@
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-success">อัปเดต</button>
+        <a class="btn btn-danger my-2" href="/Stminishow/createCategory">กลับ</a>
     </form>
 </div>
 @endsection

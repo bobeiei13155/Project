@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Stminishow;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\category;
+use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     /**
@@ -16,6 +17,17 @@ class CategoryController extends Controller
     {
         $categories= category::all();
         return view('Stminishow.CategoryForm',compact("categories"));
+    }
+
+
+    public function searchCRP(Request $request)
+    {
+
+        $searchCRP = $request->searchCRP;
+        $categories = DB::table('categories')
+            ->where('Id_Category', "LIKE", "%{$searchCRP}%")
+            ->orwhere('Name_Category', "LIKE", "%{$searchCRP}%")->paginate(5);  
+        return view("Stminishow.SearchCategoryForm")->with("categories", $categories);
     }
 
     /**
@@ -39,7 +51,23 @@ class CategoryController extends Controller
         $request->validate([
             'Name_Category' => 'required|unique:categories|max:255'
         ]);
+
+        
+        $GenId = DB::table('categories')->max('Id_Category');
+
+        $GenId_CRP = substr($GenId, 11, 14) + 1;
+
+        if ($GenId_CRP < 10) {
+            $Id_Category = "CRP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_CRP;
+        } elseif ($GenId_CRP >= 10 && $GenId_CRP < 100) {
+            $Id_Category = "CRP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_CRP;
+        } elseif ($GenId_CRP >= 100) {
+            $Id_Category = "CRP" . "-" . date('Y') . date('m') . "-" . $GenId_CRP;
+        }
+
+
         $category = new Category;
+        $category->Id_Category = $Id_Category;
         $category->Name_Category = $request->Name_Category;
         $category->save();
         return redirect('/Stminishow/createCategory');
