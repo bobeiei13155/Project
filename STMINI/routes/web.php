@@ -29,7 +29,7 @@ Route::post('/Stminishow/createEmployee/f_districts', 'Stminishow\EmployeeContro
 Route::post('/Stminishow/createEmployee/f_postcode', 'Stminishow\EmployeeController@f_postcode')->name('Employee.f_postcode');
 Route::get('/Stminishow/editEmployee/{Id_Emp}', 'Stminishow\EmployeeController@edit');
 Route::post('/Stminishow/updateEmployee/{Id_Emp}', 'Stminishow\EmployeeController@update');
-Route::get('/Stminishow/deleteEmployee/{Id_Position}', 'Stminishow\EmployeeController@delete');
+Route::get('/Stminishow/deleteEmployee/{Id_Emp}', 'Stminishow\EmployeeController@delete');
 //ตำแหน่ง
 Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');
 Route::post('/Stminishow/createPosition', 'Stminishow\PositionController@store');
@@ -66,3 +66,12 @@ Route::post('/Stminishow/createColor', 'Stminishow\ColorController@store');
 Route::get('/Stminishow/editColor/{Id_Color}', 'Stminishow\ColorController@edit');
 Route::post('/Stminishow/updateColor/{Id_Color}', 'Stminishow\ColorController@update');
 Route::get('/Stminishow/deleteColor/{Id_Color}', 'Stminishow\ColorController@delete');
+
+//ของแถม
+Route::get('/Stminishow/SearchPremiumPro', 'Stminishow\PremiumProController@searchPMP');
+Route::get('/Stminishow/ShowPremiumPro', 'Stminishow\PremiumProController@ShowPremiumPro');
+Route::get('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@index');
+Route::post('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@store');
+Route::get('/Stminishow/editPremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@edit');
+Route::post('/Stminishow/updatePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@update');
+Route::get('/Stminishow/deletePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@delete');

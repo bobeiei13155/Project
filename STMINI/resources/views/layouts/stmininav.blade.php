@@ -72,7 +72,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container dropdown-btn">
-        <a href="#">ข้อมูลของแถม</a>
+        <a href="/Stminishow/ShowPremiumPro">ข้อมูลของแถม</a>
 
       </div>
       <button class="dropdown-btn">สั่งซื้อสินค้า

@@ -14,7 +14,11 @@ class CreatePremiumProsTable extends Migration
     public function up()
     {
         Schema::create('premium_pros', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('Id_Premium_Pro');
+
+
+
+            
             $table->timestamps();
         });
     }

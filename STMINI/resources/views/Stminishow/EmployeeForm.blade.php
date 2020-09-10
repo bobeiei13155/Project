@@ -139,7 +139,7 @@
                         <tr>
                             <th>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                 </div>
                             </th>
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>
@@ -212,7 +212,7 @@
 
 
     function addRowTel() {
-        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"></td>' +
+        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
         $('#tel').append(addrow);
     }

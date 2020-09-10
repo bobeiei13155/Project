@@ -28,7 +28,7 @@
       </tr>
     </thead>
 
-    <tbody class="thead-dark ">
+    <tbody class="font_green ">
       @foreach($employees as $employee)
       <tr>
 
@@ -55,6 +55,6 @@
       @endforeach
     </tbody>
   </table>
-
+ {{$employees->links()}}
 </div>
 @endsection

@@ -57,12 +57,13 @@
           <a href="/Stminishow/editEmployee/{{$employee->Id_Emp}}" class="btn btn-info">Edit</a>
         </td>
         <td>
-          <a href="/Stminishow/deletevEmployee/{{$employee->Id_Emp}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteEmployee/{{$employee->Id_Emp}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
         </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+
   {{$employees->links()}}
 
 </div>
