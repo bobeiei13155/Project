@@ -36,7 +36,7 @@
         <br>
         <a href="/Stminishow/createBrand">ข้อมูลยี่ห้อ</a>
         <br>
-        <a href="#">ข้อมูลลาย</a>
+        <a href="/Stminishow/createPattern">ข้อมูลลาย</a>
         <br>
         <a href="/Stminishow/createColor">ข้อมูลสี</a>
         <br>

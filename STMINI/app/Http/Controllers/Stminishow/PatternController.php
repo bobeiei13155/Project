@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Stminishow;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Pattern;
+use Illuminate\Support\Facades\DB;
 class PatternController extends Controller
 {
     /**
@@ -14,7 +15,19 @@ class PatternController extends Controller
      */
     public function index()
     {
-        //
+        $patterns= pattern::paginate(3);
+        return view('Stminishow.PatternForm',compact("patterns"));
+    }
+
+
+    public function searchPTN(Request $request)
+    {
+
+        $searchPTN = $request->searchPTN;
+        $patterns = DB::table('patterns')
+            ->where('Id_Pattern', "LIKE", "%{$searchPTN}%")
+            ->orwhere('Name_Pattern', "LIKE", "%{$searchPTN}%")->paginate(5);  
+        return view("Stminishow.SearchPatternForm")->with("patterns", $patterns);
     }
 
     /**
@@ -35,7 +48,30 @@ class PatternController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $GenId = DB::table('patterns')->max('Id_Pattern');
+
+        if (is_null($GenId)) {
+            $Id_Pattern = "PTN" . "-" . date('Y') . date('m') . "-" . "000";
+        } else {
+            $GenId_PTN = substr($GenId, 11, 14) + 1;
+
+            if ($GenId_PTN < 10) {
+                $Id_Pattern = "PTN" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PTN;
+            } elseif ($GenId_PTN >= 10 && $GenId_PTN < 100) {
+                $Id_Pattern = "PTN" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PTN;
+            } elseif ($GenId_PTN >= 100) {
+                $Id_Pattern = "PTN" . "-" . date('Y') . date('m') . "-" . $GenId_PTN;
+            }
+        }
+        // dd($Id_Color);
+        $request->validate([
+            'Name_Pattern' => 'required|unique:patterns'
+        ]);
+        $pattern = new pattern;
+        $pattern->Id_Pattern = $Id_Pattern;
+        $pattern->Name_Pattern = $request->Name_Pattern;
+        $pattern->save();
+        return redirect('/Stminishow/createPattern');
     }
 
     /**
@@ -55,9 +91,11 @@ class PatternController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Id_Pattern)
     {
-        //
+        $pattern=Pattern::find($Id_Pattern);
+       
+        return view('Stminishow.EditPatternForm',['patterns'=>$pattern]);
     }
 
     /**
@@ -67,10 +105,18 @@ class PatternController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Id_Pattern)
     {
-        //
+        $request->validate([
+            'Name_Pattern' => 'required|unique:patterns'
+        ]);
+        
+        $pattern=Pattern::find($Id_Pattern);
+        $pattern->Name_Pattern=$request->Name_Pattern;
+        $pattern->save();
+        return redirect('/Stminishow/createPattern');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +124,9 @@ class PatternController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($Id_Pattern)
     {
-        //
+        Pattern::destroy($Id_Pattern);
+        return redirect('/Stminishow/createPattern');
     }
 }

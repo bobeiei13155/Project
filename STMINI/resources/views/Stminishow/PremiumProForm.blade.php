@@ -17,7 +17,7 @@
     <form action="/Stminishow/createPremiumPro" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
-            <div class="row">
+            <div class="row ">
                 <div class="col-md-4">
                     <label for="Name" class="font_green">ชื่อของแถม</label>
                     <input type="text" class="form-control" name="Name" id="Name" placeholder="ชื่อของแถม">

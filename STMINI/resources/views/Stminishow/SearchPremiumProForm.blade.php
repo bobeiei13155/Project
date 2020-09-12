@@ -30,16 +30,16 @@
                 @foreach($premium_pros as $PremiumPro)
                 <tr>
 
-                    <td scope="row">{{$PremiumPro->Id_Premium_Pro}}</td>
-                    <td>{{$PremiumPro->Name_Premium_Pro}}</td>
-                    <td>
+                    <td scope="row"  style="vertical-align:middle" >{{$PremiumPro->Id_Premium_Pro}}</td>
+                    <td  style="vertical-align:middle" >{{$PremiumPro->Name_Premium_Pro}}</td>
+                    <td  style="vertical-align:middle" >
                         <img src="{{asset('storage')}}/PremiumPro_image/{{$PremiumPro->Img_Premium_Pro}}" alt="" width="150px" height="150px">
                     </td>
-                    <td>{{$PremiumPro->Amount_Premium_Pro}}</td>
-                    <td>
+                    <td  style="vertical-align:middle" >{{$PremiumPro->Amount_Premium_Pro}}</td>
+                    <td  style="vertical-align:middle" > 
                         <a href="/Stminishow/editPremiumPro/{{$PremiumPro->Id_Premium_Pro}}" class="btn btn-info">Edit</a>
                     </td>
-                    <td>
+                    <td style="vertical-align:middle" >
                         <a href="/Stminishow/deletePremiumPro/{{$PremiumPro->Id_Premium_Pro}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>

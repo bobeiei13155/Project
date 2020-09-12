@@ -94,3 +94,12 @@ Route::get('/Stminishow/createGen', 'Stminishow\GenController@index');
 Route::post('/Stminishow/createGen', 'Stminishow\GenController@store');
 Route::get('/Stminishow/editGen/{Id_Gen}', 'Stminishow\GenController@edit');
 Route::post('/Stminishow/updateGen/{Id_Gen}', 'Stminishow\GenController@update');
+Route::get('/Stminishow/deleteGen/{Id_Gen}', 'Stminishow\GenController@delete');
+
+//ลาย
+Route::get('/Stminishow/SearchPTN', 'Stminishow\PatternController@searchPTN');
+Route::get('/Stminishow/createPattern', 'Stminishow\PatternController@index');
+Route::post('/Stminishow/createPattern', 'Stminishow\PatternController@store');
+Route::get('/Stminishow/editPattern/{Id_Pattern}', 'Stminishow\PatternController@edit');
+Route::post('/Stminishow/updatePattern/{Id_Pattern}', 'Stminishow\PatternController@update');
+Route::get('/Stminishow/deletePattern/{Id_Pattern}', 'Stminishow\PatternController@delete');
