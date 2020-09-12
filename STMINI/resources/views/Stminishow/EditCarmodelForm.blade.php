@@ -2,15 +2,15 @@
 @section('body')
 
 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
-<div class="container">
+<div class="container font_green">
     <br>
     <h2>แก้ไข รุ่นรถ </h2>
     <form action="/Stminishow/updateCarmodel/{{$carmodel->Id_Carmodel}}" method="post">
@@ -24,6 +24,7 @@
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-success">อัปเดต</button>
+        <a class="btn btn-danger my-2" href="/Stminishow/createCarmodel">กลับ</a>
     </form>
 </div>
 @endsection

@@ -11,10 +11,11 @@
     </div>
     @endif
 </div>
-<div class="container font_green">
-<br>
-    <h2 class="font_green">ข้อมูลประเภทสินค้า</h2>
-    <form action="/Stminishow/SearchColor" method="GET" enctype="multipart/form-data">
+<form action="/Stminishow/SearchColor" method="GET" enctype="multipart/form-data">
+<div class="container  font_green">
+    <br>
+    <h2 class="font_green">ค้นหาข้อมูลสี</h2>
+    
         <div class="row">
             <div class="col-md-2">
                 <input type="text" name="searchCLR" class="form-control" style="width: 200px;">
@@ -23,19 +24,7 @@
                 <button type="submit" name="submit" class="btn btn-green "><i class="fas fa-search"></i></button>
             </div>
         </div>
-    </form>
-    <form action="/Stminishow/createColor" method="post" enctype="multipart/form-data">
-        {{csrf_field()}}
-        <div class="form-group ">
-            <div class="row">
-                <div class="col-md-5">
-                    <label for="Name_Color">ชื่อสี</label>
-                    <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสี">
-                </div>
-            </div>
-        </div>
-        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
-    </form>
+
 </div>
 <div class="container my-2">
     <table class="table">
@@ -64,4 +53,5 @@
     </table>
     {{$colors->links()}}
 </div>
+</form>
 @endsection

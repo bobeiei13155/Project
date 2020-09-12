@@ -34,7 +34,7 @@
         <br>
         <a href="/Stminishow/createCategory">ข้อมูลประเภทสินค้า</a>
         <br>
-        <a href="#">ข้อมูลยี่ห้อ</a>
+        <a href="/Stminishow/createBrand">ข้อมูลยี่ห้อ</a>
         <br>
         <a href="#">ข้อมูลลาย</a>
         <br>
@@ -42,7 +42,7 @@
         <br>
         <a href="/Stminishow/createCarmodel">ข้อมูลรุ่นรถ</a>
         <br>
-        <a href="#">ข้อมูลGen</a>
+        <a href="/Stminishow/createGen">ข้อมูลGen</a>
       </div>
       <button class="dropdown-btn">ข้อมูลบริษัทคู่ค้า
         <i class="fa fa-caret-down"></i>

@@ -64,6 +64,7 @@ Route::get('/Stminishow/editCarmodel/{Id_Carmodel}', 'Stminishow\CarmodelControl
 Route::post('/Stminishow/updateCarmodel/{Id_Carmodel}', 'Stminishow\CarmodelController@update');
 Route::get('/Stminishow/deleteCarmodel/{Id_Carmodel}', 'Stminishow\CarmodelController@delete');
 //สี
+Route::get('/Stminishow/SearchColor', 'Stminishow\ColorController@searchCLR');
 Route::get('/Stminishow/createColor', 'Stminishow\ColorController@index');
 Route::post('/Stminishow/createColor', 'Stminishow\ColorController@store');
 Route::get('/Stminishow/editColor/{Id_Color}', 'Stminishow\ColorController@edit');
@@ -78,3 +79,18 @@ Route::post('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@sto
 Route::get('/Stminishow/editPremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@edit');
 Route::post('/Stminishow/updatePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@update');
 Route::get('/Stminishow/deletePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@delete');
+
+//ยี่ห้อ
+Route::get('/Stminishow/SearchBrand', 'Stminishow\BrandController@searchBND');
+Route::get('/Stminishow/createBrand', 'Stminishow\BrandController@index');
+Route::post('/Stminishow/createBrand', 'Stminishow\BrandController@store');
+Route::get('/Stminishow/editBrand/{Id_Brand}', 'Stminishow\BrandController@edit');
+Route::post('/Stminishow/updateBrand/{Id_Brand}', 'Stminishow\BrandController@update');
+Route::get('/Stminishow/deleteBrand/{Id_Brand}', 'Stminishow\BrandController@delete');
+
+//Gen
+Route::get('/Stminishow/SearchGen', 'Stminishow\GenController@searchGEN');
+Route::get('/Stminishow/createGen', 'Stminishow\GenController@index');
+Route::post('/Stminishow/createGen', 'Stminishow\GenController@store');
+Route::get('/Stminishow/editGen/{Id_Gen}', 'Stminishow\GenController@edit');
+Route::post('/Stminishow/updateGen/{Id_Gen}', 'Stminishow\GenController@update');

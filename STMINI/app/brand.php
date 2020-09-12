@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Color extends Model
+class brand extends Model
 {
     public $incrementing = false;
-    protected $primaryKey = 'Id_Color';
+    protected $primaryKey = 'Id_Brand';
 }

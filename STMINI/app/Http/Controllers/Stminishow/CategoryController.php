@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories= category::all();
+        $categories= category::paginate(5);
         return view('Stminishow.CategoryForm',compact("categories"));
     }
 
