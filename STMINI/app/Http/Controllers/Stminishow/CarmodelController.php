@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Stminishow;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Carmodel;
+use App\gen;
 use Illuminate\Support\Facades\DB;
+
 class CarmodelController extends Controller
 {
     /**
@@ -15,9 +17,9 @@ class CarmodelController extends Controller
      */
     public function index()
     {
-        $carmodels= Carmodel::paginate(3);
+        $carmodels = Carmodel::paginate(3);
 
-        return view('Stminishow.CarmodelForm',compact("carmodels"));
+        return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all());
     }
 
     public function searchCMD(Request $request)
@@ -25,9 +27,11 @@ class CarmodelController extends Controller
 
         $searchCMP = $request->searchCMD;
         $carmodels = DB::table('carmodels')
+            ->join('gens', 'carmodels.Gen_Id', "LIKE", 'gens.Id_Gen')
             ->where('Id_Carmodel', "LIKE", "%{$searchCMP}%")
-            ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")->paginate(5);  
-        return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels);
+            ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")
+            ->orwhere('Name_Gen', "LIKE", "%{$searchCMP}%")->paginate(5);
+        return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels)->with('gens', gen::all());
     }
 
     /**
@@ -49,7 +53,8 @@ class CarmodelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Name_Carmodel' => 'required|unique:Carmodels|max:255'
+            'Name_Carmodel' => 'required|unique:Carmodels',
+            'Gen_Id' => 'required'
         ]);
 
         $GenId = DB::table('carmodels')->max('Id_Carmodel');
@@ -65,10 +70,11 @@ class CarmodelController extends Controller
         }
 
 
-        
+
         $Carmodel = new Carmodel;
         $Carmodel->Id_Carmodel = $Id_Carmodel;
         $Carmodel->Name_Carmodel = $request->Name_Carmodel;
+        $Carmodel->Gen_Id = $request->Gen_Id;
         $Carmodel->save();
         return redirect('/Stminishow/createCarmodel');
     }
@@ -92,9 +98,9 @@ class CarmodelController extends Controller
      */
     public function edit($Id_Carmodel)
     {
-        $carmodels=carmodel::find($Id_Carmodel);
-       
-          return view('Stminishow.EditCarmodelForm',['carmodel'=>$carmodels]);
+        $carmodels = carmodel::find($Id_Carmodel);
+
+        return view('Stminishow.EditCarmodelForm', ['carmodel' => $carmodels])->with('gens', gen::all());
     }
 
     /**
@@ -107,10 +113,12 @@ class CarmodelController extends Controller
     public function update(Request $request, $Id_Carmodel)
     {
         $request->validate([
-            'Name_Carmodel' => 'required|unique:Carmodels|max:255'
+            'Name_Carmodel' => 'required',
+            'Gen_Id' => 'required'
         ]);
-        $carmodels=carmodel::find($Id_Carmodel);
+        $carmodels = carmodel::find($Id_Carmodel);
         $carmodels->Name_Carmodel = $request->Name_Carmodel;
+        $carmodels->Gen_Id = $request->Gen_Id;
         $carmodels->save();
         return redirect('/Stminishow/createCarmodel');
     }

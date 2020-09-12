@@ -80,6 +80,7 @@ body{
 }
 .line{
   border: 3px solid #000;
+  color: #000;
 }
 .thead-dark {
   background-color:#9EBB77;

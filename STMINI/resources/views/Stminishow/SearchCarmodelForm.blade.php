@@ -15,7 +15,7 @@
 <form action="/Stminishow/SearchCarmodel" method="GET" enctype="multipart/form-data">
     <div class="container  font_green">
         <br>
-        <h2 class="font_green">ค้นหาข้อมูลประเภทสินค้า</h2>
+        <h2 class="font_green">ค้นหาข้อมูลรุ่น</h2>
 
         <div class="row">
             <div class="col-md-2">
@@ -27,15 +27,14 @@
         </div>
     </div>
 </form>
-<div class="container font_green">
-    <br>
-</div>
+
 <div class="container my-2 ">
     <table class="table ">
         <thead class="thead-green">
             <tr class="line">
-                <th scope="col">รหัสประเภทสินค้า</th>
+                <th scope="col">รหัสรุ่น</th>
                 <th scope="col">ชื่อรุ่นรถ</th>
+                <th scope="col">Genรุ่นรถ</th>
                 <th scope="col">แก้ไข</th>
                 <th scope="col">ลบ</th>
             </tr>
@@ -45,6 +44,13 @@
             <tr class="font_green">
                 <th scope="row">{{$carmodel->Id_Carmodel}}</th>
                 <td>{{$carmodel->Name_Carmodel}}</td>
+                <td>
+                    @foreach($gens as $gen)
+                    @if($carmodel->Gen_Id == $gen->Id_Gen)
+                    {{$gen->Name_Gen}}
+                    @endif
+                    @endforeach
+                </td>
                 <td>
                     <a href="/Stminishow/editCarmodel/{{$carmodel->Id_Carmodel}}" class="btn btn-info">Edit</a>
                 </td>

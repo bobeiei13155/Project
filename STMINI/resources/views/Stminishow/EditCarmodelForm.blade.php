@@ -21,6 +21,17 @@
                     <label for="Name_Carmodel">ชื่อรุ่นรถ</label>
                     <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" value="{{$carmodel->Name_Carmodel}}">
                 </div>
+                <div class="col-md-3">
+                <label for="Gen_Id" class="font_green">GEN</label>
+                <div class="form-group">
+                    <select name="Gen_Id" id="Gen" class="form-control">
+                        <option value="" selected>เลือกGEN</option>
+                        @foreach($gens as $gen)
+                        <option value="{{$gen->Id_Gen}}">{{$gen->Name_Gen}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-success">อัปเดต</button>
