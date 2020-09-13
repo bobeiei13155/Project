@@ -102,7 +102,62 @@ table{
 {
   color:#8EC641;
 } 
-.pagination
-{
-  color:#8EC641;
+
+
+.page-link {
+ 
+  position: relative;
+ 
+  display: block;
+ 
+  padding: 0.5rem 0.75rem;
+ 
+  margin-left: -1px;
+ 
+  line-height: 1.25;
+ 
+  color: #000;
+ 
+  background-color: #9EBB77;
+ 
+  border: 1px solid #8EC641;
+ 
+}
+ 
+.page-item.disabled .page-link {
+ 
+  color: #000;
+ 
+  pointer-events: none;
+ 
+  cursor: auto;
+ 
+  background-color: #9EBB77;
+ 
+  border-color: #8EC641;
+ 
+}
+ 
+.page-item.active .page-link {
+ 
+  z-index: 1;
+ 
+  color: #000;
+ 
+  background-color: #8EC641;
+ 
+  border-color: #8EC641;
+ 
+}
+ 
+.page-link:focus, .page-link:hover {
+ 
+  color: #000;
+ 
+  text-decoration: none;
+ 
+  background-color: #8EC641;
+ 
+  border-color: #8EC641;
+ 
 }

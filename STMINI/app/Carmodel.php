@@ -9,10 +9,10 @@ class Carmodel extends Model
     public $incrementing = false;
     protected $primaryKey = 'Id_Carmodel';
 
-    public function gen()
-    {
-        return $this->belongsTo(gen::class);
-    }
+    // public function gen()
+    // {
+    //     return $this->belongsTo(gen::class);
+    // }
 
 
 }

@@ -10,9 +10,9 @@ class Gen extends Model
 
     protected $primaryKey = 'Id_Gen';
 
-    public function Carmodel()
-    {
-        return $this->hasMany(Carmodel::class);
-    }
+    // public function Carmodel()
+    // {
+    //     return $this->hasMany(Carmodel::class);
+    // }
     
 }
