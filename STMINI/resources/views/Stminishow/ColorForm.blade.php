@@ -13,7 +13,7 @@
 </div>
 <div class="container font_green">
 <br>
-    <h2 class="font_green">ข้อมูลประเภทสินค้า</h2>
+    <h2 class="font_green">ข้อมูลสี</h2>
     <form action="/Stminishow/SearchColor" method="GET" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-2">

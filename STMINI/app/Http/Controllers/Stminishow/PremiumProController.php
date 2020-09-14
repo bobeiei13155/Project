@@ -72,7 +72,13 @@ class PremiumProController extends Controller
 
         Storage::disk('local')->put('public/PremiumPro_image/' . $imageName, $imageEncoded);
 
+        
+
         $GenId = DB::table('premium_pros')->max('Id_Premium_Pro');
+
+        if (is_null($GenId)) {
+            $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "000";
+        } else {
 
         $GenId_PMP = substr($GenId, 11, 14) + 1;
 
@@ -83,6 +89,7 @@ class PremiumProController extends Controller
         } elseif ($GenId_PMP >= 100) {
             $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . $GenId_PMP;
         }
+    }
         $PremiumPros = new PremiumPro;
         $PremiumPros->Id_Premium_Pro = $Id_PremiumPro;
         $PremiumPros->Name_Premium_Pro = $request->Name;

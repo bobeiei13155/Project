@@ -124,20 +124,20 @@ class EmployeeController extends Controller
         $request->validate([
 
             'FName_Emp' => 'required',
-            // 'LName_Emp' => 'required',
-            // 'Position_Id' => 'required',
-            // 'Username_Emp' => 'required',
-            // 'Password_Emp' => 'required',
-            // 'Idcard_Emp' => 'required',
-            // 'Email_Emp' => 'required|email',
-            // 'Address_Emp' => 'required',
-            // 'Bdate_Emp' => 'required',
-            // 'Salary_Emp' => 'required',
-            // 'Sex_Emp' => 'required',
-            // 'Province_Id' => 'required',
-            // 'District_Id' => 'required',
-            // 'Postcode_Id' => 'required',
-            // 'Subdistrict_Id' => 'required',
+            'LName_Emp' => 'required',
+            'Position_Id' => 'required',
+            'Username_Emp' => 'required',
+            'Password_Emp' => 'required',
+            'Idcard_Emp' => 'required',
+            'Email_Emp' => 'required|email',
+            'Address_Emp' => 'required',
+            'Bdate_Emp' => 'required',
+            'Salary_Emp' => 'required',
+            'Sex_Emp' => 'required',
+            'Province_Id' => 'required',
+            'District_Id' => 'required',
+            'Postcode_Id' => 'required',
+            'Subdistrict_Id' => 'required',
             'Tel_Emp.*' => 'required',
 
         ]);
@@ -154,20 +154,20 @@ class EmployeeController extends Controller
         $employee = new Employee;
         $employee->FName_Emp = $request->FName_Emp;
         $employee->Id_Emp = $Id_Emp;
-        // $employee->LName_Emp = $request->LName_Emp;
-        // $employee->Position_Id = $request->Position_Id;
-        // $employee->Username_Emp = $request->Username_Emp;
-        // $employee->Password_Emp = $request->Password_Emp;
-        // $employee->Idcard_Emp = $request->Idcard_Emp;
-        // $employee->Email_Emp = $request->Email_Emp;
-        // $employee->Address_Emp = $request->Address_Emp;
-        // $employee->Bdate_Emp = $request->Bdate_Emp;
-        // $employee->Salary_Emp = $request->Salary_Emp;
-        // $employee->Sex_Emp = $request->Sex_Emp;
-        // $employee->Province_Id = $request->Province_Id;
-        // $employee->District_Id = $request->District_Id;
-        // $employee->Postcode_Id = $request->Postcode_Id;
-        // $employee->Subdistrict_Id = $request->Subdistrict_Id;
+        $employee->LName_Emp = $request->LName_Emp;
+        $employee->Position_Id = $request->Position_Id;
+        $employee->Username_Emp = $request->Username_Emp;
+        $employee->Password_Emp = $request->Password_Emp;
+        $employee->Idcard_Emp = $request->Idcard_Emp;
+        $employee->Email_Emp = $request->Email_Emp;
+        $employee->Address_Emp = $request->Address_Emp;
+        $employee->Bdate_Emp = $request->Bdate_Emp;
+        $employee->Salary_Emp = $request->Salary_Emp;
+        $employee->Sex_Emp = $request->Sex_Emp;
+        $employee->Province_Id = $request->Province_Id;
+        $employee->District_Id = $request->District_Id;
+        $employee->Postcode_Id = $request->Postcode_Id;
+        $employee->Subdistrict_Id = $request->Subdistrict_Id;
         $employee->save();
 
         foreach ($request['Tel_Emp'] as $item => $value) {
@@ -263,21 +263,21 @@ class EmployeeController extends Controller
 
 
         $employee = Employee::find($Id_Emp);
-        // $employee->FName_Emp = $request->FName_Emp;
-        // $employee->LName_Emp = $request->LName_Emp;
-        // $employee->Position_Id = $request->Position_Id;
-        // $employee->Username_Emp = $request->Username_Emp;
-        // $employee->Password_Emp = $request->Password_Emp;
-        // $employee->Idcard_Emp = $request->Idcard_Emp;
-        // $employee->Email_Emp = $request->Email_Emp;
-        // $employee->Address_Emp = $request->Address_Emp;
-        // $employee->Bdate_Emp = $request->Bdate_Emp;
-        // $employee->Salary_Emp = $request->Salary_Emp;
-        // $employee->Sex_Emp = $request->Sex_Emp;
-        // $employee->Province_Id = $request->Province_Id;
-        // $employee->District_Id = $request->District_Id;
-        // $employee->Postcode_Id = $request->Postcode_Id;
-        // $employee->Subdistrict_Id = $request->Subdistrict_Id;
+        $employee->FName_Emp = $request->FName_Emp;
+        $employee->LName_Emp = $request->LName_Emp;
+        $employee->Position_Id = $request->Position_Id;
+        $employee->Username_Emp = $request->Username_Emp;
+        $employee->Password_Emp = $request->Password_Emp;
+        $employee->Idcard_Emp = $request->Idcard_Emp;
+        $employee->Email_Emp = $request->Email_Emp;
+        $employee->Address_Emp = $request->Address_Emp;
+        $employee->Bdate_Emp = $request->Bdate_Emp;
+        $employee->Salary_Emp = $request->Salary_Emp;
+        $employee->Sex_Emp = $request->Sex_Emp;
+        $employee->Province_Id = $request->Province_Id;
+        $employee->District_Id = $request->District_Id;
+        $employee->Postcode_Id = $request->Postcode_Id;
+        $employee->Subdistrict_Id = $request->Subdistrict_Id;
 
         $employee->save();
         return redirect('/Stminishow/showEmployee');

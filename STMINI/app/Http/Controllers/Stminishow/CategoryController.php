@@ -55,6 +55,10 @@ class CategoryController extends Controller
         
         $GenId = DB::table('categories')->max('Id_Category');
 
+        if (is_null($GenId)) {
+            $Id_Category = "CRP" . "-" . date('Y') . date('m') . "-" . "000";
+        } else {
+
         $GenId_CRP = substr($GenId, 11, 14) + 1;
 
         if ($GenId_CRP < 10) {
@@ -64,7 +68,7 @@ class CategoryController extends Controller
         } elseif ($GenId_CRP >= 100) {
             $Id_Category = "CRP" . "-" . date('Y') . date('m') . "-" . $GenId_CRP;
         }
-
+    }
 
         $category = new Category;
         $category->Id_Category = $Id_Category;

@@ -103,3 +103,13 @@ Route::post('/Stminishow/createPattern', 'Stminishow\PatternController@store');
 Route::get('/Stminishow/editPattern/{Id_Pattern}', 'Stminishow\PatternController@edit');
 Route::post('/Stminishow/updatePattern/{Id_Pattern}', 'Stminishow\PatternController@update');
 Route::get('/Stminishow/deletePattern/{Id_Pattern}', 'Stminishow\PatternController@delete');
+
+//สินค้า
+Route::get('/Stminishow/SearchPRO', 'Stminishow\ProductController@searchPRO');
+Route::get('/Stminishow/ShowProduct', 'Stminishow\ProductController@ShowProduct');
+Route::get('/Stminishow/createProduct', 'Stminishow\ProductController@index');
+Route::post('/Stminishow/createProduct', 'Stminishow\ProductController@store');
+Route::get('/Stminishow/editProduct/{Id_Product}', 'Stminishow\ProductController@edit');
+Route::post('/Stminishow/updateProduct/{Id_Product}', 'Stminishow\ProductController@update');
+Route::get('/Stminishow/deleteProduct/{Id_Product}', 'Stminishow\ProductController@delete');
+

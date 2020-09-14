@@ -30,7 +30,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container dropdown-btn">
-        <a href="#">ข้อมูลสินค้า</a>
+        <a href="/Stminishow/ShowProduct">ข้อมูลสินค้า</a>
         <br>
         <a href="/Stminishow/createCategory">ข้อมูลประเภทสินค้า</a>
         <br>
