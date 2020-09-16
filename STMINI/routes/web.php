@@ -38,6 +38,24 @@ Route::get('/Stminishow/editPosition/{Id_Position}', 'Stminishow\PositionControl
 Route::post('/Stminishow/updatePosition/{Id_Position}', 'Stminishow\PositionController@update');
 Route::get('/Stminishow/deletePosition/{Id_Position}', 'Stminishow\PositionController@delete');
 
+
+
+
+
+//บริษัทคู่ค้า
+Route::get('/Stminishow/SearchPartner', 'Stminishow\PartnerController@searchPTN');
+
+Route::get('/Stminishow/showPartner', 'Stminishow\PartnerController@ShowPTN');
+Route::get('/Stminishow/createPartner', 'Stminishow\PartnerController@index');
+Route::post('/Stminishow/createPartner', 'Stminishow\PartnerController@store');
+Route::post('/Stminishow/createPartner/f_amphures', 'Stminishow\PartnerController@f_amphures')->name('Partner.f_amphures');
+Route::post('/Stminishow/createPartner/f_districts', 'Stminishow\PartnerController@f_districts')->name('Partner.f_districts');
+Route::post('/Stminishow/createPartner/f_postcode', 'Stminishow\PartnerController@f_postcode')->name('Partner.f_postcode');
+Route::get('/Stminishow/editPartner/{Id_Partner}', 'Stminishow\PartnerController@edit');
+Route::post('/Stminishow/updatePartner/{Id_Partner}', 'Stminishow\PartnerController@update');
+Route::get('/Stminishow/deletePartner/{Id_Partner}', 'Stminishow\PartnerController@delete');
+
+
 //ลูกค้า
 Route::get('/Stminishow/showMember', 'Stminishow\MemberController@ShowMem');
 Route::get('/Stminishow/createMember', 'Stminishow\MemberController@index');

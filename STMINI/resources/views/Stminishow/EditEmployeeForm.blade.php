@@ -174,7 +174,7 @@
                                
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp"  value="{{$row->TEL_EMP}}"placeholder="เบอร์โทรศัพท์"  maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp"  value="{{$row->TEL_EMP}}"placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                 </div>
                                
                             </th>
@@ -250,9 +250,17 @@
         addRowTel();
     });
 
+    function onlyNumberKey(evt) { 
+          
+          
+          var ASCIICode = (evt.which) ? evt.which : evt.keyCode 
+          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) 
+              return false; 
+          return true; 
+      } 
 
     function addRowTel() {
-        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"  maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g></td>' +
+        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"  maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
         $('#tel').append(addrow);
     }

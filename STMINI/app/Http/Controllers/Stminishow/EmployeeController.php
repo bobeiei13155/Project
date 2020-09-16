@@ -40,6 +40,7 @@ class EmployeeController extends Controller
             ->orwhere('LName_Emp', "LIKE", "%{$searchEmp}%")
             ->orwhere('Email_Emp', "LIKE", "%{$searchEmp}%")
             ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(2);  
+            
         return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
     }
 

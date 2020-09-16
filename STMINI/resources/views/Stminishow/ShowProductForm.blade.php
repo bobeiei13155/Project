@@ -68,7 +68,7 @@
             <a href="/Stminishow/editProduct/{{$product->Id_Product}}" class="btn btn-info">Edit</a>
           </td>
           <td style="vertical-align:middle"> 
-            <a href="#" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+            <a href="/Stminishow/deleteProduct/{{$product->Id_Product}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
           </td>
         </tr>
         @endforeach
