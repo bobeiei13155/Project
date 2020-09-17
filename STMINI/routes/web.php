@@ -56,6 +56,15 @@ Route::post('/Stminishow/updatePartner/{Id_Partner}', 'Stminishow\PartnerControl
 Route::get('/Stminishow/deletePartner/{Id_Partner}', 'Stminishow\PartnerController@delete');
 
 
+//ประเภทลูกค้า
+Route::get('/Stminishow/SearchCategorymember', 'Stminishow\CategorymemberController@searchBND');
+Route::get('/Stminishow/createCategorymember', 'Stminishow\CategorymemberController@index');
+Route::post('/Stminishow/createCategorymember', 'Stminishow\CategorymemberController@store');
+Route::get('/Stminishow/editCategorymember/{Id_Cmember}', 'Stminishow\CategorymemberController@edit');
+Route::post('/Stminishow/updateCategorymember/{Id_Cmember}', 'Stminishow\CategorymemberController@update');
+Route::get('/Stminishow/deleteCategorymember/{Id_Cmember}', 'Stminishow\CategorymemberController@delete');
+
+
 //ลูกค้า
 Route::get('/Stminishow/showMember', 'Stminishow\MemberController@ShowMem');
 Route::get('/Stminishow/createMember', 'Stminishow\MemberController@index');

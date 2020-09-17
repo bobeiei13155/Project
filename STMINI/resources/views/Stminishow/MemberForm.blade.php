@@ -13,66 +13,50 @@
 </div>
 <div class="container ">
     <br>
-    <h2 class="font_green">เพิ่มพนักงาน</h2>
-    <form action="/Stminishow/createEmployee" method="post" enctype="multipart/form-data">
+    <h2 class="font_green">เพิ่มลูกค้า</h2>
+    <form action="/Stminishow/createMember" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
             <div class="row">
 
                 <div class="col-md-4">
-                    <label for="FName_Emp" class="font_green">ชื่อ</label>
-                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ">
+                    <label for="FName_Member" class="font_green">ชื่อ</label>
+                    <input type="text" class="form-control" name="FName_Member" id="FName_Member" placeholder="ชื่อ">
                 </div>
                 <div class="col-md-4">
-                    <label for="LName_Emp" class="font_green">นามสกุล</label>
-                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล">
+                    <label for="LName_Member" class="font_green">นามสกุล</label>
+                    <input type="text" class="form-control" name="LName_Member" id="LName_Member" placeholder="นามสกุล">
                 </div>
-                <div class="col-sm-2">
-                    <label for="Position_Id" class="font_green">ตำแหน่ง</label>
-                    <select class="form-control" name="Position_Id">
-                        <option value="">ตำแหน่ง</option>
-                        @foreach($positions as $position)
-                        <option value="{{$position->Id_Position}}">{{$position->Name_Position}}</option>
+                <div class="col-md-3">
+                    <label for="Cmember_Id" class="font_green">ประเภทลูกค้า</label>
+                    <select class="form-control" name="Cmember_Id">
+                        <option value="">ประเภทลูกค้า</option>
+                        @foreach($categorymembers as $categorymember)
+                        <option value="{{$categorymember->Id_Cmember}}">{{$categorymember->Name_Cmember}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-2">
-                    <label for="Sex_Emp" class="font_green">เพศ</label>
-                    <select class="form-control" name="Sex_Emp">
+               
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+            <div class="col-sm-2">
+                    <label for="Sex_Member" class="font_green">เพศ</label>
+                    <select class="form-control" name="Sex_Member">
                         <option value="" selected>เลือกเพศ</option>
                         <option value="Men">ชาย</option>
                         <option value="Women">หญิง</option>
                     </select>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="Username_Emp" class="font_green">ชื่อผู้ใช้</label>
-                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ชื่อผู้ใช้">
+                
+                <div class="col-md-4">
+                    <label for="Email_Member" class="font_green">อีเมล</label>
+                    <input type="email" class="form-control" name="Email_Member" id="Email_Member" placeholder="อีเมล">
                 </div>
-                <div class="col-md-6">
-                    <label for="Password_Emp" class="font_green">รหัสผ่าน</label>
-                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="รหัสผ่าน">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-
-                <div class="col-md-6">
-                    <label for="Address_Emp" class="font_green">ที่อยู่</label>
-                    <input type="text" class="form-control" name="Address_Emp" id="Address_Emp" placeholder="ที่อยู่">
-                </div>
-                <div class="col-md-3">
-                    <label for="Email_Emp" class="font_green">อีเมล</label>
-                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล">
-                </div>
-
-                <div class="col-md-3">
-                    <label for="Idcard_Emp" class="font_green">รหัสบัตรประชาชน</label>
-                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                <div class="col-md-5">
+                    <label for="Address_Member" class="font_green">ที่อยู่</label>
+                    <input type="text" class="form-control" name="Address_Member" id="Address_Member" placeholder="ที่อยู่">
                 </div>
             </div>
         </div>
@@ -118,13 +102,8 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="Bdate_Emp" class="font_green">วันเกิด</label>
-                    <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="Salary_Emp" class="font_green">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0" >
+                    <label for="Bdate_Member" class="font_green">วันเกิด</label>
+                    <input type="date" class="form-control" name="Bdate_Member" id="Bdate_Member">
                 </div>
             </div>
         </div>
@@ -139,7 +118,7 @@
                         <tr>
                             <th>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    <input type="text" class="form-control" name="Tel_MEM[]" id="Tel_MEM" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)">
                                 </div>
                             </th>
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>
@@ -150,7 +129,7 @@
         </div>
         <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
 
-        <a class="btn btn-danger my-2" href="/Stminishow/showEmployee">กลับ</a>
+        <a class="btn btn-danger my-2" href="/Stminishow/showMember">กลับ</a>
     </form>
 </div>
 {{csrf_field()}}
@@ -160,7 +139,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_amphures')}}",
+                url: "{{route('Member.f_amphures')}}",
                 method: "POST",
                 data: {
                     select: select,
@@ -177,7 +156,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_districts')}}",
+                url: "{{route('Member.f_districts')}}",
                 method: "POST",
                 data: {
                     select: select,
@@ -194,7 +173,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_postcode')}}",
+                url: "{{route('Member.f_postcode')}}",
                 method: "POST",
                 data: {
                     select: select,
@@ -219,7 +198,7 @@
         addRowTel();
     });
     function addRowTel() {
-        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
+        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_MEM[]" id="Tel_MEM" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
         $('#tel').append(addrow);
     }
