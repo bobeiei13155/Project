@@ -2,7 +2,7 @@
 @section('body')
 
 <div class="container my-2">
-  <h2 class="font_green">ข้อมูลลูกค้า</h2>
+  <h2 class="font_green">ค้นหาข้อมูลลูกค้า</h2>
   <form action="/Stminishow/SearchMember" method="GET">
     <div class="row">
       <div class="col-md-2">

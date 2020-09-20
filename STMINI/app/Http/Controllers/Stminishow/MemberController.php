@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Stminishow;
+
 use App\Telmem;
 use App\Member;
 use App\Categorymember;
@@ -32,7 +33,19 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function searchMEM(Request $request)
+    {
 
+        $searchMEM = $request->searchMEM;
+        $members = DB::table('members')
+            ->join('categorymembers', 'members.Cmember_Id', "LIKE", 'categorymembers.Id_Cmember')
+            ->join('telmems', 'members.Id_Member', '=', 'telmems.Id_Member')
+            ->where('members.Id_Member', "LIKE", "%{$searchMEM}%")
+            ->orwhere('FName_Member', "LIKE", "%{$searchMEM}%")  
+            ->orwhere('LName_Member', "LIKE", "%{$searchMEM}%")  
+            ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")->paginate(5);
+        return view("Stminishow.SearchMemberForm")->with("members", $members)->with('categorymembers', categorymember::all())->with('telmems', telmem::all());
+    }
     public function f_amphures(Request $request)
     {
         $id = $request->get('select');
@@ -147,7 +160,7 @@ class MemberController extends Controller
         };
 
 
-          return redirect('/Stminishow/showMember');
+        return redirect('/Stminishow/showMember');
     }
 
     /**
@@ -167,9 +180,21 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Id_Member)
     {
-        //
+        $member = Member::find($Id_Member);
+        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+        $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+        $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
+        $telmems = DB::table('telmems')->where('Id_Member', $Id_Member)->get();
+
+        // echo"<pre>";
+        // print_r($telemps);
+        // echo"</pre>";
+        return view('Stminishow.EditMemberForm', ['members' => $member])
+            ->with('telmems', $telmems)->with('subdistrict', $subdistrict)
+            ->with('amphur', $amphur)->with('list', $list)
+            ->with('categorymembers', categorymember::all());
     }
 
     /**

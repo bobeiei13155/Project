@@ -45,8 +45,8 @@
                     <label for="Sex_Member" class="font_green">เพศ</label>
                     <select class="form-control" name="Sex_Member">
                         <option value="" selected>เลือกเพศ</option>
-                        <option value="Men">ชาย</option>
-                        <option value="Women">หญิง</option>
+                        <option value="ชาย">ชาย</option>
+                        <option value="หญิง">หญิง</option>
                     </select>
                 </div>
                 
