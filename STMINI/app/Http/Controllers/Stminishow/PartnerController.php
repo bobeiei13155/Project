@@ -135,12 +135,12 @@ class PartnerController extends Controller
 
         $request->validate([
 
-            'Name_Partner' => 'required',
-            'Province_Id' => 'required',
-            'District_Id' => 'required',
-            'Postcode_Id' => 'required',
-            'Subdistrict_Id' => 'required',
-            'Tel_PTN.*' => 'required',
+            // 'Name_Partner' => 'required',
+            // 'Province_Id' => 'required',
+            // 'District_Id' => 'required',
+            // 'Postcode_Id' => 'required',
+            // 'Subdistrict_Id' => 'required',
+            // 'Tel_PTN.*' => 'required',
 
         ]);
 
@@ -161,7 +161,7 @@ class PartnerController extends Controller
         $partner->District_Id = $request->District_Id;
         $partner->Postcode_Id = $request->Postcode_Id;
         $partner->Subdistrict_Id = $request->Subdistrict_Id;
-        $partner->save();
+        //$partner->save();
 
         foreach ($request['Tel_PTN'] as $item => $value) {
             $request2 = array(
@@ -170,7 +170,7 @@ class PartnerController extends Controller
             );
             Telptn::create($request2);
         };
-
+       
         return view('Stminishow.ShowPartnerForm');
     }
 

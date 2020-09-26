@@ -23,11 +23,11 @@ class PremiumProController extends Controller
 
         $searchPMP = $request->searchPMP;
 
-       
+
         $PremiumPros = DB::table('premium_pros')
             ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
             ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
-            ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->get();  
+            ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->get();
         return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros);
     }
 
@@ -72,7 +72,7 @@ class PremiumProController extends Controller
 
         Storage::disk('local')->put('public/PremiumPro_image/' . $imageName, $imageEncoded);
 
-        
+
 
         $GenId = DB::table('premium_pros')->max('Id_Premium_Pro');
 
@@ -80,16 +80,16 @@ class PremiumProController extends Controller
             $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "000";
         } else {
 
-        $GenId_PMP = substr($GenId, 11, 14) + 1;
+            $GenId_PMP = substr($GenId, 11, 14) + 1;
 
-        if ($GenId_PMP < 10) {
-            $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PMP;
-        } elseif ($GenId_PMP >= 10 && $GenId_PMP < 100) {
-            $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PMP;
-        } elseif ($GenId_PMP >= 100) {
-            $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . $GenId_PMP;
+            if ($GenId_PMP < 10) {
+                $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PMP;
+            } elseif ($GenId_PMP >= 10 && $GenId_PMP < 100) {
+                $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PMP;
+            } elseif ($GenId_PMP >= 100) {
+                $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . $GenId_PMP;
+            }
         }
-    }
         $PremiumPros = new PremiumPro;
         $PremiumPros->Id_Premium_Pro = $Id_PremiumPro;
         $PremiumPros->Name_Premium_Pro = $request->Name;
@@ -136,29 +136,28 @@ class PremiumProController extends Controller
     public function update(Request $request, $Id_Premium_Pro)
     {
 
-            $request->validate([
-                'Name' => 'required',
-                'Amount' => 'required',
-                'image' => 'required|file|image|mimes:jpeg,png,jpg|max:5000 '
+        $request->validate([
+            'Name' => 'required',
+            'Amount' => 'required',
+            'image' => 'required|file|image|mimes:jpeg,png,jpg|max:5000 '
 
-                     ]);
+        ]);
 
-                    if($request->hasFile("image")){
-                        $PremiumPro=PremiumPro::find($Id_Premium_Pro);
-                        $exists=Storage::disk('local')->exists("public/PremiumPro_image/".$PremiumPro->Img_Premium_Pro);//เจอไฟล์ภาพชื่อตรงกัน
-                        if($exists){
-                            Storage::delete("public/PremiumPro_image/".$PremiumPro->Img_Premium_Pro);
-                        }
-                        $request->image->storeAs("public/PremiumPro_image/",$PremiumPro->Img_Premium_Pro);
-                    }
-                       
-                       $PremiumPro=PremiumPro::find($Id_Premium_Pro);
-                       $PremiumPro->Name_Premium_Pro = $request->Name;
-                       $PremiumPro->Amount_Premium_Pro = $request->Amount;
-                       $PremiumPro->save();
+        if ($request->hasFile("image")) {
+            $PremiumPro = PremiumPro::find($Id_Premium_Pro);
+            $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
+            if ($exists) {
+                Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
+            }
+            $request->image->storeAs("public/PremiumPro_image/", $PremiumPro->Img_Premium_Pro);
+        }
 
-                       return redirect('/Stminishow/ShowPremiumPro');
-        
+        $PremiumPro = PremiumPro::find($Id_Premium_Pro);
+        $PremiumPro->Name_Premium_Pro = $request->Name;
+        $PremiumPro->Amount_Premium_Pro = $request->Amount;
+        $PremiumPro->save();
+
+        return redirect('/Stminishow/ShowPremiumPro');
     }
 
     /**
@@ -169,11 +168,11 @@ class PremiumProController extends Controller
      */
     public function delete($Id_Premium_Pro)
     {
-        $PremiumPro=PremiumPro::find($Id_Premium_Pro);
-        $exists=Storage::disk('local')->exists("public/PremiumPro_image/".$PremiumPro->Img_Premium_Pro);//เจอไฟล์ภาพชื่อตรงกัน
-                        if($exists){
-                            Storage::delete("public/PremiumPro_image/".$PremiumPro->Img_Premium_Pro);
-                        }
+        $PremiumPro = PremiumPro::find($Id_Premium_Pro);
+        $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
+        if ($exists) {
+            Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
+        }
         PremiumPro::destroy($Id_Premium_Pro);
         return redirect('/Stminishow/ShowPremiumPro');
     }

@@ -31,7 +31,7 @@
         <td scope="row">{{$partner->Id_Partner}}</td>
         <td>{{$partner->Name_Partner}}</td>
         <td>
-        
+
           @foreach($telptns as $telptn)
 
           @if($telptn->Id_Partner == $partner->Id_Partner)
@@ -40,9 +40,9 @@
           {{$telptn->Tel_PTN}}
           @break
           @endif
-          
+
           @endforeach
-        
+
         </td>
         <td>
           <a href="/Stminishow/editPartner/{{$partner->Id_Partner}}" class="btn btn-info">Edit</a>
@@ -54,7 +54,7 @@
       @endforeach
     </tbody>
   </table>
-  {{$partners->links()}} 
+  {{$partners->links()}}
 
 </div>
 @endsection

@@ -124,21 +124,21 @@ class EmployeeController extends Controller
 
         $request->validate([
 
-            'FName_Emp' => 'required',
-            'LName_Emp' => 'required',
-            'Position_Id' => 'required',
-            'Username_Emp' => 'required',
-            'Password_Emp' => 'required',
-            'Idcard_Emp' => 'required',
-            'Email_Emp' => 'required|email',
-            'Address_Emp' => 'required',
-            'Bdate_Emp' => 'required',
-            'Salary_Emp' => 'required',
-            'Sex_Emp' => 'required',
-            'Province_Id' => 'required',
-            'District_Id' => 'required',
-            'Postcode_Id' => 'required',
-            'Subdistrict_Id' => 'required',
+            // 'FName_Emp' => 'required',
+            // 'LName_Emp' => 'required',
+            // 'Position_Id' => 'required',
+            // 'Username_Emp' => 'required',
+            // 'Password_Emp' => 'required',
+            // 'Idcard_Emp' => 'required',
+            // 'Email_Emp' => 'required|email',
+            // 'Address_Emp' => 'required',
+            // 'Bdate_Emp' => 'required',
+            // 'Salary_Emp' => 'required',
+            // 'Sex_Emp' => 'required',
+            // 'Province_Id' => 'required',
+            // 'District_Id' => 'required',
+            // 'Postcode_Id' => 'required',
+            // 'Subdistrict_Id' => 'required',
             'Tel_Emp.*' => 'required',
 
         ]);
@@ -171,12 +171,22 @@ class EmployeeController extends Controller
         $employee->Subdistrict_Id = $request->Subdistrict_Id;
         $employee->save();
 
-        foreach ($request['Tel_Emp'] as $item => $value) {
-            $request2 = array(
-                'Id_Emp' => $Id_Emp,
-                'Tel_Emp' => $request['Tel_Emp'][$item]
-            );
-            Telemp::create($request2);
+
+
+      
+        if(is_null($request['Tel_Emp'])){
+            $request->validate([
+                'Tel_Emp0' =>  'required'
+                ]);
+        }else{
+            foreach ($request['Tel_Emp'] as $item => $value) {
+                $request2 = array(
+                    'Id_Emp' => $Id_Emp,
+                    'Tel_Emp' => $request['Tel_Emp'][$item]
+                );
+                Telemp::create($request2);
+        }
+        
         };
 
 

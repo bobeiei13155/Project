@@ -139,7 +139,7 @@
                         <tr>
                             <th>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                 </div>
                             </th>
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>
