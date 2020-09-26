@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //ล็อคอิน
-Route::get('/Stminishow/SearchEmployee', 'Stminishow\EmployeeController@searchEmp');
 
 Route::get('/', function () {
     return view('welcome');
