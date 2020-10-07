@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 //ล็อคอิน
 
-Route::get('/', function () {
-    return view('welcome');
-});
+ 
+Route::get('logout', 'Stminishow\LoginController@logout');
+Route::get('login', 'Stminishow\LoginController@index');
+Route::post('login', 'Stminishow\LoginController@login');
+
 //พนักงาน
 
 Route::get('/Stminishow/SearchEmployee', 'Stminishow\EmployeeController@searchEmp');
-
+Route::get('/Stminishow/indexform', 'Stminishow\EmployeeController@indexform');
 Route::get('/Stminishow/showEmployee', 'Stminishow\EmployeeController@ShowEmp');
 Route::get('/Stminishow/createEmployee', 'Stminishow\EmployeeController@index');
 Route::post('/Stminishow/createEmployee', 'Stminishow\EmployeeController@store');
@@ -32,6 +34,7 @@ Route::post('/Stminishow/updateEmployee/{Id_Emp}', 'Stminishow\EmployeeControlle
 Route::get('/Stminishow/deleteEmployee/{Id_Emp}', 'Stminishow\EmployeeController@delete');
 //ตำแหน่ง
 
+Route::get('/Stminishow/showPosition', 'Stminishow\PositionController@ShowPosition');
 Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');
 Route::post('/Stminishow/createPosition', 'Stminishow\PositionController@store');
 Route::get('/Stminishow/editPosition/{Id_Position}', 'Stminishow\PositionController@edit');
@@ -56,7 +59,7 @@ Route::get('/Stminishow/deletePartner/{Id_Partner}', 'Stminishow\PartnerControll
 
 
 //ประเภทลูกค้า
-Route::get('/Stminishow/SearchCategorymember', 'Stminishow\CategorymemberController@searchBND');
+Route::get('/Stminishow/SearchCategorymember', 'Stminishow\CategorymemberController@searchCMB');
 Route::get('/Stminishow/createCategorymember', 'Stminishow\CategorymemberController@index');
 Route::post('/Stminishow/createCategorymember', 'Stminishow\CategorymemberController@store');
 Route::get('/Stminishow/editCategorymember/{Id_Cmember}', 'Stminishow\CategorymemberController@edit');
@@ -156,6 +159,7 @@ Route::get('/Stminishow/incrementCart/{Id_Premium_Pro}', 'Stminishow\PromotionCo
 Route::get('/Stminishow/decrementCart/{Id_Premium_Pro}', 'Stminishow\PromotionController@decrementCart');
 Route::get('/Stminishow/editPromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@edit');
 Route::post('/Stminishow/updatePromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@update');
+Route::get('/Stminishow/deletePromotionPay/{Id_Premium_Pro}', 'Stminishow\PromotionController@delete');
 
 
 

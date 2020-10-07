@@ -7,7 +7,7 @@ use App\Partner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Product;
 
 class PartnerController extends Controller
 {
@@ -64,7 +64,8 @@ class PartnerController extends Controller
     {
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
         $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        return view('Stminishow.PartnerForm')->with('list', $list)->with('am', $am);
+        
+        return view('Stminishow.PartnerForm')->with('list', $list)->with('am', $am)->with('products',product::all());
     }
     public function f_amphures(Request $request)
     {

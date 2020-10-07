@@ -12,14 +12,14 @@
     </div>
     @endif
 </div>
-<form action="/Stminishow/SearchBrand" method="GET" enctype="multipart/form-data">
+<form action="/Stminishow/SearchCategorymember" method="GET" enctype="multipart/form-data">
     <div class="container  font_green">
         <br>
         <h2 class="font_green">ข้อมูลประเภทลูกค้า</h2>
 
         <div class="row">
             <div class="col-md-2">
-                <input type="text" name="searchBND" class="form-control" style="width: 200px;">
+                <input type="text" name="SearchCMB" class="form-control" style="width: 200px;">
             </div>
             <div class="col-md-2">
                 <button type="submit" name="submit" class="btn btn-green "><i class="fas fa-search"></i></button>
@@ -28,7 +28,7 @@
     </div>
 </form>
 <div class="container font_green">
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form action="/Stminishow/createCategorymember" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group font_green">
             <div class="row ">
@@ -64,10 +64,10 @@
                 <td>{{$categorymember->Name_Cmember}}</td>
                 <td>{{$categorymember->Discount_Cmember}}</td>
                 <td>
-                    <a href="#" class="btn btn-info">แก้ไข</a>
+                    <a href="/Stminishow/editCategorymember/{{$categorymember->Id_Cmember}}" class="btn btn-info">แก้ไข</a>
                 </td>
                 <td>
-                    <a href="#" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
+                    <a href="/Stminishow/deleteCategorymember/{{$categorymember->Id_Cmember}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
                 </td>
             </tr>
             @endforeach

@@ -98,9 +98,9 @@ class CarmodelController extends Controller
      */
     public function edit($Id_Carmodel)
     {
-        $carmodels = carmodel::find($Id_Carmodel);
+        $carmodel = carmodel::find($Id_Carmodel);
 
-        return view('Stminishow.EditCarmodelForm', ['carmodel' => $carmodels])->with('gens', gen::all());
+        return view('Stminishow.EditCarmodelForm', ['carmodel' => $carmodel])->with('gens', gen::all());
     }
 
     /**
@@ -116,6 +116,7 @@ class CarmodelController extends Controller
             'Name_Carmodel' => 'required',
             'Gen_Id' => 'required'
         ]);
+        // dd($request->Gen_Id);
         $carmodels = carmodel::find($Id_Carmodel);
         $carmodels->Name_Carmodel = $request->Name_Carmodel;
         $carmodels->Gen_Id = $request->Gen_Id;

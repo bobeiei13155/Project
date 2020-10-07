@@ -13,6 +13,7 @@ class CartPromotionPay{
 
     public function __construct($prevCart){
         //ตะกร้าเก่า
+        
         if($prevCart !=null){
             $this->items=$prevCart->items;
             $this->totalQuantity=$prevCart->totalQuantity;

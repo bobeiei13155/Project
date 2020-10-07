@@ -44,7 +44,7 @@
           <a href="/Stminishow/editPromotionPay/{{$payment_amount->Id_Promotion}}" class="btn btn-info">Edit</a>
         </td>
         <td>
-          <a href="#" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deletePromotionPay/{{$payment_amount->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
         </td>
       </tr>
       @endforeach

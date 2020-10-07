@@ -13,7 +13,7 @@
 <link href="{{asset('/css/sidebar.css')}}" rel="stylesheet">
 
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left  bg-sidebar-green" style="display:none" id="leftMenu" >
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left  bg-sidebar-green" style="display:none" id="leftMenu">
 
   <button class="dropdown-btn">ข้อมูลพนักงาน
     <i class="fa fa-caret-down"></i>
@@ -21,7 +21,7 @@
   <div class="dropdown-container dropdown-btn ">
     <a href="/Stminishow/showEmployee">ข้อมูลพนักงาน</a>
     <br>
-    <a href="/Stminishow/createPosition">ข้อมูลตำแหน่ง</a>
+    <a href="/Stminishow/showPosition">ข้อมูลตำแหน่ง</a>
   </div>
   <button class="dropdown-btn">ข้อมูลสินค้า
     <i class="fa fa-caret-down"></i>
@@ -123,22 +123,22 @@
 
 
 
-<div class="w3-container bg-navbar-green "style="margin-top: -8px;height:70px">
-  <div class="row" >
-   
+<div class="w3-container bg-navbar-green " style="margin-top: -8px;height:70px">
+  <div class="row">
+
     <button class=" w3-button  w3-xlarge w3-left btn-green " style="height: 70px; " onclick="openLeftMenu()">&#9776;</button>
 
-    
- 
-    <div class="col "style=" padding-top: 5px;" >
+
+
+    <div class="col " style=" padding-top: 5px;">
       <img src="https://www.img.in.th/images/05d33c376067f5b6a6332816da091819.png" width="70px" height="70px"></img>
     </div>
     <div class="col">
       <div class="float-right">
         <div class="dropdown">
-          <label class="dropbtn">username</label>
+          <label class="dropbtn">{{Session::get('login')}}</label>
           <div class="dropdown-content">
-            <a href="#">logout</a>
+            <a href="/logout">logout</a>
           </div>
         </div>
       </div>
@@ -154,6 +154,7 @@
 
 
 <div class="w3-container " style="margin-top:60px;">
+
   @if(Session()->has('success'))
   <div class="alert alert-success" role="alert">
     {{Session()->get('success')}}
@@ -164,19 +165,20 @@
     {{Session()->get('warning')}}
   </div>
   @endif
+  {{csrf_field()}}
   @yield('body')
+
 </div>
 
 <script>
-
-function openLeftMenu() {
-  var x = document.getElementById("leftMenu");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
+  function openLeftMenu() {
+    var x = document.getElementById("leftMenu");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
   }
-}
   // function openLeftMenu() {
   //   document.getElementById("leftMenu").style.display = "block";
   // }
@@ -199,6 +201,33 @@ function openLeftMenu() {
       }
     });
   }
+
+
+  function clickIE() {
+    if (document.all) {
+      alert(message);
+      return false;
+    }
+  }
+
+  function clickNS(e) {
+    if (document.layers || (document.getElementById && !document.all)) {
+      if (e.which == 2 || e.which == 3) {
+        alert(message);
+        return false;
+      }
+    }
+  }
+  if (document.layers) {
+    document.captureEvents(Event.MOUSEDOWN);
+    document.onmousedown = clickNS;
+  } else {
+    document.onmouseup = clickNS;
+    document.oncontextmenu = clickIE;
+  }
+  document.oncontextmenu = new Function("return false")
+
+ 
 </script>
 
 

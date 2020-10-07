@@ -21,11 +21,11 @@
 
                 <div class="col-md-4">
                     <label for="FName_Emp" class="font_green">ชื่อ</label>
-                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ">
+                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" required>
                 </div>
                 <div class="col-md-4">
                     <label for="LName_Emp" class="font_green">นามสกุล</label>
-                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล">
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" required>
                 </div>
                 <div class="col-sm-2">
                     <label for="Position_Id" class="font_green">ตำแหน่ง</label>
@@ -50,12 +50,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="Username_Emp" class="font_green">ชื่อผู้ใช้</label>
-                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ชื่อผู้ใช้">
+                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ชื่อผู้ใช้" minlength="8"  >
+                    <!-- pattern="[A-Za-z]{3}" -->
                 </div>
-                <div class="col-md-6">
+                <d class="col-md-6">
                     <label for="Password_Emp" class="font_green">รหัสผ่าน</label>
-                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="รหัสผ่าน">
-                </div>
+                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="รหัสผ่าน" >
+                
             </div>
         </div>
         <div class="form-group">
@@ -67,12 +68,14 @@
                 </div>
                 <div class="col-md-3">
                     <label for="Email_Emp" class="font_green">อีเมล</label>
-                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล">
+                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล" >
                 </div>
 
                 <div class="col-md-3">
                     <label for="Idcard_Emp" class="font_green">รหัสบัตรประชาชน</label>
-                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    
+                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required> 
+                    <span class="error"></span>
                 </div>
             </div>
         </div>
@@ -124,7 +127,7 @@
 
                 <div class="col-md-6">
                     <label for="Salary_Emp" class="font_green">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0" >
+                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0">
                 </div>
             </div>
         </div>
@@ -148,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
+        <button type="submit" name="submit" id="submit" class="btn btn-success">เพิ่ม</button>
 
         <a class="btn btn-danger my-2" href="/Stminishow/showEmployee">กลับ</a>
     </form>
@@ -206,18 +209,19 @@
             })
         }
     });
- 
-    function onlyNumberKey(evt) { 
-          
-          
-          var ASCIICode = (evt.which) ? evt.which : evt.keyCode 
-          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) 
-              return false; 
-          return true; 
-      } 
-      $('.addRowTel').on('click', function() {
+
+    function onlyNumberKey(evt) {
+
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+    $('.addRowTel').on('click', function() {
         addRowTel();
     });
+
     function addRowTel() {
         var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
@@ -226,5 +230,42 @@
     $(document).on('click', '.remove', function() {
         $(this).parent().parent().remove();
     });
+    $('#submit').click(function() {
+        //validate form
+        $.get('sample-action.php', $('#sample-form').serialize(), function(response) {
+            $('#result').html(response);
+        });
+    });
+
+    $(document).ready(function() {
+        $('#Idcard_Emp').on('keyup', function() {
+            if ($.trim($(this).val()) != '' && $(this).val().length == 13) {
+                id = $(this).val().replace(/-/g, "");
+                var result = Script_checkID(id);
+                if (result === false) {
+                    $('span.error').removeClass('true').text('เลขบัตรผิด');
+                } else {
+                    $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
+                }
+            } else {
+                $('span.error').removeClass('true').text('');
+            }
+        })
+    });
+
+    function Script_checkID(id) {
+        if (!IsNumeric(id)) return false;
+        if (id.substring(0, 1) == 0) return false;
+        if (id.length != 13) return false;
+        for (i = 0, sum = 0; i < 12; i++)
+            sum += parseFloat(id.charAt(i)) * (13 - i);
+        if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12))) return false;
+        return true;
+    }
+
+    function IsNumeric(input) {
+        var RE = /^-?(0|INF|(0[1-7][0-7]*)|(0x[0-9a-fA-F]+)|((0|[1-9][0-9]*|(?=[\.,]))([\.,][0-9]+)?([eE]-?\d+)?))$/;
+        return (RE.test(input));
+    }
 </script>
 @endsection

@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
+
 namespace App\Http\Controllers\Stminishow;
+
 use Illuminate\Database\Eloquent\Collection;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Http\Controllers\Controller;
@@ -9,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
 use App\Telemp;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -18,6 +22,10 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function indexform()
+    {
+        return redirect('/layouts/stmininav');
+    }
 
 
 
@@ -33,14 +41,15 @@ class EmployeeController extends Controller
         // $datasearch = json_decode(json_encode($searchposition), true);
 
         //  dd($searchposition);
-        $employees = DB::table('employees')
+        $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')
             ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
             ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
             ->orwhere('FName_Emp', "LIKE", "%{$searchEmp}%")
             ->orwhere('LName_Emp', "LIKE", "%{$searchEmp}%")
             ->orwhere('Email_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(2);  
-            
+            ->orwhere('Salary_Emp', "LIKE", "%{$searchEmp}%")
+            ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(5);
+
         return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
     }
 
@@ -107,9 +116,11 @@ class EmployeeController extends Controller
      */
     public function ShowEmp()
     {
-        $employees = employee::paginate(5); 
-        return view('Stminishow.ShowEmployeeForm', compact("employees"))
-            ->with('positions', Position::all());
+        Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+        $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')->paginate(5);
+        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+        $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+        return view('Stminishow.ShowEmployeeForm')->with('employees',$employees)->with('list', $list)->with('am', $am)->with('positions', Position::all());
     }
 
 
@@ -121,7 +132,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $request->validate([
 
             // 'FName_Emp' => 'required',
@@ -139,9 +150,12 @@ class EmployeeController extends Controller
             // 'District_Id' => 'required',
             // 'Postcode_Id' => 'required',
             // 'Subdistrict_Id' => 'required',
-            'Tel_Emp.*' => 'required',
+            //'Tel_Emp.*' => 'required',
 
         ]);
+
+
+        
 
         $GenId = DB::table('employees')->max('Id_Emp');
         $GenId_Emp = substr($GenId, 11, 14) + 1;
@@ -169,28 +183,37 @@ class EmployeeController extends Controller
         $employee->District_Id = $request->District_Id;
         $employee->Postcode_Id = $request->Postcode_Id;
         $employee->Subdistrict_Id = $request->Subdistrict_Id;
-        $employee->save();
+        
+        // $employee->save();
 
 
+        if (is_null($request['Tel_Emp'])) {
 
-      
-        if(is_null($request['Tel_Emp'])){
             $request->validate([
                 'Tel_Emp0' =>  'required'
-                ]);
-        }else{
-            foreach ($request['Tel_Emp'] as $item => $value) {
-                $request2 = array(
-                    'Id_Emp' => $Id_Emp,
-                    'Tel_Emp' => $request['Tel_Emp'][$item]
-                );
-                Telemp::create($request2);
-        }
-        
+            ]);
+        } else {
+            if (array_unique($request['Tel_Emp'])) {
+                Session()->flash("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
+                
+            } else {
+                foreach ($request['Tel_Emp'] as $item => $value) {
+                    $request2 = array(
+                        'Id_Emp' => $Id_Emp,
+                        'Tel_Emp' => $request['Tel_Emp'][$item]
+                    );
+                    Telemp::create($request2);
+                }
+            };
         };
 
 
-        //  return redirect('/Stminishow/showEmployee');
+
+
+        return redirect('/Stminishow/showEmployee');
     }
 
     /**
@@ -230,6 +253,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function update(Request $request, $Id_Emp)
     {
 
@@ -250,25 +276,32 @@ class EmployeeController extends Controller
 
 
         //  dd($Tel_Emp);
-
-        if ($data != []) {
-            Telemp::destroy([$data]);
-            foreach ($request['Tel_Emp'] as $item => $value) {
-                $request2 = array(
-                    'Id_Emp' => $Id_Emp,
-                    'Tel_Emp' => $request['Tel_Emp'][$item]
-                );
-                Telemp::create($request2);
-            }
+        if (is_null($request['Tel_Emp'])) {
+            $request->validate([
+                'Tel_Emp0' =>  'required'
+            ]);
         } else {
-            foreach ($request['Tel_Emp'] as $item => $value) {
-                $request2 = array(
-                    'Id_Emp' => $Id_Emp,
-                    'Tel_Emp' => $request['Tel_Emp'][$item]
-                );  
-                Telemp::create($request2);
+            if ($data != []) {
+                Telemp::destroy([$data]);
+                foreach ($request['Tel_Emp'] as $item => $value) {
+                    $request2 = array(
+                        'Id_Emp' => $Id_Emp,
+                        'Tel_Emp' => $request['Tel_Emp'][$item]
+                    );
+                    Telemp::create($request2);
+                }
+            } else {
+
+                foreach ($request['Tel_Emp'] as $item => $value) {
+                    $request2 = array(
+                        'Id_Emp' => $Id_Emp,
+                        'Tel_Emp' => $request['Tel_Emp'][$item]
+                    );
+                    Telemp::create($request2);
+                }
             }
         }
+
 
 
 

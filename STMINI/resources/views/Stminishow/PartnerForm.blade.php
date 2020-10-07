@@ -70,7 +70,7 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <table class="table table-borderd" id="tel">
                         <tr>
                             <th class="font_green th1">เบอร์โทรศัพท์</th>
@@ -82,7 +82,37 @@
                                     <input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                 </div>
                             </th>
+
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-borderd" id="tel">
+                        <tr>
+                            <th class="font_green th1">สินค้า</th>
+                            <th></th>
+                            <th><input type="button" class="btn btn-success addRowTel" value="+"></th>
+                        </tr>
+                        <tr>
+                            <div class="row">
+                                <th>
+                                    <div class="col-md- form-group">
+                                        <select class="form-control" name="Id_Product">
+                                            @foreach($products as $product)
+                                            <option value="{{$product->Id_Product}}">{{$product->Name_Product}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-sm form-group">
+                                        <input type="text" class="form-control" name="cost[]" id="cost" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    </div>
+                                </th>
+
+                                <th><input type="button" class="btn btn-danger remove" value="x"></th>
+                            </div>
                         </tr>
                     </table>
                 </div>
@@ -149,18 +179,19 @@
     $('.addRowTel').on('click', function() {
         addRowTel();
     });
-    function onlyNumberKey(evt) { 
-          
-          
-          var ASCIICode = (evt.which) ? evt.which : evt.keyCode 
-          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) 
-              return false; 
-          return true; 
-      } 
-    
+
+    function onlyNumberKey(evt) {
+
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+
 
     function addRowTel() {
-        var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
+        var addrow = '<tr>' + '<td> <select class="form-control" name="Id_Product"></select><input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
         $('#tel').append(addrow);
     }

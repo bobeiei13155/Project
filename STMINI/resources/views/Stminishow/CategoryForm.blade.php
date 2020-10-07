@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="Name_Category">ชื่อประเภทสินค้า</label>
-                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" placeholder="ชื่อประเภทสินค้า">
+                    <input type="text" class="form-control" name="Name_Category" id="Name_Category" placeholder="ชื่อประเภทสินค้า"  minlength="8" pattern=^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$ required>
                 </div>
             </div>
         </div>

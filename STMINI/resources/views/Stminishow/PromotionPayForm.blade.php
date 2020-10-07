@@ -63,7 +63,7 @@
                 </tr>
             </thead>
             @if(empty($CartItems->items))
-            
+
             <tbody class="font_green ">
                 <tr>
                     <td colspan="6"> ไม่มีสินค้าของแถม </td>
@@ -88,7 +88,7 @@
                     <td class="" style="vertical-align:middle">
                         <div class="">
                             <a class="" href="/Stminishow/incrementCart/{{$item['data']['Id_Premium_Pro']}}"> + </a>
-                            <input  class="numbertext" type="text" name="quantity[]" value="{{$item['quantity']}}" autocomplete="off" size="2" >
+                            <input class="numbertext" type="text" name="quantity[]" value="{{$item['quantity']}}" autocomplete="off" size="2" >
                             <a class="" href="/Stminishow/decrementCart/{{$item['data']['Id_Premium_Pro']}}"> - </a>
                         </div>
                     </td>
@@ -103,7 +103,7 @@
         </table>
 
         @if($CartItems == null){
-            <div class="container">
+        <div class="container">
             <div class="row">
                 <div class="col-sm-12 font_green">
                     <div class="total_area">
@@ -144,8 +144,6 @@
             return false;
         return true;
     }
-
-
 </script>
 
 @endsection

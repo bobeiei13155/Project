@@ -11,7 +11,7 @@
     </div>
     @endif
 </div>
-<div class="container  font_green" style = "font-size:16px">
+<div class="container  font_green" style="font-size:16px">
     <br>
     <h2>แก้ไขพนักงาน</h2>
     <form action="/Stminishow/updateEmployee/{{$employee->Id_Emp}}" method="post" enctype="multipart/form-data">
@@ -25,29 +25,33 @@
                 </div>
                 <div class="col-md-4">
                     <label for="LName_Emp">นามสกุล</label>
-                    <input type="text" class="form-control"  name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" value="{{$employee->LName_Emp}}">
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" value="{{$employee->LName_Emp}}">
                 </div>
                 <div class="col-sm-2">
                     <label for="Position_Id">ตำแหน่ง</label>
-                    <select class="form-control" name="Position_Id">
-                        <option value="{{$employee->Position_Id}}">
-                            @foreach($positions as $position)
-                            @if($employee->Position_Id == $position->Id_Position)
-                            {{$position->Name_Position}}
-                            @endif
-                            @endforeach
-                        </option>
+                    <select name="Position_Id" class="form-control">
                         @foreach($positions as $position)
-                        <option value="{{$position->Id_Position}}">{{$position->Name_Position}}</option>
+                        <option value="{{$position->Id_Position}}" @if($position->Id_Position == $employee->Position_Id)selected
+                            @endif
+                            >{{$position->Name_Position}}
+                        </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-sm-2">
                     <label for="Sex_Emp">เพศ</label>
                     <select class="form-control" name="Sex_Emp">
-                        <option value="{{$employee->Sex_Emp}}" selected>{{$employee->Sex_Emp}}</option>
-                        <option value="ชาย">ชาย</option>
+                        @if($employee->Sex_Emp == "ชาย" ){
+                        <option value="ชาย" selected>
+                            {{$employee->Sex_Emp}}</option>
                         <option value="หญิง">หญิง</option>
+                        }@else{
+                        
+                        <option value="หญิง" selected>
+                            {{$employee->Sex_Emp}}</option>
+                        <option value="ชาย">ชาย</option>
+                        }
+                        @endif
                     </select>
                 </div>
             </div>
@@ -66,7 +70,7 @@
         </div>
         <div class="form-group">
             <div class="row">
-                
+
                 <div class="col-md-6">
                     <label for="Address_Emp">ที่อยู่</label>
                     <input type="text" class="form-control" name="Address_Emp" id="Address_Emp" placeholder="ที่อยู่" value="{{$employee->Address_Emp}}">
@@ -92,11 +96,13 @@
                                 @foreach($list as $row)
                                 @if($employee->Province_Id == $row->PROVINCE_ID)
                                 {{$row->PROVINCE_NAME}}
+
                                 @endif
                                 @endforeach
                             </option>
 
                             @foreach($list as $row)
+
                             <option value="{{$row->PROVINCE_ID}}">{{$row->PROVINCE_NAME}}</option>
                             @endforeach
                         </select>
@@ -169,14 +175,14 @@
                         </tr>
                         @foreach($telemps as $row)
                         <tr>
-                        
+
                             <th>
-                               
+
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp"  value="{{$row->TEL_EMP}}"placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" value="{{$row->TEL_EMP}}" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                 </div>
-                               
+
                             </th>
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>
                         </tr>
@@ -185,8 +191,8 @@
                 </div>
             </div>
         </div>
-       
-                        
+
+
         <button type="submit" name="submit" class="btn btn-success">แก้ไข</button>
 
         <a class="btn btn-danger my-2" href="/Stminishow/showEmployee">กลับ</a>
@@ -250,14 +256,14 @@
         addRowTel();
     });
 
-    function onlyNumberKey(evt) { 
-          
-          
-          var ASCIICode = (evt.which) ? evt.which : evt.keyCode 
-          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) 
-              return false; 
-          return true; 
-      } 
+    function onlyNumberKey(evt) {
+
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
 
     function addRowTel() {
         var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์"  maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +

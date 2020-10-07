@@ -27,15 +27,16 @@ class PromotionController extends Controller
 
     public function indexPay()
     {
+        
         $CartPromotionPay = Session::get('CartPromotionPay'); //ดึงข้อมูลตะกร้า
 
         // $n = null ;
-        //dd($CartPromotionPay);
+        //  dd($CartPromotionPay);
 
         if ($CartPromotionPay) {
             return view("Stminishow.PromotionPayForm", ['CartItems' => $CartPromotionPay])->with("premium_pros", PremiumPro::all())->with("payment_amounts", payment_amount::all());
         } else {
-
+             
             return view("Stminishow.PromotionPayForm", ['CartItems' => $CartPromotionPay])->with("premium_pros", PremiumPro::all())->with("payment_amounts", payment_amount::all());
         }
     }
@@ -66,7 +67,7 @@ class PromotionController extends Controller
             // 'Payment_Amount' => 'required',
             // 'Sdate_Promotion' => 'required',
             // 'Edate_Promotion' => 'required',
-          
+
         ]);
         $payment_amount = new payment_amount;
         $payment_amount->Id_Promotion = $Id_Promotion;
@@ -76,13 +77,13 @@ class PromotionController extends Controller
         $payment_amount->Edate_Promotion = $request->Edate_Promotion;
 
         //  //dd($request);
-         $payment_amount->save();
-            
+        $payment_amount->save();
+
         if (empty($CartPromotionPay->items)) {
             Session()->flash("warning", "ต้องมีสินค้าของแถม 1 ชิ้น");
             return redirect('/Stminishow/createPromotionPay');
         } else {
-            
+
             foreach ($CartPromotionPay->items as $item) {
                 //dd($CartPromotionPay);
                 $request2 = array(
@@ -92,7 +93,6 @@ class PromotionController extends Controller
                 );
                 //dd($request2);
                 premium_payments::create($request2);
-               
             }
             Session()->flash("success", "เพิ่มโปรโมชั่นยอดชำระสำเร็จ");
             Session::forget("CartPromotionPay");
@@ -149,8 +149,9 @@ class PromotionController extends Controller
     {
         $payment_amounts = payment_amount::find($Id_Promotion);
         $premium_payments = DB::table('premium_payments')->where('Id_Promotion', $Id_Promotion)->get();
-        
-        $CartPromotionPay = Session::get('CartPromotionPay');
+
+         $CartPromotionPay = session()->get('CartPromotionPay.teams', $premium_payments);
+        // dd($CartPromotionPay);
         return view("Stminishow.EditPromotionForm", ['payment_amounts' => $payment_amounts])->with("CartItems", $CartPromotionPay)->with("premium_payments", $premium_payments)->with("premium_pros", PremiumPro::all());
     }
 
@@ -229,5 +230,11 @@ class PromotionController extends Controller
             Session()->flash("warning", "ต้องมีสินค้าของแถม 1 ชิ้น");
         }
         return redirect('/Stminishow/createPromotionPay');
+    }
+    public function delete($Id_PremiumPro)
+    {
+        payment_amount::destroy($Id_PremiumPro);
+        Session::forget("CartPromotionPay");
+        return redirect('/Stminishow/ShowPromotionPay');
     }
 }

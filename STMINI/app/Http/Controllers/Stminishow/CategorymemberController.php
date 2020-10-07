@@ -15,8 +15,19 @@ class CategorymemberController extends Controller
      */
     public function index()
     {  $categorymembers= categorymember::paginate(5);
-        return view('Stminishow.Categorymember',compact("categorymembers"));
+        return view('Stminishow.CategorymemberForm',compact("categorymembers"));
       
+    }
+
+
+    public function searchCMB(Request $request)
+    {
+
+        $searchCMB = $request->SearchCMB;
+        $categorymembers = DB::table('categorymembers')
+            ->where('Name_Cmember', "LIKE", "%{$searchCMB}%")
+            ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);  
+        return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers);
     }
 
     /**
@@ -83,9 +94,11 @@ class CategorymemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Id_Cmember)
     {
-        //
+        $categorymembers=categorymember::find($Id_Cmember);
+       
+        return view('Stminishow.EditCategorymemberForm',['categorymembers'=>$categorymembers]);
     }
 
     /**
@@ -95,9 +108,19 @@ class CategorymemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Id_Cmember)
     {
-        //
+        $request->validate([
+            'Name_Cmember' => 'required',
+            'Discount_Cmember' => 'required'
+        ]);
+        // dd($request->Gen_Id);
+        $categorymembers = categorymember::find($Id_Cmember);
+        $categorymembers->Name_Cmember = $request->Name_Cmember;
+        $categorymembers->Discount_Cmember = $request->Discount_Cmember;
+        $categorymembers->save();
+
+        return redirect('/Stminishow/createCategorymember');
     }
 
     /**
@@ -106,8 +129,9 @@ class CategorymemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($Id_Cmember)
     {
-        //
+        categorymember::destroy($Id_Cmember);
+        return redirect('/Stminishow/createCategorymember');
     }
 }

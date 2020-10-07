@@ -25,7 +25,7 @@
   <table class="table">
     <thead class="thead-green">
       <tr class="line">
-        <th scope="col">รหัส</th>
+        <th scope="col">รหัสพนักงาน</th>
         <th scope="col">ชื่อ</th>
         <th scope="col">นามสกุล</th>
         <th scope="col">อีเมล</th>
@@ -44,7 +44,7 @@
         <td>{{$employee->FName_Emp}}</td>
         <td>{{$employee->LName_Emp}}</td>
         <td>{{$employee->Email_Emp}}</td>
-        <td>{{$employee->Salary_Emp}}</td>
+        <td>{{number_format($employee->Salary_Emp,2)}}</td>
         <td>
           @foreach($positions as $position)
           @if($employee->Position_Id == $position->Id_Position)
@@ -63,8 +63,9 @@
       @endforeach
     </tbody>
   </table>
-
-  {{$employees->links()}} 
+  
+  {{$employees->links()}}
+  
 
 </div>
 @endsection

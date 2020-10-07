@@ -73,7 +73,7 @@ class CategoryController extends Controller
         $category = new Category;
         $category->Id_Category = $Id_Category;
         $category->Name_Category = $request->Name_Category;
-        $category->save();
+        #$category->save();
         return redirect('/Stminishow/createCategory');
     }
 
