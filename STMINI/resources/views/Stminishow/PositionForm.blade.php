@@ -21,8 +21,9 @@
 
                 <p id="demo"></p>
                 <div class="col-md-4">
+                <!--   -->
                     <label for="Name_Position" class="font_green">ชื่อตำแหน่ง</label>
-                    <input type="text" class="form-control" name="Name_Position" id="Name_Position" placeholder="ชื่อตำแหน่ง" placeholder="ชื่อตำแหน่ง" pattern="^[ก-๛]+$" title="กรุณากรอกกาษาไทย">
+                    <input type="text" class="form-control" name="Name_Position" id="Name_Position" placeholder="ชื่อตำแหน่ง" placeholder="ชื่อตำแหน่ง" pattern="^[ก-๛]+$" title="กรุณากรอกกาษาไทย" >
                 </div>
             </div>
         </div>
@@ -77,19 +78,19 @@
             </div>
             <div class="col-sm-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="offerorder " id="inlineCheckbox8" value="option1">
+                    <input class="form-check-input" type="checkbox" name="offerorder" id="inlineCheckbox8" value="option1">
                     <label class="form-check-label font_green" for="inlineCheckbox8">เสนอสั่งซื้อสินค้า</label>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="approveorder " id="inlineCheckbox9" value="option1">
+                    <input class="form-check-input" type="checkbox" name="approveorder" id="inlineCheckbox9" value="option1">
                     <label class="form-check-label font_green" for="inlineCheckbox9">อนุมัติสั่งซื้อสินค้า</label>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="order " id="inlineCheckbox10" value="option1">
+                    <input class="form-check-input" type="checkbox" name="order" id="inlineCheckbox10" value="option1">
                     <label class="form-check-label font_green" for="inlineCheckbox10">สั่งซื้อสินค้า</label>
                 </div>
             </div>
@@ -123,7 +124,7 @@
         </div>
 
         <br>
-        <button type="submit" name="submit" class="btn btn-success" >เพิ่ม</button>
+        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
 
         <a class="btn btn-danger my-2" href="/Stminishow/showPosition">กลับ</a>
     </form>

@@ -21,11 +21,11 @@
 
                 <div class="col-md-4">
                     <label for="FName_Emp" class="font_green">ชื่อ</label>
-                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" required>
+                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" >
                 </div>
                 <div class="col-md-4">
                     <label for="LName_Emp" class="font_green">นามสกุล</label>
-                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" required>
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" >
                 </div>
                 <div class="col-sm-2">
                     <label for="Position_Id" class="font_green">ตำแหน่ง</label>
@@ -74,7 +74,7 @@
                 <div class="col-md-3">
                     <label for="Idcard_Emp" class="font_green">รหัสบัตรประชาชน</label>
                     
-                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required> 
+                    <input type="text" class="form-control" name="Idcard_Emp" id="Idcard_Emp" placeholder="รหัสบัตรประชาชน" maxlength="13"  pattern="[0-9]{13}" title="กรุณาให้ให้ครบ 13 ตัว" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required> 
                     <span class="error"></span>
                 </div>
             </div>
@@ -243,9 +243,9 @@
                 id = $(this).val().replace(/-/g, "");
                 var result = Script_checkID(id);
                 if (result === false) {
-                    $('span.error').removeClass('true').text('เลขบัตรผิด');
+                    $('span.error').removeClass('true').text('เลขบัตรผิด').css({'color':'#8ec641'});
                 } else {
-                    $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
+                    $('span.error').addClass('true').text('เลขบัตรถูกต้อง').css({'color':'#8ec641'});
                 }
             } else {
                 $('span.error').removeClass('true').text('');

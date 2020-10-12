@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Categorymember;
 use Illuminate\Support\Facades\DB;
+
 class CategorymemberController extends Controller
 {
     /**
@@ -14,9 +15,9 @@ class CategorymemberController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  $categorymembers= categorymember::paginate(5);
-        return view('Stminishow.CategorymemberForm',compact("categorymembers"));
-      
+    {
+        $categorymembers = categorymember::paginate(5);
+        return view('Stminishow.CategorymemberForm', compact("categorymembers"));
     }
 
 
@@ -25,8 +26,9 @@ class CategorymemberController extends Controller
 
         $searchCMB = $request->SearchCMB;
         $categorymembers = DB::table('categorymembers')
-            ->where('Name_Cmember', "LIKE", "%{$searchCMB}%")
-            ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);  
+            ->where('Id_Cmember', "LIKE", "%{$searchCMB}%")
+            ->orwhere('Name_Cmember', "LIKE", "%{$searchCMB}%")
+            ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);
         return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers);
     }
 
@@ -67,7 +69,7 @@ class CategorymemberController extends Controller
         $request->validate([
             'Name_Cmember' => 'required|unique:categorymembers',
             'Discount_Cmember' => 'required|unique:categorymembers'
-            
+
         ]);
         $categorymember = new categorymember;
         $categorymember->Id_Cmember = $Id_Cmember;
@@ -96,9 +98,9 @@ class CategorymemberController extends Controller
      */
     public function edit($Id_Cmember)
     {
-        $categorymembers=categorymember::find($Id_Cmember);
-       
-        return view('Stminishow.EditCategorymemberForm',['categorymembers'=>$categorymembers]);
+        $categorymembers = categorymember::find($Id_Cmember);
+
+        return view('Stminishow.EditCategorymemberForm', ['categorymembers' => $categorymembers]);
     }
 
     /**

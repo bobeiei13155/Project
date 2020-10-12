@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Route;
 //ล็อคอิน
 
  
-Route::get('logout', 'Stminishow\LoginController@logout');
-Route::get('login', 'Stminishow\LoginController@index');
-Route::post('login', 'Stminishow\LoginController@login');
-
+Route::get('/logout', 'Stminishow\LoginController@logout');
+Route::get('/login', 'Stminishow\LoginController@index');
+Route::post('/login', 'Stminishow\LoginController@login');
+Route::get('/Stminishow/indexform', 'Stminishow\LoginController@indexform');
 //พนักงาน
 
 Route::get('/Stminishow/SearchEmployee', 'Stminishow\EmployeeController@searchEmp');
-Route::get('/Stminishow/indexform', 'Stminishow\EmployeeController@indexform');
-Route::get('/Stminishow/showEmployee', 'Stminishow\EmployeeController@ShowEmp');
-Route::get('/Stminishow/createEmployee', 'Stminishow\EmployeeController@index');
+
+Route::get('/Stminishow/showEmployee', 'Stminishow\EmployeeController@ShowEmp');//ทำสิทธิ์แล้ว
+Route::get('/Stminishow/createEmployee', 'Stminishow\EmployeeController@index');//ทำสิทธิ์แล้ว
 Route::post('/Stminishow/createEmployee', 'Stminishow\EmployeeController@store');
 Route::post('/Stminishow/createEmployee/f_amphures', 'Stminishow\EmployeeController@f_amphures')->name('Employee.f_amphures');
 Route::post('/Stminishow/createEmployee/f_districts', 'Stminishow\EmployeeController@f_districts')->name('Employee.f_districts');
@@ -34,12 +34,13 @@ Route::post('/Stminishow/updateEmployee/{Id_Emp}', 'Stminishow\EmployeeControlle
 Route::get('/Stminishow/deleteEmployee/{Id_Emp}', 'Stminishow\EmployeeController@delete');
 //ตำแหน่ง
 
-Route::get('/Stminishow/showPosition', 'Stminishow\PositionController@ShowPosition');
-Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');
+Route::get('/Stminishow/SearchPOS', 'Stminishow\PositionController@searchPOS');
+Route::get('/Stminishow/showPosition', 'Stminishow\PositionController@ShowPosition');//ทำสิทธิ์แล้ว
+Route::get('/Stminishow/createPosition', 'Stminishow\PositionController@index');//ทำสิทธิ์แล้ว
 Route::post('/Stminishow/createPosition', 'Stminishow\PositionController@store');
-Route::get('/Stminishow/editPosition/{Id_Position}', 'Stminishow\PositionController@edit');
+Route::get('/Stminishow/editPosition/{Id_Position}', 'Stminishow\PositionController@edit');//ทำสิทธิ์แล้ว
 Route::post('/Stminishow/updatePosition/{Id_Position}', 'Stminishow\PositionController@update');
-Route::get('/Stminishow/deletePosition/{Id_Position}', 'Stminishow\PositionController@delete');
+Route::get('/Stminishow/deletePosition/{Id_Position}', 'Stminishow\PositionController@delete');//ทำสิทธิ์แล้ว
 
 
 

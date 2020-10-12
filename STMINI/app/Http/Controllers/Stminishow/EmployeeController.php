@@ -22,11 +22,6 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexform()
-    {
-        return redirect('/layouts/stmininav');
-    }
-
 
 
     public function searchEmp(Request $request)
@@ -56,9 +51,21 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-        $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
+        if (session()->has('login')) {
+            if (session()->has('loginpermission1')) {
+                Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
+       
     }
 
     public function f_amphures(Request $request)
@@ -116,11 +123,21 @@ class EmployeeController extends Controller
      */
     public function ShowEmp()
     {
-        Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
-        $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')->paginate(5);
-        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-        $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        return view('Stminishow.ShowEmployeeForm')->with('employees',$employees)->with('list', $list)->with('am', $am)->with('positions', Position::all());
+        if (session()->has('login')) {
+            if (session()->has('loginpermission1')) {
+                Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')->paginate(5);
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                return view('Stminishow.ShowEmployeeForm')->with('employees', $employees)->with('list', $list)->with('am', $am)->with('positions', Position::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
 
@@ -132,7 +149,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
 
             // 'FName_Emp' => 'required',
@@ -155,16 +172,21 @@ class EmployeeController extends Controller
         ]);
 
 
-        
+
 
         $GenId = DB::table('employees')->max('Id_Emp');
         $GenId_Emp = substr($GenId, 11, 14) + 1;
-        if ($GenId_Emp < 10) {
-            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_Emp;
-        } elseif ($GenId_Emp >= 10 && $GenId_Emp < 100) {
-            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_Emp;
-        } elseif ($GenId_Emp >= 100) {
-            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . $GenId_Emp;
+        if (is_null($GenId)) {
+            $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "000";
+        } else {
+
+            if ($GenId_Emp < 10) {
+                $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_Emp;
+            } elseif ($GenId_Emp >= 10 && $GenId_Emp < 100) {
+                $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_Emp;
+            } elseif ($GenId_Emp >= 100) {
+                $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . $GenId_Emp;
+            }
         }
         $employee = new Employee;
         $employee->FName_Emp = $request->FName_Emp;
@@ -183,9 +205,9 @@ class EmployeeController extends Controller
         $employee->District_Id = $request->District_Id;
         $employee->Postcode_Id = $request->Postcode_Id;
         $employee->Subdistrict_Id = $request->Subdistrict_Id;
-        
-        // $employee->save();
 
+
+        $employee->save();
 
         if (is_null($request['Tel_Emp'])) {
 
@@ -193,22 +215,23 @@ class EmployeeController extends Controller
                 'Tel_Emp0' =>  'required'
             ]);
         } else {
-            if (array_unique($request['Tel_Emp'])) {
-                Session()->flash("warning", "ห้ามมีเบอร์ซ้ำกัน");
-                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-                $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-                return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
-                
-            } else {
-                foreach ($request['Tel_Emp'] as $item => $value) {
-                    $request2 = array(
-                        'Id_Emp' => $Id_Emp,
-                        'Tel_Emp' => $request['Tel_Emp'][$item]
-                    );
-                    Telemp::create($request2);
-                }
-            };
+            // if (array_unique($request['Tel_Emp'])) {
+            //     Session()->flash("warning", "ห้ามมีเบอร์ซ้ำกัน");
+            //     $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+            //     $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+            //     return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
+
+            // } else {
+            foreach ($request['Tel_Emp'] as $item => $value) {
+                $request2 = array(
+                    'Id_Emp' => $Id_Emp,
+                    'Tel_Emp' => $request['Tel_Emp'][$item]
+                );
+                Telemp::create($request2);
+            }
         };
+        // };
+
 
 
 

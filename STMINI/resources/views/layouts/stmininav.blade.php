@@ -136,8 +136,9 @@
     <div class="col">
       <div class="float-right">
         <div class="dropdown">
-          <label class="dropbtn">{{Session::get('login')}}</label>
+          <label class="dropbtn">{{session()->get('login')}}</label>
           <div class="dropdown-content">
+         
             <a href="/logout">logout</a>
           </div>
         </div>
@@ -158,6 +159,11 @@
   @if(Session()->has('success'))
   <div class="alert alert-success" role="alert">
     {{Session()->get('success')}}
+  </div>
+  @endif
+  @if(Session()->has('echo'))
+  <div class="alert alert-danger" role="alert">
+    {{Session()->get('echo')}}
   </div>
   @endif
   @if(Session()->has('warning'))

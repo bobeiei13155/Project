@@ -14,7 +14,7 @@
 </div>
 <div class="container  font_green">
     <br>
-    <h2 class="font_green">ข้อมูลตำแหน่ง</h2>
+    <h2 class="font_green">ค้นหาข้อมูลตำแหน่ง</h2>
     <form action="/Stminishow/SearchPOS" method="GET">
         <div class="row">
             <div class="col-md-2">

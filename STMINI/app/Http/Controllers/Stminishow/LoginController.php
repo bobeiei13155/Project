@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Stminishow;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Employee;
 use Illuminate\Support\Facades\Session;
+
 class LoginController extends Controller
 {
     /**
@@ -15,10 +17,15 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login');
+        return view('loginstmini');
     }
 
-   
+    public function indexform()
+    {
+        return redirect('/layouts/stmininav');
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,26 +38,101 @@ class LoginController extends Controller
             'Username' => 'required',
             'Password' => 'required'
         ]);
-        $Username=$request->Username;
-        $Password=$request->Password;
-        $Username_Emp = DB::table('employees')->select('Id_Emp','Username_Emp')->where('Username_Emp','=',"{$Username}")->get();
-        $Password_Emp = DB::table('employees')->select('Id_Emp','Password_Emp')->where('Password_Emp','=',"{$Password}")->get();
-        //dd($Username_Emp);
-    
-        $Username_Emp = json_decode(json_encode($Username_Emp), true);
-        $Password_Emp = json_decode(json_encode($Password_Emp), true);
-        if(empty($Username_Emp)||empty($Password_Emp)){
-            Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
-            return view('login');
+        $Usernameold = $request->Username;
+        $Passwordold = $request->Password;
+        $checkusername = DB::table('employees')
+            ->select('Username_Emp',)
+            ->where('Username_Emp', '=', "{$Usernameold}")->get();
+        $checkpassword = DB::table('employees')
+            ->select('Password_Emp',)
+            ->where('Password_Emp', '=', "{$Passwordold}")->get();
+        $Username = json_decode(json_encode($checkusername), true);
+        $Password = json_decode(json_encode($checkpassword), true);
+        $Permission = Employee::join('positions', 'employees.Position_Id', "=", 'positions.Id_Position')
+            ->select('Permission')->where('Username_Emp', '=', "{$Usernameold}")
+            ->get();
 
-        }else{
+        $loginpermission = [
+            substr($Permission[0]->Permission, 0, 1), substr($Permission[0]->Permission, 1, 1),
+            substr($Permission[0]->Permission, 2, 1), substr($Permission[0]->Permission, 3, 1),
+            substr($Permission[0]->Permission, 4, 1), substr($Permission[0]->Permission, 5, 1),
+            substr($Permission[0]->Permission, 6, 1), substr($Permission[0]->Permission, 7, 1),
+            substr($Permission[0]->Permission, 8, 1), substr($Permission[0]->Permission, 9, 1),
+            substr($Permission[0]->Permission, 10, 1), substr($Permission[0]->Permission, 11, 1),
+            substr($Permission[0]->Permission, 12, 1),
+        ];
+
+        if (empty($Username) || empty($Password)) {
+            Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+            return redirect('/login');
+        } else {
+
             Session()->flash("success", "เข้าสู่ระบบสำเร็จ");
-            session()->put('login',$Username);
-          
-            // $value = session()->pull('login',$Username);
-            
-             return view('/Stminishow/indexform')->with('login',$Username);
-        }
+            $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
+            if ($loginpermission[0] == 1) {
+                $request->session()->put(['loginpermission1' => $loginpermission[0]]);
+            }
+            // dd($loginpermission[0]);
+            if ($loginpermission[1] == 1) {
+                $request->session()->put(['loginpermission2' => $loginpermission[1]]);
+            }
+            if ($loginpermission[2] == 1) {
+                $request->session()->put(['loginpermission3' => $loginpermission[2]]);
+            }
+            if ($loginpermission[3] == 1) {
+                $request->session()->put(['loginpermission4' => $loginpermission[3]]);
+            }
+            if ($loginpermission[4] == 1) {
+                $request->session()->put(['loginpermission5' => $loginpermission[4]]);
+            }
+            if ($loginpermission[5] == 1) {
+                $request->session()->put(['loginpermission6' => $loginpermission[5]]);
+            }
+            if ($loginpermission[6] == 1) {
+                $request->session()->put(['loginpermission7' => $loginpermission[6]]);
+            }
+            if ($loginpermission[7] == 1) {
+                $request->session()->put(['loginpermission8' => $loginpermission[7]]);
+            }
+            if ($loginpermission[8] == 1) {
+                $request->session()->put(['loginpermission9' => $loginpermission[8]]);
+            }
+            if ($loginpermission[9] == 1) {
+                $request->session()->put(['loginpermission10' => $loginpermission[9]]);
+            }
+            if ($loginpermission[10] == 1) {
+                $request->session()->put(['loginpermission11' => $loginpermission[10]]);
+            }
+            if ($loginpermission[11] == 1) {
+                $request->session()->put(['loginpermission12' => $loginpermission[11]]);
+            }
+            if ($loginpermission[12] == 1) {
+                $request->session()->put(['loginpermission13' => $loginpermission[12]]);
+            }
+
+
+            return view('/Stminishow/indexform')->with('login', $request->session());
+        };
+
+
+
+
+        // dd($logpermiss[0]);
+
+        //dd($Username_Emp);
+
+        // $Username_Emp = json_decode(json_encode($Username_Emp), true);
+        // $Password_Emp = json_decode(json_encode($Password_Emp), true);
+        // if (empty($Username_Emp) || empty($Password_Emp)) {
+        //     Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+        //     return view('login');
+        // } else {
+        //     
+
+
+
+        //     return view('/Stminishow/indexform')->with('login', $Username);
+        // }
         // if(empty($Username_Emp->items)){
         //     Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         //     return view('login');
@@ -59,14 +141,15 @@ class LoginController extends Controller
         //     Session()->flash("success", "เข้าสู่ระบบสำเร็จ");
         //     return view('/Stminishow/showEmployee');
         // }
-      
+
 
     }
 
     public function logout()
     {
+        Session()->flash("warning", "ออกจากระบบสำเร็จ");
         session()->flush();
-        return redirect('login');
+        return redirect('/login');
     }
 
     /**

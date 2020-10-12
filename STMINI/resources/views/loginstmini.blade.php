@@ -79,7 +79,7 @@
 <body class="text-center container-fluid">
     {{csrf_field()}}
     <div class="row form-group h-100 justify-content-center align-items-center ">
-        <form action="login" method="post" class="form-signin col-md-4 card p-5 bg-green">
+        <form action="/login" method="POST" class="form-signin col-md-4 card p-5 bg-green">
             {{csrf_field()}}
             <h1 class="h3 mb-5 font-weight-normal" style="color:#8ec641">STMINI</h1>
             @if(Session()->has('success'))
