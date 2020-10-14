@@ -21,8 +21,19 @@ class PromotionController extends Controller
      */
     public function ShowPromotionPay()
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                return view("Stminishow.ShowPromotionPayForm")->with("payment_amounts", payment_amount::paginate(5))->with("premium_pros", PremiumPro::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        return view("Stminishow.ShowPromotionPayForm")->with("payment_amounts", payment_amount::paginate(5))->with("premium_pros", PremiumPro::all());
+            return redirect('/login');
+        }
+      
     }
 
     public function indexPay()

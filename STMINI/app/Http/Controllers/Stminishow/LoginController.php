@@ -46,11 +46,13 @@ class LoginController extends Controller
         $checkpassword = DB::table('employees')
             ->select('Password_Emp',)
             ->where('Password_Emp', '=', "{$Passwordold}")->get();
+
         $Username = json_decode(json_encode($checkusername), true);
         $Password = json_decode(json_encode($checkpassword), true);
         $Permission = Employee::join('positions', 'employees.Position_Id', "=", 'positions.Id_Position')
             ->select('Permission')->where('Username_Emp', '=', "{$Usernameold}")
             ->get();
+
 
         $loginpermission = [
             substr($Permission[0]->Permission, 0, 1), substr($Permission[0]->Permission, 1, 1),

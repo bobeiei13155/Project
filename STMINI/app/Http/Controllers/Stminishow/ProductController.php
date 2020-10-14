@@ -24,14 +24,26 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = product::paginate(3);
 
-        return view('Stminishow.ProductForm', compact("products"))
-            ->with('gens', gen::all())
-            ->with('brands', brand::all())
-            ->with('patterns', pattern::all())
-            ->with('colors', color::all())
-            ->with('categories', category::all());
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $products = product::paginate(3);
+
+                return view('Stminishow.ProductForm', compact("products"))
+                    ->with('gens', gen::all())
+                    ->with('brands', brand::all())
+                    ->with('patterns', pattern::all())
+                    ->with('colors', color::all())
+                    ->with('categories', category::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -41,21 +53,33 @@ class ProductController extends Controller
      */
     public function searchPRO(Request $request)
     {
-        $searchPRO = $request->searchPRO;
-        $products = DB::table('products')
-            ->join('categories', 'products.Category_Id', "LIKE", 'categories.Id_Category')
-            ->join('brands', 'products.Brand_Id', "LIKE", 'brands.Id_Brand')
-            ->join('gens', 'products.Gen_Id', "LIKE", 'gens.Id_Gen')
 
-            ->where('Id_Product', "LIKE", "%{$searchPRO}%")
-            ->orwhere('Name_Product', "LIKE", "%{$searchPRO}%")
-            ->orwhere('Name_Category', "LIKE", "%{$searchPRO}%")
-            ->orwhere('Name_Brand', "LIKE", "%{$searchPRO}%")
-            ->orwhere('Name_Gen', "LIKE", "%{$searchPRO}%")->paginate(5);
-        return view("Stminishow.SearchProductForm")->with("products", $products)
-            ->with('gens', gen::all())
-            ->with('brands', brand::all())
-            ->with('categories', Category::all());
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $searchPRO = $request->searchPRO;
+                $products = DB::table('products')
+                    ->join('categories', 'products.Category_Id', "LIKE", 'categories.Id_Category')
+                    ->join('brands', 'products.Brand_Id', "LIKE", 'brands.Id_Brand')
+                    ->join('gens', 'products.Gen_Id', "LIKE", 'gens.Id_Gen')
+
+                    ->where('Id_Product', "LIKE", "%{$searchPRO}%")
+                    ->orwhere('Name_Product', "LIKE", "%{$searchPRO}%")
+                    ->orwhere('Name_Category', "LIKE", "%{$searchPRO}%")
+                    ->orwhere('Name_Brand', "LIKE", "%{$searchPRO}%")
+                    ->orwhere('Name_Gen', "LIKE", "%{$searchPRO}%")->paginate(5);
+                return view("Stminishow.SearchProductForm")->with("products", $products)
+                    ->with('gens', gen::all())
+                    ->with('brands', brand::all())
+                    ->with('categories', Category::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -134,14 +158,25 @@ class ProductController extends Controller
      */
     public function showProduct()
     {
-        $products = product::paginate(3);
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $products = product::paginate(3);
 
-        return view('Stminishow.ShowProductForm', compact("products"))
-            ->with('gens', gen::all())
-            ->with('brands', brand::all())
-            ->with('patterns', pattern::all())
-            ->with('colors', color::all())
-            ->with('categories', category::all());
+                return view('Stminishow.ShowProductForm', compact("products"))
+                    ->with('gens', gen::all())
+                    ->with('brands', brand::all())
+                    ->with('patterns', pattern::all())
+                    ->with('colors', color::all())
+                    ->with('categories', category::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -152,12 +187,24 @@ class ProductController extends Controller
      */
     public function edit($Id_Product)
     {
-        $products = Product::find($Id_Product);
-        return view('Stminishow.EditProductForm', ['products' => $products])->with('gens', gen::all())
-            ->with('brands', brand::all())
-            ->with('patterns', pattern::all())
-            ->with('colors', color::all())
-            ->with('categories', category::all());
+
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $products = Product::find($Id_Product);
+                return view('Stminishow.EditProductForm', ['products' => $products])->with('gens', gen::all())
+                    ->with('brands', brand::all())
+                    ->with('patterns', pattern::all())
+                    ->with('colors', color::all())
+                    ->with('categories', category::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -218,12 +265,23 @@ class ProductController extends Controller
      */
     public function delete($Id_Product)
     {
-        $products = Product::find($Id_Product);
-        $exists = Storage::disk('local')->exists("public/Products_image/" . $products->Img_Product); //เจอไฟล์ภาพชื่อตรงกัน
-        if ($exists) {
-            Storage::delete("public/Products_image/" . $products->Img_Product);
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $products = Product::find($Id_Product);
+                $exists = Storage::disk('local')->exists("public/Products_image/" . $products->Img_Product); //เจอไฟล์ภาพชื่อตรงกัน
+                if ($exists) {
+                    Storage::delete("public/Products_image/" . $products->Img_Product);
+                }
+                Product::destroy($Id_Product);
+                return redirect('/Stminishow/ShowProduct');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
         }
-        Product::destroy($Id_Product);
-        return redirect('/Stminishow/ShowProduct');
     }
 }

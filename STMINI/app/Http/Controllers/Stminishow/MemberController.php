@@ -18,15 +18,36 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-        $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        return view('Stminishow.MemberForm')->with('list', $list)->with('am', $am)->with('categorymembers', categorymember::all());
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                return view('Stminishow.MemberForm')->with('list', $list)->with('am', $am)->with('categorymembers', categorymember::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
     public function ShowMem()
     {
-        $members = member::paginate(5);
-        $telmems = Telmem::all();
-        return view('Stminishow.ShowMemberForm', compact("members"))->with('telmems', $telmems)->with('categorymembers', categorymember::all());
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                $members = member::paginate(5);
+                $telmems = Telmem::all();
+                return view('Stminishow.ShowMemberForm', compact("members"))->with('telmems', $telmems)->with('categorymembers', categorymember::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -35,16 +56,25 @@ class MemberController extends Controller
      */
     public function searchMEM(Request $request)
     {
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                $searchMEM = $request->searchMEM;
+                $members = DB::table('members')
+                    ->join('categorymembers', 'members.Cmember_Id', "LIKE", 'categorymembers.Id_Cmember')
+                    ->join('telmems', 'members.Id_Member', '=', 'telmems.Id_Member')
+                    ->where('members.Id_Member', "LIKE", "%{$searchMEM}%")
+                    ->orwhere('FName_Member', "LIKE", "%{$searchMEM}%")
+                    ->orwhere('LName_Member', "LIKE", "%{$searchMEM}%")
+                    ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")->paginate(5);
+                return view("Stminishow.SearchMemberForm")->with("members", $members)->with('categorymembers', categorymember::all())->with('telmems', telmem::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $searchMEM = $request->searchMEM;
-        $members = DB::table('members')
-            ->join('categorymembers', 'members.Cmember_Id', "LIKE", 'categorymembers.Id_Cmember')
-            ->join('telmems', 'members.Id_Member', '=', 'telmems.Id_Member')
-            ->where('members.Id_Member', "LIKE", "%{$searchMEM}%")
-            ->orwhere('FName_Member', "LIKE", "%{$searchMEM}%")  
-            ->orwhere('LName_Member', "LIKE", "%{$searchMEM}%")  
-            ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")->paginate(5);
-        return view("Stminishow.SearchMemberForm")->with("members", $members)->with('categorymembers', categorymember::all())->with('telmems', telmem::all());
+            return redirect('/login');
+        }
     }
     public function f_amphures(Request $request)
     {
@@ -182,19 +212,29 @@ class MemberController extends Controller
      */
     public function edit($Id_Member)
     {
-        $member = Member::find($Id_Member);
-        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-        $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
-        $telmems = DB::table('telmems')->where('Id_Member', $Id_Member)->get();
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                $member = Member::find($Id_Member);
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
+                $telmems = DB::table('telmems')->where('Id_Member', $Id_Member)->get();
 
-        // echo"<pre>";
-        // print_r($telemps);
-        // echo"</pre>";
-        return view('Stminishow.EditMemberForm', ['members' => $member])
-            ->with('telmems', $telmems)->with('subdistrict', $subdistrict)
-            ->with('amphur', $amphur)->with('list', $list)
-            ->with('categorymembers', categorymember::all());
+                // echo"<pre>";
+                // print_r($telemps);
+                // echo"</pre>";
+                return view('Stminishow.EditMemberForm', ['members' => $member])
+                    ->with('telmems', $telmems)->with('subdistrict', $subdistrict)
+                    ->with('amphur', $amphur)->with('list', $list)
+                    ->with('categorymembers', categorymember::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -215,8 +255,19 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($Id_Member)
     {
-        //
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                Member::destroy($Id_Member);
+                return redirect('/Stminishow/showMember');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

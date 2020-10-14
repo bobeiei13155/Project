@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Gen;
 use Illuminate\Support\Facades\DB;
+
 class GenController extends Controller
 {
     /**
@@ -15,18 +16,37 @@ class GenController extends Controller
      */
     public function index()
     {
-        $gens= Gen::paginate(3);
-        return view('Stminishow.GenForm',compact("gens"));
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $gens = Gen::paginate(3);
+                return view('Stminishow.GenForm', compact("gens"));
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     public function searchGEN(Request $request)
     {
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $searchGEN = $request->searchGEN;
+                $gens = DB::table('gens')
+                    ->where('Id_Gen', "LIKE", "%{$searchGEN}%")
+                    ->orwhere('Name_Gen', "LIKE", "%{$searchGEN}%")->paginate(3);
+                return view("Stminishow.SearchGenForm")->with("gens", $gens);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $searchGEN = $request->searchGEN;
-        $gens = DB::table('gens')
-            ->where('Id_Gen', "LIKE", "%{$searchGEN}%")
-            ->orwhere('Name_Gen', "LIKE", "%{$searchGEN}%")->paginate(3);  
-        return view("Stminishow.SearchGenForm")->with("gens", $gens);
+            return redirect('/login');
+        }
     }
 
     /**
@@ -92,9 +112,19 @@ class GenController extends Controller
      */
     public function edit($Id_Gen)
     {
-        $gen=gen::find($Id_Gen);
-       
-        return view('Stminishow.EditGenForm',['gens'=>$gen]);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $gen = gen::find($Id_Gen);
+
+                return view('Stminishow.EditGenForm', ['gens' => $gen]);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -110,8 +140,8 @@ class GenController extends Controller
             'Name_Gen' => 'required|unique:gens'
         ]);
 
-        $gen=gen::find($Id_Gen);
-        $gen->Name_Gen=$request->Name_Gen;
+        $gen = gen::find($Id_Gen);
+        $gen->Name_Gen = $request->Name_Gen;
         $gen->save();
         return redirect('/Stminishow/createGen');
     }
@@ -124,7 +154,17 @@ class GenController extends Controller
      */
     public function delete($Id_Gen)
     {
-        gen::destroy($Id_Gen);
-        return redirect('/Stminishow/createGen');
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                gen::destroy($Id_Gen);
+                return redirect('/Stminishow/createGen');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

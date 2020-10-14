@@ -17,21 +17,40 @@ class CarmodelController extends Controller
      */
     public function index()
     {
-        $carmodels = Carmodel::paginate(3);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $carmodels = Carmodel::paginate(3);
 
-        return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all());
+                return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     public function searchCMD(Request $request)
     {
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $searchCMP = $request->searchCMD;
+                $carmodels = DB::table('carmodels')
+                    ->join('gens', 'carmodels.Gen_Id', "LIKE", 'gens.Id_Gen')
+                    ->where('Id_Carmodel', "LIKE", "%{$searchCMP}%")
+                    ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")
+                    ->orwhere('Name_Gen', "LIKE", "%{$searchCMP}%")->paginate(5);
+                return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels)->with('gens', gen::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $searchCMP = $request->searchCMD;
-        $carmodels = DB::table('carmodels')
-            ->join('gens', 'carmodels.Gen_Id', "LIKE", 'gens.Id_Gen')
-            ->where('Id_Carmodel', "LIKE", "%{$searchCMP}%")
-            ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")
-            ->orwhere('Name_Gen', "LIKE", "%{$searchCMP}%")->paginate(5);
-        return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels)->with('gens', gen::all());
+            return redirect('/login');
+        }
     }
 
     /**
@@ -98,9 +117,19 @@ class CarmodelController extends Controller
      */
     public function edit($Id_Carmodel)
     {
-        $carmodel = carmodel::find($Id_Carmodel);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $carmodel = carmodel::find($Id_Carmodel);
 
-        return view('Stminishow.EditCarmodelForm', ['carmodel' => $carmodel])->with('gens', gen::all());
+                return view('Stminishow.EditCarmodelForm', ['carmodel' => $carmodel])->with('gens', gen::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -132,7 +161,18 @@ class CarmodelController extends Controller
      */
     public function delete($Id_Category)
     {
-        carmodel::destroy($Id_Category);
-        return redirect('/Stminishow/createCarmodel');
+
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                carmodel::destroy($Id_Category);
+                return redirect('/Stminishow/createCarmodel');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

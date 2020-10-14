@@ -16,19 +16,40 @@ class ColorController extends Controller
      */
     public function index()
     {
-        $colors = color::paginate(5);
-        return view('Stminishow.ColorForm', compact("colors"));
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission2')) {
+                $colors = color::paginate(5);
+                return view('Stminishow.ColorForm', compact("colors"));
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
 
     public function searchCLR(Request $request)
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission2')) {
+                $searchCLR = $request->searchCLR;
+                $colors = DB::table('colors')
+                    ->where('Id_Color', "LIKE", "%{$searchCLR}%")
+                    ->orwhere('Name_Color', "LIKE", "%{$searchCLR}%")->paginate(5);
+                return view("Stminishow.SearchColorForm")->with("colors", $colors);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $searchCLR = $request->searchCLR;
-        $colors = DB::table('colors')
-            ->where('Id_Color', "LIKE", "%{$searchCLR}%")
-            ->orwhere('Name_Color', "LIKE", "%{$searchCLR}%")->paginate(5);  
-        return view("Stminishow.SearchColorForm")->with("colors", $colors);
+            return redirect('/login');
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -94,9 +115,20 @@ class ColorController extends Controller
      */
     public function edit($Id_Color)
     {
-        $colors = color::find($Id_Color);
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission2')) {
+                $colors = color::find($Id_Color);
 
-        return view('Stminishow.EditColorForm', ['color' => $colors]);
+                return view('Stminishow.EditColorForm', ['color' => $colors]);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -126,7 +158,18 @@ class ColorController extends Controller
      */
     public function delete($Id_Color)
     {
-        color::destroy($Id_Color);
-        return redirect('/Stminishow/createColor');
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission2')) {
+                color::destroy($Id_Color);
+                return redirect('/Stminishow/createColor');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

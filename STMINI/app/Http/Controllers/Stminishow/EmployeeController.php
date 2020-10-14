@@ -26,26 +26,37 @@ class EmployeeController extends Controller
 
     public function searchEmp(Request $request)
     {
-        //dd($request->searchEmp);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission1')) {
+                Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                //dd($request->searchEmp);
 
-        $searchEmp = $request->searchEmp;
+                $searchEmp = $request->searchEmp;
 
-        // if ($searchposition != Null){
+                // if ($searchposition != Null){
 
-        // };
-        // $datasearch = json_decode(json_encode($searchposition), true);
+                // };
+                // $datasearch = json_decode(json_encode($searchposition), true);
 
-        //  dd($searchposition);
-        $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')
-            ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
-            ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('FName_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('LName_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('Email_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('Salary_Emp', "LIKE", "%{$searchEmp}%")
-            ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(5);
+                //  dd($searchposition);
+                $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')
+                    ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
+                    ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
+                    ->orwhere('FName_Emp', "LIKE", "%{$searchEmp}%")
+                    ->orwhere('LName_Emp', "LIKE", "%{$searchEmp}%")
+                    ->orwhere('Email_Emp', "LIKE", "%{$searchEmp}%")
+                    ->orwhere('Salary_Emp', "LIKE", "%{$searchEmp}%")
+                    ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(5);
 
-        return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
+                return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
 
@@ -65,7 +76,6 @@ class EmployeeController extends Controller
 
             return redirect('/login');
         }
-       
     }
 
     public function f_amphures(Request $request)
@@ -258,15 +268,26 @@ class EmployeeController extends Controller
      */
     public function edit($Id_Emp)
     {
-        $employees = Employee::find($Id_Emp);
-        $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
-        $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
-        $telemps = DB::table('telemps')->where('Id_Emp', $Id_Emp)->get();
-        // echo"<pre>";
-        // print_r($telemps);
-        // echo"</pre>";
-        return view('Stminishow.EditEmployeeForm', ['employee' => $employees])->with('telemps', $telemps)->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list)->with('positions', Position::all());
+        if (session()->has('login')) {
+            if (session()->has('loginpermission1')) {
+                Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                $employees = Employee::find($Id_Emp);
+                $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
+                $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
+                $telemps = DB::table('telemps')->where('Id_Emp', $Id_Emp)->get();
+                // echo"<pre>";
+                // print_r($telemps);
+                // echo"</pre>";
+                return view('Stminishow.EditEmployeeForm', ['employee' => $employees])->with('telemps', $telemps)->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list)->with('positions', Position::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -358,7 +379,18 @@ class EmployeeController extends Controller
      */
     public function delete($Id_Emp)
     {
-        Employee::destroy($Id_Emp);
-        return redirect('/Stminishow/showEmployee');
+        if (session()->has('login')) {
+            if (session()->has('loginpermission1')) {
+                Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
+                Employee::destroy($Id_Emp);
+                return redirect('/Stminishow/showEmployee');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

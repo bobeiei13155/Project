@@ -17,9 +17,6 @@ class PositionController extends Controller
 
     public function searchPOS(Request $request)
     {
-
-
-
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
@@ -37,13 +34,14 @@ class PositionController extends Controller
             return redirect('/login');
         }
     }
+
     public function index()
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
                 $positions = position::all();
-                return view('Stminishow.ShowPositionForm', compact("positions"));
+                return view('Stminishow.PositionForm', compact("positions"));
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -116,6 +114,11 @@ class PositionController extends Controller
         } else {
             $member = 1;
         }
+        if (is_null($request->promotion)) {
+            $promotion = 0;
+        } else {
+            $promotion = 1;
+        }
         if (is_null($request->premiumpro)) {
             $premiumpro = 0;
         } else {
@@ -158,7 +161,7 @@ class PositionController extends Controller
         }
 
         $userpositions = $employee . $position . $product . $partner .
-            $member . $premiumpro . $offerorder . $approveorder .
+            $member . $promotion . $premiumpro . $offerorder . $approveorder .
             $order . $receive . $sell . $Claim . $report;
 
 
@@ -221,19 +224,20 @@ class PositionController extends Controller
                 $product = substr($Permission, 18, 1);
                 $partner = substr($Permission, 19, 1);
                 $member = substr($Permission, 20, 1);
-                $premiumpro = substr($Permission, 21, 1);
-                $offerorder = substr($Permission, 22, 1);
-                $approveorder = substr($Permission, 23, 1);
-                $order = substr($Permission, 24, 1);
-                $receive = substr($Permission, 25, 1);
-                $sell = substr($Permission, 26, 1);
-                $Claim = substr($Permission, 27, 1);
-                $report = substr($Permission, 28, 1);
+                $promotion = substr($Permission, 21, 1);
+                $premiumpro = substr($Permission, 22, 1);
+                $offerorder = substr($Permission, 23, 1);
+                $approveorder = substr($Permission, 24, 1);
+                $order = substr($Permission, 25, 1);
+                $receive = substr($Permission, 26, 1);
+                $sell = substr($Permission, 27, 1);
+                $Claim = substr($Permission, 28, 1);
+                $report = substr($Permission, 29, 1);
 
                 return view('Stminishow.EditPositionForm', ['position' => $position])
                     ->with('employee', $employee)->with('pmposition', $pmposition)
                     ->with('product', $product)->with('partner', $partner)
-                    ->with('member', $member)->with('premiumpro', $premiumpro)
+                    ->with('member', $member)->with('promotion', $promotion)->with('premiumpro', $premiumpro)
                     ->with('offerorder', $offerorder)->with('approveorder', $approveorder)
                     ->with('order', $order)->with('receive', $receive)
                     ->with('sell', $sell)->with('Claim', $Claim)
@@ -257,7 +261,6 @@ class PositionController extends Controller
      */
     public function update(Request $request, $Id_Position)
     {
-
 
         if (is_null($request->employee)) {
             $employee = 0;
@@ -283,6 +286,11 @@ class PositionController extends Controller
             $member = 0;
         } else {
             $member = 1;
+        }
+        if (is_null($request->promotion)) {
+            $promotion = 0;
+        } else {
+            $promotion = 1;
         }
         if (is_null($request->premiumpro)) {
             $premiumpro = 0;
@@ -326,7 +334,7 @@ class PositionController extends Controller
         }
 
         $userpositions = $employee . $position . $product . $partner .
-            $member . $premiumpro . $offerorder . $approveorder .
+            $member . $promotion . $premiumpro . $offerorder . $approveorder .
             $order . $receive . $sell . $Claim . $report;
 
         $request->validate([

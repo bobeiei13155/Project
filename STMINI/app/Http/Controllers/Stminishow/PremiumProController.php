@@ -20,22 +20,43 @@ class PremiumProController extends Controller
 
     public function searchPMP(Request $request)
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                $searchPMP = $request->searchPMP;
 
-        $searchPMP = $request->searchPMP;
 
+                $PremiumPros = DB::table('premium_pros')
+                    ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
+                    ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
+                    ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->get();
+                return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $PremiumPros = DB::table('premium_pros')
-            ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
-            ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
-            ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->get();
-        return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros);
+            return redirect('/login');
+        }
     }
 
 
 
     public function ShowPremiumPro()
     {
-        return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::all());
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -45,8 +66,18 @@ class PremiumProController extends Controller
      */
     public function index()
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                return view('Stminishow.PremiumProForm');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        return view('Stminishow.PremiumProForm');
+            return redirect('/login');
+        }
     }
 
     /**
@@ -121,9 +152,20 @@ class PremiumProController extends Controller
     public function edit($Id_Premium_Pro)
     {
 
-        $PremiumPro = PremiumPro::find($Id_Premium_Pro);
-        // dd($PremiumPro);
-        return view('Stminishow.EditPremiumProForm', ['premium_pros' => $PremiumPro]);
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                $PremiumPro = PremiumPro::find($Id_Premium_Pro);
+                // dd($PremiumPro);
+                return view('Stminishow.EditPremiumProForm', ['premium_pros' => $PremiumPro]);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -168,12 +210,24 @@ class PremiumProController extends Controller
      */
     public function delete($Id_Premium_Pro)
     {
-        $PremiumPro = PremiumPro::find($Id_Premium_Pro);
-        $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
-        if ($exists) {
-            Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
+
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                $PremiumPro = PremiumPro::find($Id_Premium_Pro);
+                $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
+                if ($exists) {
+                    Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
+                }
+                PremiumPro::destroy($Id_Premium_Pro);
+                return redirect('/Stminishow/ShowPremiumPro');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
         }
-        PremiumPro::destroy($Id_Premium_Pro);
-        return redirect('/Stminishow/ShowPremiumPro');
     }
 }

@@ -16,20 +16,40 @@ class CategorymemberController extends Controller
      */
     public function index()
     {
-        $categorymembers = categorymember::paginate(5);
-        return view('Stminishow.CategorymemberForm', compact("categorymembers"));
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+
+                $categorymembers = categorymember::paginate(5);
+                return view('Stminishow.CategorymemberForm', compact("categorymembers"));
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
 
     public function searchCMB(Request $request)
     {
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                $searchCMB = $request->SearchCMB;
+                $categorymembers = DB::table('categorymembers')
+                    ->where('Id_Cmember', "LIKE", "%{$searchCMB}%")
+                    ->orwhere('Name_Cmember', "LIKE", "%{$searchCMB}%")
+                    ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);
+                return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        $searchCMB = $request->SearchCMB;
-        $categorymembers = DB::table('categorymembers')
-            ->where('Id_Cmember', "LIKE", "%{$searchCMB}%")
-            ->orwhere('Name_Cmember', "LIKE", "%{$searchCMB}%")
-            ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);
-        return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers);
+            return redirect('/login');
+        }
     }
 
     /**
@@ -98,9 +118,20 @@ class CategorymemberController extends Controller
      */
     public function edit($Id_Cmember)
     {
-        $categorymembers = categorymember::find($Id_Cmember);
 
-        return view('Stminishow.EditCategorymemberForm', ['categorymembers' => $categorymembers]);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                $categorymembers = categorymember::find($Id_Cmember);
+
+                return view('Stminishow.EditCategorymemberForm', ['categorymembers' => $categorymembers]);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -133,7 +164,17 @@ class CategorymemberController extends Controller
      */
     public function delete($Id_Cmember)
     {
-        categorymember::destroy($Id_Cmember);
-        return redirect('/Stminishow/createCategorymember');
+        if (session()->has('login')) {
+            if (session()->has('loginpermission5')) {
+                categorymember::destroy($Id_Cmember);
+                return redirect('/Stminishow/createCategorymember');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }

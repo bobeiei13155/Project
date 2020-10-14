@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\brand;
 use Illuminate\Support\Facades\DB;
+
 class BrandController extends Controller
 {
     /**
@@ -15,8 +16,18 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands= brand::paginate(5);
-        return view('Stminishow.BrandForm',compact("brands"));
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $brands = brand::paginate(5);
+                return view('Stminishow.BrandForm', compact("brands"));
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -32,11 +43,21 @@ class BrandController extends Controller
     public function searchBND(Request $request)
     {
 
-        $searchBND = $request->searchBND;
-        $brands = DB::table('brands')
-            ->where('Id_Brand', "LIKE", "%{$searchBND}%")
-            ->orwhere('Name_Brand', "LIKE", "%{$searchBND}%")->paginate(5);  
-        return view("Stminishow.SearchBrandForm")->with("brands", $brands);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $searchBND = $request->searchBND;
+                $brands = DB::table('brands')
+                    ->where('Id_Brand', "LIKE", "%{$searchBND}%")
+                    ->orwhere('Name_Brand', "LIKE", "%{$searchBND}%")->paginate(5);
+                return view("Stminishow.SearchBrandForm")->with("brands", $brands);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -92,9 +113,19 @@ class BrandController extends Controller
      */
     public function edit($Id_Brand)
     {
-        $brand=brand::find($Id_Brand);
-       
-        return view('Stminishow.EditBrandForm',['brands'=>$brand]);
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                $brand = brand::find($Id_Brand);
+
+                return view('Stminishow.EditBrandForm', ['brands' => $brand]);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 
     /**
@@ -110,8 +141,8 @@ class BrandController extends Controller
             'Name_Brand' => 'required|unique:brands'
         ]);
 
-        $brand=brand::find($Id_Brand);
-        $brand->Name_Brand=$request->Name_Brand;
+        $brand = brand::find($Id_Brand);
+        $brand->Name_Brand = $request->Name_Brand;
         $brand->save();
         return redirect('/Stminishow/createBrand');
     }
@@ -124,7 +155,17 @@ class BrandController extends Controller
      */
     public function delete($Id_Brand)
     {
-        brand::destroy($Id_Brand);
-        return redirect('/Stminishow/createBrand');
+        if (session()->has('login')) {
+            if (session()->has('loginpermission3')) {
+                brand::destroy($Id_Brand);
+                return redirect('/Stminishow/createBrand');
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
     }
 }
