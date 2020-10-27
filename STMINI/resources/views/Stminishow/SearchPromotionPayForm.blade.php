@@ -2,7 +2,7 @@
 @section('body')
 
 <div class="container my-2">
-  <h2 class="font_green">ข้อมูลโปรโมชั่นยอดชำระ</h2>
+  <h2 class="font_green">ค้นหาข้อมูลโปรโมชั่นยอดชำระ</h2>
   <form action="/Stminishow/SearchPromotionPay" method="GET">
     <div class="row">
       <div class="col-md-2">
@@ -56,7 +56,8 @@
 
   </table>
 
-  {{$promotionpays->links()}}
+  {{$promotionpays->appends(['searchPOM'=>request()->query('searchPOM')])->links()}}
+
 
 </div>
 @endsection

@@ -15,7 +15,7 @@
     <br>
 
     <h2 class="font_green">เพิ่มโปรโมชั่นยอดชำระ</h2>
-    <form action="/Stminishow/createPromotionPay" method="post" enctype="multipart/form-data">
+    <form action="/Stminishow/updatePromotionPay/{{$promotionpays->Id_Promotion}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
 
 
@@ -24,19 +24,19 @@
 
                 <div class="col-md-3">
                     <label for="Name_Promotion" class="font_green">ชื่อโปรโมชั่น</label>
-                    <input type="text" class="form-control" name="Name_Promotion" id="Name_Promotion" placeholder="ชื่อโปรโมชั่น">
+                    <input type="text" class="form-control" name="Name_Promotion" id="Name_Promotion" placeholder="ชื่อโปรโมชั่น"  value="{{$promotionpays->Name_Promotion}}">
                 </div>
                 <div class="col-md-3">
                     <label for="Salary_Emp" class="font_green">กำหนดยอดชำระ</label>
-                    <input type="text" class=" form-control" name="Payment_Amount" placeholder="กำหนดยอดชำระ" min="0" step="0.01" onkeypress="return onlyNumberKey(event)" required>
+                    <input type="text" class=" form-control" name="Payment_Amount" placeholder="กำหนดยอดชำระ" min="0" step="0.01" onkeypress="return onlyNumberKey(event)" value="{{number_format($paymentamount,2)}}" required>
                 </div>
                 <div class="col-md-3">
                     <label for="Sdate_Promotion" class="font_green">วันเริ่มต้น</label>
-                    <input type="date" class="form-control" name="Sdate_Promotion" id="Sdate_Promotion">
+                    <input type="date" class="form-control" name="Sdate_Promotion" id="Sdate_Promotion  "value="{{$promotionpays->Sdate_Promotion}}">
                 </div>
                 <div class="col-md-3">
                     <label for="Edate_Promotion" class="font_green">วันสิ้นสุด</label>
-                    <input type="date" class="form-control" name="Edate_Promotion" id="Edate_Promotion">
+                    <input type="date" class="form-control" name="Edate_Promotion" id="Edate_Promotion"  value="{{$promotionpays->Edate_Promotion}}">
                 </div>
             </div>
             <br>
@@ -53,10 +53,12 @@
                                 <div class="row">
                                     <th>
                                         <div class="col-md form-group">
-                                            <select class="form-control" name="Id_Premium_Pro" oninvalid="this.setCustomValidity('กรุณากรอกเลือกสินค้าของแถมเพื่อจัดโปรโมชั่น')" oninput="setCustomValidity('')" required>
-                                                <option value="" selected>เลือกสินค้าของแถม </option>
+                                            <select name="Id_Premium_Pro" class="form-control">
                                                 @foreach($PremiumPros as $PremiumPro)
-                                                <option value="{{$PremiumPro->Id_Premium_Pro}}">{{$PremiumPro->Name_Premium_Pro}}</option>
+                                                <option value="{{$PremiumPro->Id_Premium_Pro}}" @if($PremiumPro->Id_Premium_Pro == $joinpre)selected
+                                                    @endif
+                                                    >{{$PremiumPro->Name_Premium_Pro}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -94,7 +96,6 @@
             return false;
         return true;
     }
- 
 </script>
 
 @endsection

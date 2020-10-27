@@ -166,7 +166,7 @@ Route::get('/Stminishow/deletePromotionPro/{Id_Promotion}', 'Stminishow\Promotio
 
 
 //โปรโมชั้นยอดชำระ
-Route::get('/Stminishow/SearchPromotionPro', 'Stminishow\PromotionController@searchPOP'); //ทำสิทธิ์แล้ว
+Route::get('/Stminishow/SearchPromotionPay', 'Stminishow\PromotionController@searchPOM'); //ทำสิทธิ์แล้ว
 Route::get('/Stminishow/ShowPromotionPay', 'Stminishow\PromotionController@ShowPromotionPay');
 Route::get('/Stminishow/createPromotionPay', 'Stminishow\PromotionController@indexPay');
 Route::post('/Stminishow/createPromotionPay', 'Stminishow\PromotionController@createPromotionPay');
