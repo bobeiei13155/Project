@@ -88,17 +88,18 @@
                     </table>
                 </div>
                 <div class="col-md-8">
-                    <table class="table table-borderd" id="tel">
+                    <table class="table table-borderd" id="costs">
                         <tr>
                             <th class="font_green th1">สินค้า</th>
                             <th></th>
-                            <th><input type="button" class="btn btn-success addRowTel" value="+"></th>
+                            <th><input type="button" class="btn btn-success addRowCosts" value="+"></th>
                         </tr>
                         <tr>
                             <div class="row">
                                 <th>
                                     <div class="col-md- form-group">
-                                        <select class="form-control" name="Id_Product">
+                                        <select class="form-control" name="Id_Product[]">
+                                        <option value="" selected>เลือกสินค้า  </option>
                                             @foreach($products as $product)
                                             <option value="{{$product->Id_Product}}">{{$product->Name_Product}}</option>
                                             @endforeach
@@ -180,6 +181,10 @@
         addRowTel();
     });
 
+    $('.addRowCosts').on('click', function() {
+        addRowCosts();
+    });
+
     function onlyNumberKey(evt) {
 
 
@@ -191,9 +196,46 @@
 
 
     function addRowTel() {
-        var addrow = '<tr>' + '<td> <select class="form-control" name="Id_Product"></select><input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
-            '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
+        var addrow = '<tr>' +
+            '   <th>' +
+            '  <div class="form-group">' +
+            '    <input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
+            '  </div>' +
+            '      </th>' +
+
+            '        <th>' +
+            ' <input type="button" class="btn btn-danger remove" value="x">' +
+            '     </th>' +
+            '     </tr>'
         $('#tel').append(addrow);
+    }
+    $(document).on('click', '.remove', function() {
+        $(this).parent().parent().remove();
+    });
+
+    function addRowCosts() {
+        var addrow = '<tr>' +
+            '     <div class="row">' +
+            '<th>' +
+            '  <div class="col-md- form-group">' +
+            '   <select class="form-control" name="Id_Product[]">' +
+         '   <option value="" selected>เลือกสินค้า  </option>'+
+            '@foreach($products as $product)' +
+            '    <option value="{{$product->Id_Product}}">{{$product->Name_Product}}</option>' +
+            '   @endforeach' +
+            '       </select>' +
+            '   </div>' +
+            ' </th>' +
+            ' <th>' +
+            ' <div class="col-sm form-group">' +
+            '   <input type="text" class="form-control" name="cost[]" id="cost" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
+            '</div>' +
+            '  </th>' +
+
+            '      <th><input type="button" class="btn btn-danger remove" value="x"></th>' +
+            '   </div>' +
+            '</tr>'
+        $('#costs').append(addrow);
     }
     $(document).on('click', '.remove', function() {
         $(this).parent().parent().remove();

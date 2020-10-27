@@ -18,7 +18,7 @@ class ColorController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission2')) {
+            if (session()->has('loginpermission3')) {
                 $colors = color::paginate(5);
                 return view('Stminishow.ColorForm', compact("colors"));
             } else {
@@ -36,7 +36,7 @@ class ColorController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission2')) {
+            if (session()->has('loginpermission3')) {
                 $searchCLR = $request->searchCLR;
                 $colors = DB::table('colors')
                     ->where('Id_Color', "LIKE", "%{$searchCLR}%")
@@ -117,7 +117,7 @@ class ColorController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission2')) {
+            if (session()->has('loginpermission3')) {
                 $colors = color::find($Id_Color);
 
                 return view('Stminishow.EditColorForm', ['color' => $colors]);
@@ -141,7 +141,7 @@ class ColorController extends Controller
     public function update(Request $request, $Id_Color)
     {
         $request->validate([
-            'Name_Color' => 'required|unique:colors|max:255'
+            'Name_Color' => 'required|max:255'
         ]);
 
         $color = color::find($Id_Color);
@@ -160,7 +160,7 @@ class ColorController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission2')) {
+            if (session()->has('loginpermission3')) {
                 color::destroy($Id_Color);
                 return redirect('/Stminishow/createColor');
             } else {

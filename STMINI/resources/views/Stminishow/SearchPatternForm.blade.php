@@ -2,15 +2,15 @@
 @section('body')
 
 <div class="container">
-@if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
 </div>
 <form action="/Stminishow/SearchPTN" method="GET" enctype="multipart/form-data">
     <div class="container  font_green">
@@ -29,31 +29,31 @@
 </form>
 
 <div class="container my-2 ">
-<table class="table ">
-  <thead class="thead-green">
-    <tr class="line">
-      <th scope="col">รหัสลาย</th>
-      <th scope="col">ชื่อลาย</th>
-      <th scope="col">แก้ไข</th>
-      <th scope="col">ลบ</th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach($patterns as $pattern) 
-      <tr class="font_green">
-      <th scope="row">{{$pattern->Id_Pattern}}</th>
-      <td>{{$pattern->Name_Pattern}}</td>
-      <td>
-          <a href="#" class ="btn btn-info">Edit</a>
-      </td>
-      <td>
-          <a href="#" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
-      </td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-{{$patterns->links()}}
+    <table class="table ">
+        <thead class="thead-green">
+            <tr class="line">
+                <th scope="col">รหัสลาย</th>
+                <th scope="col">ชื่อลาย</th>
+                <th scope="col">แก้ไข</th>
+                <th scope="col">ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($patterns as $pattern)
+            <tr class="font_green">
+                <th scope="row">{{$pattern->Id_Pattern}}</th>
+                <td>{{$pattern->Name_Pattern}}</td>
+                <td>
+                    <a href="/Stminishow/editPattern/{{$pattern->Id_Pattern}}" class="btn btn-info">Edit</a>
+                </td>
+                <td>
+                    <a href="/Stminishow/deletePattern/{{$pattern->Id_Pattern}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{$patterns->appends(['searchPTN'=>request()->query('searchPTN')])->links()}}
 </div>
 
 @endsection

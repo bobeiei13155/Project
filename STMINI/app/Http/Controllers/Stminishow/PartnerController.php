@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Product;
+use App\costs;
 
 class PartnerController extends Controller
 {
@@ -23,7 +24,7 @@ class PartnerController extends Controller
 
         $searchPTN = $request->searchPTN;
 
-        
+
         // if ($searchposition != Null){
 
         // };
@@ -46,9 +47,10 @@ class PartnerController extends Controller
 
     public function ShowPTN()
     {
-        $partners = Partner::paginate(3);
+        $partners = DB::table('partners')->orderBy('Id_Partner', 'DESC')->paginate(5);
         // $telptns = Telptn::where($partners)->first();
         $telptns = Telptn::all();
+
         //  $telptns = DB::table('telptns'); 
         //   $splitName = explode(' ',$telptns);
         // dd($telptns);
@@ -64,8 +66,8 @@ class PartnerController extends Controller
     {
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
         $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-        
-        return view('Stminishow.PartnerForm')->with('list', $list)->with('am', $am)->with('products',product::all());
+
+        return view('Stminishow.PartnerForm')->with('list', $list)->with('am', $am)->with('products', product::all());
     }
     public function f_amphures(Request $request)
     {
@@ -136,14 +138,17 @@ class PartnerController extends Controller
 
         $request->validate([
 
-            // 'Name_Partner' => 'required',
-            // 'Province_Id' => 'required',
-            // 'District_Id' => 'required',
-            // 'Postcode_Id' => 'required',
-            // 'Subdistrict_Id' => 'required',
-            // 'Tel_PTN.*' => 'required',
+            'Name_Partner' => 'required|unique:partners',
+            'Province_Id' => 'required',
+            'District_Id' => 'required',
+            'Postcode_Id' => 'required',
+            'Subdistrict_Id' => 'required',
+            'Tel_PTN.*' => 'required',
+
 
         ]);
+
+
 
         $GenId = DB::table('partners')->max('Id_Partner');
         $GenId_PTN = substr($GenId, 11, 14) + 1;
@@ -162,7 +167,7 @@ class PartnerController extends Controller
         $partner->District_Id = $request->District_Id;
         $partner->Postcode_Id = $request->Postcode_Id;
         $partner->Subdistrict_Id = $request->Subdistrict_Id;
-        //$partner->save();
+        $partner->save();
 
         foreach ($request['Tel_PTN'] as $item => $value) {
             $request2 = array(
@@ -171,8 +176,17 @@ class PartnerController extends Controller
             );
             Telptn::create($request2);
         };
-       
-        return view('Stminishow.ShowPartnerForm');
+
+        foreach ($request['cost'] as $item => $value) {
+            $request3 = array(
+                'Id_Partner' => $Id_Partner,
+                'Id_Product' => $request['Id_Product'][$item],
+                'Cost' => $request['cost'][$item]
+            );
+            costs::create($request3);
+        };
+
+        return redirect('/Stminishow/showPartner');
     }
 
     /**
@@ -194,15 +208,22 @@ class PartnerController extends Controller
      */
     public function edit($Id_Partner)
     {
+
         $partner = Partner::find($Id_Partner);
+
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
         $amphur = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
         $subdistrict = DB::table('district')->orderBy('DISTRICT_NAME', 'asc')->get();
         $telptns = DB::table('telptns')->where('Id_Partner', $Id_Partner)->get();
+        $costs = DB::table('costs')
+            ->join('products', 'products.Id_Product', '=', 'costs.Id_Product')
+            ->select('products.Name_Product', 'costs.Cost', 'products.Id_Product')
+            ->where('Id_Partner', $Id_Partner)->get();
+
         // echo"<pre>";
         // print_r($telemps);
         // echo"</pre>";
-        return view('Stminishow.EditPartnerForm', ['partners' => $partner])->with('telptns', $telptns)->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list);
+        return view('Stminishow.EditPartnerForm', ['partners' => $partner])->with('costs', $costs)->with('products', product::all())->with('telptns', $telptns)->with('subdistrict', $subdistrict)->with('amphur', $amphur)->with('list', $list);
     }
 
     /**
@@ -228,16 +249,43 @@ class PartnerController extends Controller
             ->select('telptns.Id_Partner')
             ->where('telptns.Id_Partner', '=', $Id_Partner)->get();
 
+        $costs = DB::table('costs')
+            ->select('Id_Partner')
+            ->where('Id_Partner','=', $Id_Partner)->get();
+
+        $datacost =    json_decode(json_encode($costs), true);
 
         $data = json_decode(json_encode($Tel_PTN), true);
 
-        // Telemp::destroy([$data]);
+        $partner = Partner::find($Id_Partner);
+        $partner->Name_Partner = $request->Name_Partner;
+        $partner->Address_Partner = $request->Address_Partner;
+        $partner->Province_Id = $request->Province_Id;
+        $partner->District_Id = $request->District_Id;
+        $partner->Postcode_Id = $request->Postcode_Id;
+        $partner->Subdistrict_Id = $request->Subdistrict_Id;
+        $partner->save();
 
-        //   dd($data);
-
-
-        //  dd($Tel_Emp);
-
+        if ($datacost != []) {
+            costs::destroy([$datacost]);
+            foreach ($request['cost'] as $item => $value) {
+                $request3 = array(
+                    'Id_Partner' => $Id_Partner,
+                    'Id_Product' => $request['Id_Product'][$item],
+                    'Cost' => $request['cost'][$item]
+                );
+                costs::create($request3);
+            }
+        } else {
+            foreach ($request['cost'] as $item => $value) {
+                $request3 = array(
+                    'Id_Partner' => $Id_Partner,
+                    'Id_Product' => $request['Id_Product'][$item],
+                    'Cost' => $request['cost'][$item]
+                );
+                costs::create($request3);
+            }
+        }
         if ($data != []) {
             Telptn::destroy([$data]);
             foreach ($request['Tel_PTN'] as $item => $value) {
@@ -257,15 +305,6 @@ class PartnerController extends Controller
             }
         }
 
-
-        $partner = Partner::find($Id_Partner);
-        $partner->Name_Partner = $request->Name_Partner;
-        $partner->Address_Partner = $request->Address_Partner;
-        $partner->Province_Id = $request->Province_Id;
-        $partner->District_Id = $request->District_Id;
-        $partner->Postcode_Id = $request->Postcode_Id;
-        $partner->Subdistrict_Id = $request->Subdistrict_Id;
-        $partner->save();
         return redirect('/Stminishow/showPartner');
     }
 

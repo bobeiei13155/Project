@@ -40,6 +40,7 @@
                 </div>
             </div>
 
+            
             <div class="row">
                 <div class="col-md-9">
                     <a class="btn btn-green my-2 " href="/Stminishow/indexPremiumPro">เลือกสินค้าของแถม</a>
@@ -102,7 +103,7 @@
             @endif
         </table>
 
-        @if($CartItems == null){
+        @if($CartItems == null)
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 font_green">
@@ -114,7 +115,7 @@
                 </div>
             </div>
         </div>
-        }@else{
+        @else
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 font_green">
@@ -126,7 +127,7 @@
                 </div>
             </div>
         </div>
-        }
+        
         @endif
 
 

@@ -21,15 +21,15 @@
 
                 <div class="col-md-4">
                     <label for="FName_Emp" class="font_green">ชื่อ</label>
-                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" >
+                    <input type="text" class="form-control" name="FName_Emp" id="FName_Emp" placeholder="ชื่อ" required>
                 </div>
                 <div class="col-md-4">
                     <label for="LName_Emp" class="font_green">นามสกุล</label>
-                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" >
+                    <input type="text" class="form-control" name="LName_Emp" id="LName_Emp" placeholder="นามสกุล" required >
                 </div>
                 <div class="col-sm-2">
                     <label for="Position_Id" class="font_green">ตำแหน่ง</label>
-                    <select class="form-control" name="Position_Id">
+                    <select class="form-control" name="Position_Id" required>
                         <option value="">ตำแหน่ง</option>
                         @foreach($positions as $position)
                         <option value="{{$position->Id_Position}}">{{$position->Name_Position}}</option>
@@ -50,12 +50,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="Username_Emp" class="font_green">ชื่อผู้ใช้</label>
-                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ชื่อผู้ใช้" minlength="8"  >
+                    <input type="text" class="form-control" name="Username_Emp" id="Username_Emp" placeholder="ชื่อผู้ใช้" minlength="8"  required>
                     <!-- pattern="[A-Za-z]{3}" -->
                 </div>
                 <d class="col-md-6">
                     <label for="Password_Emp" class="font_green">รหัสผ่าน</label>
-                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="รหัสผ่าน" >
+                    <input type="password" class="form-control" name="Password_Emp" id="Password_Emp" placeholder="รหัสผ่าน" required>
                 
             </div>
         </div>
@@ -64,11 +64,11 @@
 
                 <div class="col-md-6">
                     <label for="Address_Emp" class="font_green">ที่อยู่</label>
-                    <input type="text" class="form-control" name="Address_Emp" id="Address_Emp" placeholder="ที่อยู่">
+                    <input type="text" class="form-control" name="Address_Emp" id="Address_Emp" placeholder="ที่อยู่" required>
                 </div>
                 <div class="col-md-3">
                     <label for="Email_Emp" class="font_green">อีเมล</label>
-                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล" >
+                    <input type="email" class="form-control" name="Email_Emp" id="Email_Emp" placeholder="อีเมล" required>
                 </div>
 
                 <div class="col-md-3">
@@ -84,7 +84,7 @@
                 <div class="col-md-3">
                     <label for="province" class="font_green">จังหวัด</label>
                     <div class="form-group">
-                        <select name="Province_Id" id="province" class="form-control province">
+                        <select name="Province_Id" id="province" class="form-control province" required>
                             <option value="" selected>เลือกจังหวัด</option>
                             @foreach($list as $row)
                             <option value="{{$row->PROVINCE_ID}}">{{$row->PROVINCE_NAME}}</option>
@@ -122,12 +122,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="Bdate_Emp" class="font_green">วันเกิด</label>
-                    <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp">
+                    <input type="date" class="form-control" name="Bdate_Emp" id="Bdate_Emp" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="Salary_Emp" class="font_green">เงินเดือน</label>
-                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0">
+                    <input type="number" class="form-control" name="Salary_Emp" id="Salary_Emp" placeholder="เงินเดือน" min="0" required>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
                         <tr>
                             <th>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)" required>
                                 </div>
                             </th>
                             <th><input type="button" class="btn btn-danger remove" value="x"></th>

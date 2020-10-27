@@ -75,7 +75,7 @@
             <div class="col-sm-2">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" name="promotion" id="inlineCheckbox7" @if($promotion==1) checked @endif>
-                    <label class="form-check-label font_green" for="inlineCheckbox7">ข้อมูลลูกค้า</label>
+                    <label class="form-check-label font_green" for="inlineCheckbox7">ข้อมูลโปรโมชั่น</label>
                 </div>
             </div>
             <div class="col-sm-2">

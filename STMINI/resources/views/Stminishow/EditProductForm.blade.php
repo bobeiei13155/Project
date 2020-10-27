@@ -24,16 +24,13 @@
                 </div>
                 <div class="col-md-2">
                     <label for="Category_Id" class="font_green">ประเภทสินค้า</label>
-                    <select class="form-control" name="Category_Id">
-                        <option value="{{$products->Category_Id}}">
-                            @foreach($categories as $category)
-                            @if($products->Category_Id == $category->Id_Category)
-                            {{$category->Name_Category}}
-                            @endif
-                            @endforeach
-                        </option>
+                
+                    <select name="Category_Id" class="form-control">
                         @foreach($categories as $category)
-                        <option value="{{$category->Id_Category}}">{{$category->Name_Category}}</option>
+                        <option value="{{$category->Category_Id}}" @if($category->Category_Id == $products->Category_Id)selected
+                            @endif
+                            >{{$category->Name_Category}}
+                        </option>
                         @endforeach
                     </select>
                 </div>

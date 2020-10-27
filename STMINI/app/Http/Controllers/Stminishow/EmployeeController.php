@@ -26,6 +26,7 @@ class EmployeeController extends Controller
 
     public function searchEmp(Request $request)
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
@@ -62,6 +63,7 @@ class EmployeeController extends Controller
 
     public function index()
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
@@ -133,6 +135,7 @@ class EmployeeController extends Controller
      */
     public function ShowEmp()
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
@@ -162,22 +165,22 @@ class EmployeeController extends Controller
 
         $request->validate([
 
-            // 'FName_Emp' => 'required',
-            // 'LName_Emp' => 'required',
-            // 'Position_Id' => 'required',
-            // 'Username_Emp' => 'required',
-            // 'Password_Emp' => 'required',
-            // 'Idcard_Emp' => 'required',
-            // 'Email_Emp' => 'required|email',
-            // 'Address_Emp' => 'required',
-            // 'Bdate_Emp' => 'required',
-            // 'Salary_Emp' => 'required',
-            // 'Sex_Emp' => 'required',
-            // 'Province_Id' => 'required',
-            // 'District_Id' => 'required',
-            // 'Postcode_Id' => 'required',
-            // 'Subdistrict_Id' => 'required',
-            //'Tel_Emp.*' => 'required',
+            'FName_Emp' => 'required',
+            'LName_Emp' => 'required',
+            'Position_Id' => 'required',
+            'Username_Emp' => 'required|unique:employees',
+            'Password_Emp' => 'required',
+            'Idcard_Emp' => 'required|unique:employees',
+            'Email_Emp' => 'required|email',
+            'Address_Emp' => 'required',
+            'Bdate_Emp' => 'required',
+            'Salary_Emp' => 'required',
+            'Sex_Emp' => 'required',
+            'Province_Id' => 'required',
+            'District_Id' => 'required',
+            'Postcode_Id' => 'required',
+            'Subdistrict_Id' => 'required',
+            'Tel_Emp.*' => 'required',
 
         ]);
 
@@ -222,6 +225,7 @@ class EmployeeController extends Controller
         if (is_null($request['Tel_Emp'])) {
 
             $request->validate([
+         
                 'Tel_Emp0' =>  'required'
             ]);
         } else {
@@ -304,7 +308,9 @@ class EmployeeController extends Controller
     {
 
         $request->validate([
-            'Tel_Emp.*' => 'required'
+            'Tel_Emp.*' => 'required',
+            'Username_Emp' => 'required',
+            'Idcard_Emp' => 'required', 
         ]);
 
         $Tel_Emp = DB::table('telemps')

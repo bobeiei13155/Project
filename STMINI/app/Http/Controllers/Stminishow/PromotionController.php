@@ -9,9 +9,11 @@ use App\PremiumPro;
 use App\premium_payments;
 use App\CartPromotionPay;
 use App\Http\Controllers\Controller;
+use App\Product;
+use App\promotion_prod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
+use App\promotionpays;
 class PromotionController extends Controller
 {
     /**
@@ -19,12 +21,34 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function ShowPromotionPay()
+
+    public function searchPOP(Request $request)
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission3')) {
-                return view("Stminishow.ShowPromotionPayForm")->with("payment_amounts", payment_amount::paginate(5))->with("premium_pros", PremiumPro::all());
+            if (session()->has('loginpermission6')) {
+
+
+                $searchPOP = $request->searchPOP;
+
+                $Promotion = DB::table('promotion_prods')->orderBy('promotion_prods.Id_Promotion', 'DESC')
+                    ->join('products', 'promotion_prods.Id_Product', "LIKE", 'products.Id_Product')
+                    ->join('promotions', 'promotion_prods.Id_Promotion', "LIKE", 'promotions.Id_Promotion')
+                    ->where('promotions.Status', '=', 0)
+                    ->where('promotion_prods.Id_Promotion', "LIKE", "%{$searchPOP}%")
+                    ->orwhere('products.Name_Product', "LIKE", "%{$searchPOP}%")
+                    ->orwhere('promotions.Name_Promotion', "LIKE", "%{$searchPOP}%")
+                    ->orwhere('promotions.Sdate_Promotion', "LIKE", "%{$searchPOP}%")
+                    ->orwhere('promotions.Edate_Promotion', "LIKE", "%{$searchPOP}%")
+                    ->paginate(5);
+                $product = Product::all();
+                $PremiumPro = PremiumPro::all();
+
+
+                $Promotion_Prod = promotion_prod::all();
+
+
+                return view("Stminishow.SearchPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -33,89 +57,183 @@ class PromotionController extends Controller
 
             return redirect('/login');
         }
-      
     }
-
-    public function indexPay()
+    public function ShowPromotionPro()
     {
-        
-        $CartPromotionPay = Session::get('CartPromotionPay'); //ดึงข้อมูลตะกร้า
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                $product = Product::all();
+                $PremiumPro = PremiumPro::all();
+                $Promotion = DB::table('promotions')->orderBy('promotions.Id_Promotion', 'DESC')->where('Status', '=', 0)->paginate(5);;
 
-        // $n = null ;
-        //  dd($CartPromotionPay);
-
-        if ($CartPromotionPay) {
-            return view("Stminishow.PromotionPayForm", ['CartItems' => $CartPromotionPay])->with("premium_pros", PremiumPro::all())->with("payment_amounts", payment_amount::all());
+                $Promotion_Prod = promotion_prod::all();
+                return view("Stminishow.ShowPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
         } else {
-             
-            return view("Stminishow.PromotionPayForm", ['CartItems' => $CartPromotionPay])->with("premium_pros", PremiumPro::all())->with("payment_amounts", payment_amount::all());
+
+            return redirect('/login');
         }
     }
-    public function createPromotionPay(Request $request)
+    public function indexPro()
+    {
+        $product = Product::all();
+        $PremiumPro = PremiumPro::all();
+
+        return view("Stminishow.PromotionProForm")->with('products', $product)->with('PremiumPros', $PremiumPro);
+    }
+
+
+    public function createPromotionPro(Request $request)
     {
         //dd($request);
-        $CartPromotionPay = $request->session()->get('CartPromotionPay');
-        $GenId = DB::table('payment_amounts')->max('Id_Promotion');
+        $GenId = DB::table('promotions')->max('Id_Promotion');
 
         if (is_null($GenId)) {
-            $Id_Promotion = "POM" . "-" . date('Y') . date('m') . "-" . "000";
+            $Id_Promotion = "POP" . "-" . date('Y') . date('m') . "-" . "000";
         } else {
 
-            $GenId_POM = substr($GenId, 11, 14) + 1;
+            $GenId_POP = substr($GenId, 11, 14) + 1;
 
-            if ($GenId_POM < 10) {
-                $Id_Promotion = "POM" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_POM;
-            } elseif ($GenId_POM >= 10 && $GenId_POM < 100) {
-                $Id_Promotion = "POM" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_POM;
-            } elseif ($GenId_POM >= 100) {
-                $Id_Promotion = "POM" . "-" . date('Y') . date('m') . "-" . $GenId_POM;
+            if ($GenId_POP < 10) {
+                $Id_Promotion = "POP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_POP;
+            } elseif ($GenId_POP >= 10 && $GenId_POP < 100) {
+                $Id_Promotion = "POP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_POP;
+            } elseif ($GenId_POP >= 100) {
+                $Id_Promotion = "POP" . "-" . date('Y') . date('m') . "-" . $GenId_POP;
             }
         }
 
         $request->validate([
 
-            // 'Name_Promotion' => 'required',
-            // 'Payment_Amount' => 'required',
+            'Name_Promotion' => 'required|unique:promotions'
+            //'Payment_Amount' => 'required',
             // 'Sdate_Promotion' => 'required',
             // 'Edate_Promotion' => 'required',
 
         ]);
-        $payment_amount = new payment_amount;
-        $payment_amount->Id_Promotion = $Id_Promotion;
-        $payment_amount->Name_Promotion = $request->Name_Promotion;
-        $payment_amount->Payment_Amount = $request->Payment_Amount;
-        $payment_amount->Sdate_Promotion = $request->Sdate_Promotion;
-        $payment_amount->Edate_Promotion = $request->Edate_Promotion;
+        $promotions = new promotion;
+        $promotions->Id_Promotion = $Id_Promotion;
+        $promotions->Name_Promotion = $request->Name_Promotion;
+        $promotions->Sdate_Promotion = $request->Sdate_Promotion;
+        $promotions->Edate_Promotion = $request->Edate_Promotion;
 
-        //  //dd($request);
-        $payment_amount->save();
 
-        if (empty($CartPromotionPay->items)) {
-            Session()->flash("warning", "ต้องมีสินค้าของแถม 1 ชิ้น");
-            return redirect('/Stminishow/createPromotionPay');
+        $promotions->save();
+
+
+
+        $request2 = array(
+            'Id_Promotion' => $Id_Promotion,
+            'Id_Product' => $request['Id_Product'],
+            'Id_Premium_Pro' => $request['Id_Premium_Pro']
+        );
+        promotion_prod::create($request2);
+
+        return redirect('/Stminishow/ShowPromotionPro');
+    }
+
+
+    public function editPro($Id_Promotion)
+    {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                $product = Product::all();
+                $PremiumPro = PremiumPro::all();
+                $Promotion = promotion::find($Id_Promotion);
+                $Promotion_Prod = promotion_prod::all();
+
+                $join = DB::table('promotion_prods')
+                    ->join('products', 'products.Id_Product', '=', 'promotion_prods.Id_Product')
+                    ->select('products.Name_Product', 'promotion_prods.Id_Product', 'products.Id_Product')
+                    ->where('Id_Promotion', $Id_Promotion)->get();
+                $joinpro = $join[0]->Id_Product;
+
+                $join1 = DB::table('promotion_prods')
+                    ->join('premium_pros', 'premium_pros.Id_Premium_Pro', '=', 'promotion_prods.Id_Premium_Pro')
+                    ->select('premium_pros.Name_Premium_Pro', 'promotion_prods.Id_Premium_Pro', 'premium_pros.Id_Premium_Pro')
+                    ->where('Id_Promotion', $Id_Promotion)->get();
+                $joinpre = $join1[0]->Id_Premium_Pro;
+
+                return view("Stminishow.EditPromotionProForm", ['promotions' => $Promotion])->with('joinpro', $joinpro)
+                    ->with('joinpre', $joinpre)
+                    ->with('promotion_prods', $Promotion_Prod)->with('products', $product)->with('PremiumPros', $PremiumPro);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
         } else {
 
-            foreach ($CartPromotionPay->items as $item) {
-                //dd($CartPromotionPay);
-                $request2 = array(
-                    'Id_Promotion' => $Id_Promotion,
-                    'Id_Premium_Pro' => $item['data']['Id_Premium_Pro'],
-                    'quantity' => $item['quantity']
-                );
-                //dd($request2);
-                premium_payments::create($request2);
-            }
-            Session()->flash("success", "เพิ่มโปรโมชั่นยอดชำระสำเร็จ");
-            Session::forget("CartPromotionPay");
-            return redirect('/Stminishow/ShowPromotionPay');
+            return redirect('/login');
         }
     }
 
-    public function indexPremiumPro(Request $request)
+    public function updatePro(Request $request, $Id_Promotion)
+    {
+        $request->validate([]);
+
+        $promotions = promotion::find($Id_Promotion);
+        $promotions->Name_Promotion = $request->Name_Promotion;
+        $promotions->Sdate_Promotion = $request->Sdate_Promotion;
+        $promotions->Edate_Promotion = $request->Edate_Promotion;
+        $promotions->save();
+
+        $data = DB::table('promotion_prods')
+            ->select('Id_Promotion')
+            ->where('Id_Promotion', '=', $Id_Promotion)->get();
+
+
+        $data1 = json_decode(json_encode($data), true);
+        promotion_prod::destroy([$data1]);
+        $request2 = array(
+            'Id_Promotion' => $Id_Promotion,
+            'Id_Product' => $request['Id_Product'],
+            'Id_Premium_Pro' => $request['Id_PremiumPro']
+        );
+        promotion_prod::create($request2);
+
+        return redirect('/Stminishow/ShowPromotionPro');
+    }
+
+    public function deletePro($Id_Promotion)
     {
 
-        return view("Stminishow.AddPremiunProForm")->with("premium_pros", PremiumPro::all());
+        // dd($Id_Partner);
+        $promotions = promotion::find($Id_Promotion);
+        $promotions->Status = 1;
+        $promotions->save();
+        return redirect('/Stminishow/ShowPromotionPro');
     }
+
+
+
+    public function ShowPromotionPay()
+    {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission6')) {
+                return view("Stminishow.ShowPromotionPayForm")->with("promotionpays", promotionpays::paginate(5))->with("premium_pros", PremiumPro::all());
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
+
+            return redirect('/login');
+        }
+    }
+
+    public function indexPay()
+    {
+    }
+    public function createPromotionPay(Request $request)
+    {
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -155,13 +273,13 @@ class PromotionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($Id_Promotion)
+    public function editPay($Id_Promotion)
 
     {
         $payment_amounts = payment_amount::find($Id_Promotion);
         $premium_payments = DB::table('premium_payments')->where('Id_Promotion', $Id_Promotion)->get();
 
-         $CartPromotionPay = session()->get('CartPromotionPay.teams', $premium_payments);
+        $CartPromotionPay = session()->get('CartPromotionPay.teams', $premium_payments);
         // dd($CartPromotionPay);
         return view("Stminishow.EditPromotionForm", ['payment_amounts' => $payment_amounts])->with("CartItems", $CartPromotionPay)->with("premium_payments", $premium_payments)->with("premium_pros", PremiumPro::all());
     }
@@ -173,7 +291,7 @@ class PromotionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updatePay(Request $request, $id)
     {
         //
     }
@@ -189,60 +307,8 @@ class PromotionController extends Controller
         //
     }
 
-    public function addPremiumProToCartPay(Request $request, $Id_PremiumPro)
-    {
 
-        $PremiumPro = PremiumPro::find($Id_PremiumPro);
-        $prevCart = $request->session()->get('CartPromotionPay');
-        $CartPromotionPay = new CartPromotionPay($prevCart);
-        $CartPromotionPay->addItem($Id_PremiumPro, $PremiumPro);
-        //update ตะกร้าสินค้า
-        $request->session()->put('CartPromotionPay', $CartPromotionPay);
-        //dump($CartPromotionPay);
-        //$request->session()->forget('CartPromotionPay');
-        Session()->flash("success", "เพิ่มสินค้าของแถมสำเร็จ");
-        return redirect('/Stminishow/createPromotionPay');
-    }
-
-    public function deleteFromCart(Request $request, $Id_PremiumPro)
-    {
-        $CartPromotionPay = $request->session()->get('CartPromotionPay');
-        if (array_key_exists($Id_PremiumPro, $CartPromotionPay->items)) {
-            unset($CartPromotionPay->items[$Id_PremiumPro]);
-        }
-        $afterCart = $request->session()->get('CartPromotionPay');
-        $updatetPromotionPay =  new CartPromotionPay($afterCart);
-        $updatetPromotionPay->updatePriceQuantity();
-        $request->session()->put('CartPromotionPay', $updatetPromotionPay);
-        return redirect('/Stminishow/createPromotionPay');
-    }
-    public function incrementCart(Request $request, $Id_PremiumPro)
-    {
-        $PremiumPro = PremiumPro::find($Id_PremiumPro);
-        $prevCart = $request->session()->get('CartPromotionPay');
-        $CartPromotionPay = new CartPromotionPay($prevCart);
-        $CartPromotionPay->addItem($Id_PremiumPro, $PremiumPro);
-        //update ตะกร้าสินค้า
-        $request->session()->put('CartPromotionPay', $CartPromotionPay);
-        //dump($CartPromotionPay);
-        //$request->session()->forget('CartPromotionPay');
-        return redirect('/Stminishow/createPromotionPay');
-    }
-    public function decrementCart(Request $request, $Id_PremiumPro)
-    {
-        // $PremiumPro=PremiumPro::find($Id_PremiumPro);
-        $prevCart = $request->session()->get('CartPromotionPay');
-        $CartPromotionPay = new CartPromotionPay($prevCart);
-        if ($CartPromotionPay->items[$Id_PremiumPro]['quantity'] > 1) {
-            $CartPromotionPay->items[$Id_PremiumPro]['quantity'] = $CartPromotionPay->items[$Id_PremiumPro]['quantity'] - 1;
-            $CartPromotionPay->updatePriceQuantity();
-            $request->session()->put('CartPromotionPay', $CartPromotionPay);
-        } else {
-            Session()->flash("warning", "ต้องมีสินค้าของแถม 1 ชิ้น");
-        }
-        return redirect('/Stminishow/createPromotionPay');
-    }
-    public function delete($Id_PremiumPro)
+    public function deletePay($Id_PremiumPro)
     {
         payment_amount::destroy($Id_PremiumPro);
         Session::forget("CartPromotionPay");

@@ -22,14 +22,14 @@ class PremiumProController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission6')) {
+            if (session()->has('loginpermission7')) {
                 $searchPMP = $request->searchPMP;
 
 
                 $PremiumPros = DB::table('premium_pros')
                     ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
-                    ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->get();
+                    ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->paginate(2);
                 return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -47,8 +47,8 @@ class PremiumProController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission6')) {
-                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::all());
+            if (session()->has('loginpermission7')) {
+                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(2));
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -68,7 +68,7 @@ class PremiumProController extends Controller
     {
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission6')) {
+            if (session()->has('loginpermission7')) {
                 return view('Stminishow.PremiumProForm');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -90,7 +90,7 @@ class PremiumProController extends Controller
     {
         $request->validate([
 
-            'Name' => 'required',
+            'Name' => 'required|unique:premium_pros',
             'Amount' => 'required',
             'image' => 'required|file|image|mimes:jpeg,png,jpg|max:5000 '
             //
@@ -154,7 +154,7 @@ class PremiumProController extends Controller
 
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission6')) {
+            if (session()->has('loginpermission7')) {
                 $PremiumPro = PremiumPro::find($Id_Premium_Pro);
                 // dd($PremiumPro);
                 return view('Stminishow.EditPremiumProForm', ['premium_pros' => $PremiumPro]);
@@ -180,8 +180,8 @@ class PremiumProController extends Controller
 
         $request->validate([
             'Name' => 'required',
-            'Amount' => 'required',
-            'image' => 'required|file|image|mimes:jpeg,png,jpg|max:5000 '
+            'Amount' => 'required'
+          
 
         ]);
 
@@ -213,7 +213,7 @@ class PremiumProController extends Controller
 
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
-            if (session()->has('loginpermission6')) {
+            if (session()->has('loginpermission7')) {
                 $PremiumPro = PremiumPro::find($Id_Premium_Pro);
                 $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
                 if ($exists) {

@@ -13,7 +13,7 @@
 </div>
 <div class="container ">
     <br>
-    <h2 class="font_green">เพิ่มบริษัทคู่ค้า</h2>
+    <h2 class="font_green">แก้ไขบริษัทคู่ค้า</h2>
     <form action="/Stminishow/updatePartner/{{$partners->Id_Partner}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
@@ -66,7 +66,7 @@
                     <label for="district" class="font_green">ตำบล</label>
                     <div class="form-group">
                         <select name="Subdistrict_Id" class="form-control district">
-                        <option value="{{$partners->Subdistrict_Id}}">
+                            <option value="{{$partners->Subdistrict_Id}}">
                                 @foreach($subdistrict as $row)
                                 @if($partners->Subdistrict_Id == $row->DISTRICT_ID)
                                 {{$row->DISTRICT_NAME}}
@@ -80,7 +80,7 @@
                     <label for="district" class="font_green">รหัสไปรษณีย์</label>
                     <div class="form-group">
                         <select name="Postcode_Id" class="form-control postcode">
-                        <option value="{{$partners->Postcode_Id}}">
+                            <option value="{{$partners->Postcode_Id}}">
                                 @foreach($subdistrict as $row)
                                 @if($partners->Subdistrict_Id == $row->DISTRICT_ID)
                                 {{$row->POSTCODE}}
@@ -94,7 +94,7 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <table class="table table-borderd" id="tel">
                         <tr>
                             <th class="font_green th1">เบอร์โทรศัพท์</th>
@@ -113,9 +113,39 @@
                         @endforeach
                     </table>
                 </div>
+                <div class="col-md-8">
+                    <table class="table table-borderd" id="costs">
+                        <tr>
+                            <th class="font_green th1">สินค้า</th>
+                            <th></th>
+                            <th><input type="button" class="btn btn-success addRowCosts" value="+"></th>
+                        </tr>
+                        @foreach($costs as $costs)
+                        <tr>
+                            <div class="row">
+                                <th>
+                                    <div class="col-md- form-group">
+                                        <select class="form-control" name="Id_Product[]"> 
+                                            <option value="{{$costs->Id_Product}}" selected>{{$costs->Name_Product}}</option>
+                                        
+                                        </select>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="col-sm form-group">
+                                        <input type="text" class="form-control" name="cost[]" id="cost" value="{{$costs->Cost}}" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                    </div>
+                                </th>
+
+                                <th><input type="button" class="btn btn-danger remove" value="x"></th>
+                            </div>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
+        <button type="submit" name="submit" class="btn btn-success">แก้ไข</button>
 
         <a class="btn btn-danger my-2" href="/Stminishow/showPartner">กลับ</a>
     </form>
@@ -176,20 +206,52 @@
     $('.addRowTel').on('click', function() {
         addRowTel();
     });
-    function onlyNumberKey(evt) { 
-          
-          
-          var ASCIICode = (evt.which) ? evt.which : evt.keyCode 
-          if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) 
-              return false; 
-          return true; 
-      } 
+
+    $('.addRowCosts').on('click', function() {
+        addRowCosts();
+    });
+    function onlyNumberKey(evt) {
+
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
 
 
     function addRowTel() {
         var addrow = '<tr>' + '<td> <input type="text" class="form-control" name="Tel_PTN[]" id="Tel_PTN" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)"></td>' +
             '<td><input type="button" class="btn btn-danger remove" value="x"></td>' + '</tr>'
         $('#tel').append(addrow);
+    }
+    $(document).on('click', '.remove', function() {
+        $(this).parent().parent().remove();
+    });
+
+    function addRowCosts() {
+        var addrow = '<tr>' +
+            '     <div class="row">' +
+            '<th>' +
+            '  <div class="col-md- form-group">' +
+            '   <select class="form-control" name="Id_Product[]">' +
+            '   <option value="" selected>เลือกสินค้า  </option>' +
+            '@foreach($products as $product)' +
+            '    <option value="{{$product->Id_Product}}">{{$product->Name_Product}}</option>' +
+            '   @endforeach' +
+            '       </select>' +
+            '   </div>' +
+            ' </th>' +
+            ' <th>' +
+            ' <div class="col-sm form-group">' +
+            '   <input type="text" class="form-control" name="cost[]" id="cost" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
+            '</div>' +
+            '  </th>' +
+
+            '      <th><input type="button" class="btn btn-danger remove" value="x"></th>' +
+            '   </div>' +
+            '</tr>'
+        $('#costs').append(addrow);
     }
     $(document).on('click', '.remove', function() {
         $(this).parent().parent().remove();

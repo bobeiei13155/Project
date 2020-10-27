@@ -45,7 +45,7 @@
                     <a class="btn btn-green my-2 " href="/Stminishow/indexPremiumPro">เลือกสินค้าของแถม</a>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
+                    <button type="submit" name="submit" class="btn btn-success">แก้ไข</button>
 
                     <a class="btn btn-danger my-2" href="/Stminishow/ShowPromotionPay">กลับ</a>
                 </div>

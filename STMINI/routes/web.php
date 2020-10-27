@@ -143,23 +143,33 @@ Route::get('/Stminishow/deleteProduct/{Id_Product}', 'Stminishow\ProductControll
 
 
 //สินค้าของแถม
-Route::get('/Stminishow/SearchPremiumPro', 'Stminishow\PremiumProController@searchPMP');//ทำสิทธิ์แล้ว
-Route::get('/Stminishow/ShowPremiumPro', 'Stminishow\PremiumProController@ShowPremiumPro');//ทำสิทธิ์แล้ว
-Route::get('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@index');//ทำสิทธิ์แล้ว
+Route::get('/Stminishow/SearchPremiumPro', 'Stminishow\PremiumProController@searchPMP'); //ทำสิทธิ์แล้ว
+Route::get('/Stminishow/ShowPremiumPro', 'Stminishow\PremiumProController@ShowPremiumPro'); //ทำสิทธิ์แล้ว
+Route::get('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@index'); //ทำสิทธิ์แล้ว
 Route::post('/Stminishow/createPremiumPro', 'Stminishow\PremiumProController@store');
-Route::get('/Stminishow/editPremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@edit');//ทำสิทธิ์แล้ว
+Route::get('/Stminishow/editPremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@edit'); //ทำสิทธิ์แล้ว
 Route::post('/Stminishow/updatePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@update');
-Route::get('/Stminishow/deletePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@delete');//ทำสิทธิ์แล้ว
+Route::get('/Stminishow/deletePremiumPro/{Id_Premium_Pro}', 'Stminishow\PremiumProController@delete'); //ทำสิทธิ์แล้ว
+
+
+
+//โปรโมชั้นของแถม
+Route::get('/Stminishow/SearchPromotionPro', 'Stminishow\PromotionController@searchPOP'); //ทำสิทธิ์แล้ว
+Route::get('/Stminishow/ShowPromotionPro', 'Stminishow\PromotionController@ShowPromotionPro');
+Route::get('/Stminishow/createPromotionPro', 'Stminishow\PromotionController@indexPro');
+Route::post('/Stminishow/createPromotionPro', 'Stminishow\PromotionController@createPromotionPro');
+Route::get('/Stminishow/editPromotionPro/{Id_Promotion}', 'Stminishow\PromotionController@editPro'); //ทำสิทธิ์แล้ว
+Route::post('/Stminishow/updatePromotionPro/{Id_Promotion}', 'Stminishow\PromotionController@updatePro');
+Route::get('/Stminishow/deletePromotionPro/{Id_Promotion}', 'Stminishow\PromotionController@deletePro'); //ทำสิทธิ์แล้ว
+
+
+
 
 //โปรโมชั้นยอดชำระ
+Route::get('/Stminishow/SearchPromotionPro', 'Stminishow\PromotionController@searchPOP'); //ทำสิทธิ์แล้ว
 Route::get('/Stminishow/ShowPromotionPay', 'Stminishow\PromotionController@ShowPromotionPay');
 Route::get('/Stminishow/createPromotionPay', 'Stminishow\PromotionController@indexPay');
 Route::post('/Stminishow/createPromotionPay', 'Stminishow\PromotionController@createPromotionPay');
-Route::get('/Stminishow/indexPremiumPro', 'Stminishow\PromotionController@indexPremiumPro');
-Route::get('/Stminishow/addToCartPay/{Id_Premium_Pro}', 'Stminishow\PromotionController@addPremiumProToCartPay');
-Route::get('/Stminishow/deleteFromCart/{Id_Premium_Pro}', 'Stminishow\PromotionController@deleteFromCart');
-Route::get('/Stminishow/incrementCart/{Id_Premium_Pro}', 'Stminishow\PromotionController@incrementCart');
-Route::get('/Stminishow/decrementCart/{Id_Premium_Pro}', 'Stminishow\PromotionController@decrementCart');
-Route::get('/Stminishow/editPromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@edit');
-Route::post('/Stminishow/updatePromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@update');
-Route::get('/Stminishow/deletePromotionPay/{Id_Premium_Pro}', 'Stminishow\PromotionController@delete');
+Route::get('/Stminishow/editPromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@editPay');
+Route::post('/Stminishow/updatePromotionPay/{Id_Promotion}', 'Stminishow\PromotionController@updatePay');
+Route::get('/Stminishow/deletePromotionPay/{Id_Premium_Pro}', 'Stminishow\PromotionController@deletePay');

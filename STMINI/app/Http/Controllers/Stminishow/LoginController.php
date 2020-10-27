@@ -49,27 +49,35 @@ class LoginController extends Controller
 
         $Username = json_decode(json_encode($checkusername), true);
         $Password = json_decode(json_encode($checkpassword), true);
-        $Permission = Employee::join('positions', 'employees.Position_Id', "=", 'positions.Id_Position')
-            ->select('Permission')->where('Username_Emp', '=', "{$Usernameold}")
-            ->get();
-
-
-        $loginpermission = [
-            substr($Permission[0]->Permission, 0, 1), substr($Permission[0]->Permission, 1, 1),
-            substr($Permission[0]->Permission, 2, 1), substr($Permission[0]->Permission, 3, 1),
-            substr($Permission[0]->Permission, 4, 1), substr($Permission[0]->Permission, 5, 1),
-            substr($Permission[0]->Permission, 6, 1), substr($Permission[0]->Permission, 7, 1),
-            substr($Permission[0]->Permission, 8, 1), substr($Permission[0]->Permission, 9, 1),
-            substr($Permission[0]->Permission, 10, 1), substr($Permission[0]->Permission, 11, 1),
-            substr($Permission[0]->Permission, 12, 1),
-        ];
 
         if (empty($Username) || empty($Password)) {
             Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
             return redirect('/login');
         } else {
 
+            $Permission = Employee::join('positions', 'employees.Position_Id', "=", 'positions.Id_Position')
+                ->select('Permission')->where('Username_Emp', '=', "{$Usernameold}")
+                ->get();
+            $Permissionnew = json_decode(json_encode($Permission), true);
+            if ( empty($Permissionnew))
+             {
+            
+                $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
+                return view('/Stminishow/indexform')->with('login', $request->session());
+            }
+
             Session()->flash("success", "เข้าสู่ระบบสำเร็จ");
+
+
+            $loginpermission = [
+                substr($Permission[0]->Permission, 0, 1), substr($Permission[0]->Permission, 1, 1),
+                substr($Permission[0]->Permission, 2, 1), substr($Permission[0]->Permission, 3, 1),
+                substr($Permission[0]->Permission, 4, 1), substr($Permission[0]->Permission, 5, 1),
+                substr($Permission[0]->Permission, 6, 1), substr($Permission[0]->Permission, 7, 1),
+                substr($Permission[0]->Permission, 8, 1), substr($Permission[0]->Permission, 9, 1),
+                substr($Permission[0]->Permission, 10, 1), substr($Permission[0]->Permission, 11, 1),
+                substr($Permission[0]->Permission, 12, 1),
+            ];
             $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
             if ($loginpermission[0] == 1) {
                 $request->session()->put(['loginpermission1' => $loginpermission[0]]);

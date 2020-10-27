@@ -29,8 +29,8 @@
 </div>
 <div class="container my-2 font_green">
     <table class="table">
-        <thead class="thead-dark">
-            <tr>
+        <thead class="thead-green">
+            <tr class="line">
                 <th scope="col">รหัส</th>
                 <th scope="col">ตำแหน่ง</th>
                 <th scope="col">แก้ไข</th>
@@ -52,5 +52,6 @@
             @endforeach
         </tbody>
     </table>
+    {{$positions->appends(['searchPOS'=>request()->query('searchPOS')])->links()}}
 </div>
 @endsection

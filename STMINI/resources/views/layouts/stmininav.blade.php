@@ -60,7 +60,7 @@
     <i class="fa fa-caret-down"></i>
   </button>
   <div class="dropdown-container dropdown-btn">
-    <a href="#">โปรโมชั่นของแถม</a>
+    <a href="/Stminishow/ShowPromotionPro">โปรโมชั่นของแถม</a>
     <br>
     <a href="/Stminishow/ShowPromotionPay">โปรโมชั่นยอดชำระ</a>
 

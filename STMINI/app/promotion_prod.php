@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class promotion extends Model
+class promotion_prod extends Model
 {
     public $incrementing = false;
     protected $primaryKey = 'Id_Promotion';
-    protected $fillable = ['Id_Promotion','Name_Promotion','Sdate_Promotion','Edate_Promotion'];
+    protected $fillable = ['Id_Promotion','Id_Premium_Pro','Id_Product'];
 }

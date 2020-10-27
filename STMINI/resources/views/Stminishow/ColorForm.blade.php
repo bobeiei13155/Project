@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="Name_Color">ชื่อสี</label>
-                    <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสี">
+                    <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสี" required>
                 </div>
             </div>
         </div>

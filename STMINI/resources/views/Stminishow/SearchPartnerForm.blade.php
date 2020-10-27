@@ -54,7 +54,7 @@
       @endforeach
     </tbody>
   </table>
-  {{$partners->links()}} 
 
+  {{$partners->appends(['searchPTN'=>request()->query('searchPTN')])->links()}}
 </div>
 @endsection

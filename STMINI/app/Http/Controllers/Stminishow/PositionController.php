@@ -23,7 +23,7 @@ class PositionController extends Controller
                 $searchPOS = $request->searchPOS;
                 $positions = DB::table('positions')
                     ->where('Id_Position', "LIKE", "%{$searchPOS}%")
-                    ->orwhere('Name_Position', "LIKE", "%{$searchPOS}%")->paginate(5);
+                    ->orwhere('Name_Position', "LIKE", "%{$searchPOS}%")->paginate(4);
                 return view("Stminishow.SearchPositionForm")->with("positions", $positions);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -40,7 +40,7 @@ class PositionController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                $positions = position::all();
+                $positions = position::paginate(4);
                 return view('Stminishow.PositionForm', compact("positions"));
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -58,7 +58,7 @@ class PositionController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                $positions = position::all();
+                $positions = position::paginate(4);
                 return view('Stminishow.ShowPositionForm', compact("positions"));
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

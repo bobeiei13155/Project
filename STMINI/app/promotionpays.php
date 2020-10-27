@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class promotion extends Model
+class promotionpays extends Model
 {
     public $incrementing = false;
     protected $primaryKey = 'Id_Promotion';

@@ -34,7 +34,7 @@
             <div class="row ">
                 <div class="col-md-5 ">
                     <label for="Name_Gen" class="font_green">ชื่อGen</label>
-                    <input type="text" class="form-control" name="Name_Gen" id="Name_Gen" placeholder="ชื่อGen">
+                    <input type="text" class="form-control" name="Name_Gen" id="Name_Gen" placeholder="ชื่อGen" required>
                 </div>
             </div>
         </div>

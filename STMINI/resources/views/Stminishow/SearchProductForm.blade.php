@@ -57,7 +57,7 @@
             @endforeach
           </td>
           <td style="vertical-align:middle">
-            {{$product->Price}}
+          {{number_format($product->Price,2)}}
           </td>
           <td style="vertical-align:middle">
             <img src="{{asset('storage')}}/Products_image/{{$product->Img_Product}}" alt="" width="80px" height="80px">

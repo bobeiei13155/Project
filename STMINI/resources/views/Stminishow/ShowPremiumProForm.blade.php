@@ -48,5 +48,7 @@
   </table>
 
   </form>
+
+  {{$premium_pros->appends(['searchPMP'=>request()->query('searchPMP')])->links()}}
 </div>
 @endsection

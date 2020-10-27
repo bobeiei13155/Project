@@ -34,7 +34,7 @@
             <div class="row ">
                 <div class="col-md-5 ">
                     <label for="Name_Pattern" class="font_green">ชื่อลาย</label>
-                    <input type="text" class="form-control" name="Name_Pattern" id="Name_Pattern" placeholder="ชื่อลาย">
+                    <input type="text" class="form-control" name="Name_Pattern" id="Name_Pattern" placeholder="ชื่อลาย"  required>
                 </div>
             </div>
         </div>

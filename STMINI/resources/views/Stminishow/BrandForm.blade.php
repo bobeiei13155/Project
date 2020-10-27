@@ -34,7 +34,7 @@
             <div class="row ">
                 <div class="col-md-5 ">
                     <label for="Name_Brand" class="font_green">ชื่อยี่ห้อสินค้า</label>
-                    <input type="text" class="form-control" name="Name_Brand" id="Name_Brand" placeholder="ชื่อยี่ห้อสินค้า">
+                    <input type="text" class="form-control" name="Name_Brand" id="Name_Brand" placeholder="ชื่อยี่ห้อสินค้า" required>
                 </div>
             </div>
         </div>

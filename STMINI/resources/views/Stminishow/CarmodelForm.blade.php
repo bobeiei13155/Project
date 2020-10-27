@@ -33,12 +33,12 @@
         <div class="row ">
             <div class="col-md-5 ">
                 <label for="Name_Carmodel" class="font_green">ชื่อรุ่นรถ</label>
-                <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" placeholder="ชื่อรุ่นรถ">
+                <input type="text" class="form-control" name="Name_Carmodel" id="Name_Carmodel" placeholder="ชื่อรุ่นรถ" required>
             </div>
             <div class="col-md-3">
                 <label for="Gen_Id" class="font_green">GEN</label>
                 <div class="form-group">
-                    <select name="Gen_Id" id="Gen" class="form-control">
+                    <select name="Gen_Id" id="Gen" class="form-control" required>
                         <option value="" selected>เลือกGEN</option>
                         @foreach($gens as $gen)
                         <option value="{{$gen->Id_Gen}}">{{$gen->Name_Gen}}</option>
