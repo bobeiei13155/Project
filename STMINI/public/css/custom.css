@@ -1,0 +1,9 @@
+/* your styles go here */
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.txtcenter {
+    vertical-align: middle;
+}

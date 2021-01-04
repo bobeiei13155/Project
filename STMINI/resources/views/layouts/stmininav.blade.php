@@ -1,241 +1,222 @@
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<title>STMINI</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/eef6ce42e7.js" crossorigin="anonymous"></script>
-<link href="{{asset('/css/sidebar.css')}}" rel="stylesheet">
 
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>STMINI</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <!-- Bootstrap CSS-->
+  <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
+  <!-- Font Awesome CSS-->
+  <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
+  <!-- Fontastic Custom icon font-->
+  <link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
+  <!-- Google fonts - Roboto -->
+  <link rel="stylesheet" href="{{asset('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700')}}">
+  <!-- jQuery Circle-->
+  <link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
+  <!-- Custom Scrollbar-->
+  <link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
+  <!-- theme stylesheet-->
+  <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
+  <!-- Custom stylesheet - for your changes-->
+  <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <!-- Tweaks for older IEs-->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  <script src="https://kit.fontawesome.com/5c27faf919.js" crossorigin="anonymous"></script>
+</head>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left  bg-sidebar-green" style="display:none" id="leftMenu">
-
-  <button class="dropdown-btn">ข้อมูลพนักงาน
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn ">
-    <a href="/Stminishow/showEmployee">ข้อมูลพนักงาน</a>
-    <br>
-    <a href="/Stminishow/showPosition">ข้อมูลตำแหน่ง</a>
-  </div>
-  <button class="dropdown-btn">ข้อมูลสินค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="/Stminishow/ShowProduct">ข้อมูลสินค้า</a>
-    <br>
-    <a href="/Stminishow/createCategory">ข้อมูลประเภทสินค้า</a>
-    <br>
-    <a href="/Stminishow/createBrand">ข้อมูลยี่ห้อ</a>
-    <br>
-    <a href="/Stminishow/createPattern">ข้อมูลลาย</a>
-    <br>
-    <a href="/Stminishow/createColor">ข้อมูลสี</a>
-    <br>
-    <a href="/Stminishow/createCarmodel">ข้อมูลรุ่นรถ</a>
-    <br>
-    <a href="/Stminishow/createGen">ข้อมูลGen</a>
-  </div>
-  <button class="dropdown-btn">ข้อมูลบริษัทคู่ค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="/Stminishow/showPartner">ข้อมูลบริษัทคู่ค้า</a>
-
-  </div>
-  <button class="dropdown-btn">ข้อมูลลูกค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="/Stminishow/showMember">ข้อมูลลูกค้า</a>
-    <br>
-    <a href="/Stminishow/createCategorymember">ข้อมูลประเภทลูกค้า</a>
-  </div>
-  <button class="dropdown-btn">โปรโมชั่น
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="/Stminishow/ShowPromotionPro">โปรโมชั่นของแถม</a>
-    <br>
-    <a href="/Stminishow/ShowPromotionPay">โปรโมชั่นยอดชำระ</a>
-
-  </div>
-  <button class="dropdown-btn">ของแถม
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="/Stminishow/ShowPremiumPro">ข้อมูลของแถม</a>
-
-  </div>
-  <button class="dropdown-btn">สั่งซื้อสินค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="#">เสนอสั่งซื้อสินค้า</a>
-    <br>
-    <a href="#">อนุมัติสั่งซื้อสินค้า</a>
-    <br>
-    <a href="#">สั่งซื้อสินค้า</a>
-  </div>
-  <button class="dropdown-btn">รับสินค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="#">รับสินค้า</a>
-
-  </div>
-  <button class="dropdown-btn">ขายสินค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="#">การขาย</a>
-    <br>
-    <a href="#">ประวัติการขาย</a>
-  </div>
-  <button class="dropdown-btn">เคลมสินค้า
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="#">เคลมสินค้า</a>
-
-  </div>
-  <button class="dropdown-btn">ออกรายงาน
-    <i class="fa fa-caret-down"></i>
-  </button>
-  <div class="dropdown-container dropdown-btn">
-    <a href="#">ปริมาณยอดขายประจำปี</a>
-    <br>
-    <a href="#">รายได้และกำไรตามช่วง</a>
-    <br>
-    <a href="#">จำนวนสินค้าที่ขายได้</a>
-    <br>
-    <a href="#">ยอดการใช้โปรโมชั่น</a>
-    <br>
-    <a href="#">การเคลมสินค้าแต่ละประเภท</a>
-  </div>
-</div>
-
-
-
-
-<div class="w3-container bg-navbar-green " style="margin-top: -8px;height:70px">
-  <div class="row">
-
-    <button class=" w3-button  w3-xlarge w3-left btn-green " style="height: 70px; " onclick="openLeftMenu()">&#9776;</button>
-
-
-
-    <div class="col " style=" padding-top: 5px;">
-      <img src="https://www.img.in.th/images/05d33c376067f5b6a6332816da091819.png" width="70px" height="70px"></img>
-    </div>
-    <div class="col">
-      <div class="float-right">
-        <div class="dropdown">
-          <label class="dropbtn">{{session()->get('login')}}</label>
-          <div class="dropdown-content">
-         
-            <a href="/logout">logout</a>
-          </div>
+<body>
+  <!-- Side Navbar -->
+  <nav class="side-navbar">
+    <div class="side-navbar-wrapper">
+      <!-- Sidebar Header    -->
+      <div class="sidenav-header d-flex align-items-center justify-content-center">
+        <!-- User Info-->
+        <div class="sidenav-header-inner text-center"><img src="{{asset('img/avatar-7.jpg')}}" alt="person" class="img-fluid rounded-circle">
+          <h2 class="h5">{{session()->get('fname')}}</h2>
         </div>
+        <!-- Small Brand information, appears on minimized sidebar-->
+        <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-light">T</strong></a></div>
+      </div>
+      <!-- Sidebar Navigation Menus-->
+      <div class="main-menu">
+        <h5 class="sidenav-heading">Main</h5>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#employeeDropdown" aria-expanded="false" data-toggle="collapse"> <i class="far fa-address-card"></i>ข้อมูลพนักงาน</a>
+            <ul id="employeeDropdown" class="collapse list-unstyled ">
+              <li><a href="/Stminishow/showEmployee">ข้อมูลพนักงาน</a></li>
+              <li><a href="/Stminishow/showPosition">ข้อมูลตำแหน่ง</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#prodectDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-shopping-basket"></i>ข้อมูลสินค้า</a>
+            <ul id="prodectDropdown" class="collapse list-unstyled ">
+              <li><a href="/Stminishow/ShowProduct">ข้อมูลสินค้า</a></li>
+              <li><a href="/Stminishow/createCategory">ข้อมูลประเภทสินค้า</a></li>
+              <li> <a href="/Stminishow/createBrand">ข้อมูลยี่ห้อ</a></li>
+              <li> <a href="/Stminishow/createPattern">ข้อมูลลาย</a></li>
+              <li> <a href="/Stminishow/createColor">ข้อมูลสี</a></li>
+              <li> <a href="/Stminishow/createCarmodel">ข้อมูลรุ่นรถ</a></li>
+              <li> <a href="/Stminishow/createGen">ข้อมูลGen</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#partnerDropdown" aria-expanded="false" data-toggle="collapse"> <i class="far fa-handshake"></i>ข้อมูลบริษัทคู่ค้า</a>
+            <ul id="partnerDropdown" class="collapse list-unstyled ">
+              <li><a href="/Stminishow/showPartner">ข้อมูลบริษัทคู่ค้า</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#memberDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-users"></i>ข้อมูลลูกค้า</a>
+            <ul id="memberDropdown" class="collapse list-unstyled ">
+              <li> <a href="/Stminishow/showMember">ข้อมูลลูกค้า</a></li>
+
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#promotionDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-gift"></i>ข้อมูลโปรโมชั่น</a>
+            <ul id="promotionDropdown" class="collapse list-unstyled ">
+              <li> <a href="/Stminishow/ShowPromotionPro">โปรโมชั่นของแถม</a></li>
+              <li> <a href="/Stminishow/ShowPromotionPay">โปรโมชั่นยอดชำระ</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#PremiumProDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-shopping-bag"></i>ข้อมูลของแถม</a>
+            <ul id="PremiumProDropdown" class="collapse list-unstyled ">
+              <li><a href="/Stminishow/ShowPremiumPro">ข้อมูลของแถม</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#OrderDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-truck"></i>สั่งซื้อสินค้า</a>
+            <ul id="OrderDropdown" class="collapse list-unstyled ">
+              <li> <a href="#">เสนอสั่งซื้อสินค้า</a></li>
+              <li> <a href="#">อนุมัติสั่งซื้อสินค้า</a></li>
+              <li> <a href="#">สั่งซื้อสินค้า</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#PreOrderDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-store"></i>สั่งจองสินค้า</a>
+            <ul id="PreOrderDropdown" class="collapse list-unstyled ">
+              <li> <a href="#">สั่งจองสินค้า</a></li>
+              <li> <a href="#">รับสินค้าสั่งจอง</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#ReceiveDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-cart-arrow-down"></i>รับสินค้า</a>
+            <ul id="ReceiveDropdown" class="collapse list-unstyled ">
+              <li> <a href="#">รับสินค้า</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#sellprodectDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-cash-register"></i>ขายสินค้า</a>
+            <ul id="sellprodectDropdown" class="collapse list-unstyled ">
+              <li> <a href="#">ขายสินค้า</a></li>
+
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#ClaimDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-tools"></i>เคลมสินค้า</a>
+            <ul id="ClaimDropdown" class="collapse list-unstyled ">
+              <li> <a href="#">เคลมสินค้า</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="side-main-menu" class="side-menu list-unstyled">
+          <li><a href="#ReportDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-chart-bar"></i>ออกรายงาน</a>
+            <ul id="ReportDropdown" class="collapse list-unstyled ">
+              <li><a href="#">ปริมาณยอดขายประจำปี</a></li>
+              <li><a href="#">รายได้และกำไรตามช่วง</a></li>
+              <li><a href="#">จำนวนสินค้าที่ขายได้</a></li>
+              <li><a href="#">ยอดการใช้โปรโมชั่น</a></li>
+              <li><a href="#">การเคลมสินค้าแต่ละประเภท</a></li>
+
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </nav>
+
+  <div class="page">
+    <!-- navbar-->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container-fluid">
+          <div class="navbar-holder d-flex align-items-center justify-content-between">
+            <div class="navbar-header"><a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a><a href="index.html" class="navbar-brand">
+                <div class="brand-text d-none d-md-inline-block"><strong>ST </strong><strong class="text-primary">MINI</strong></div>
+              </a></div>
+            <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+
+              <!-- Log out-->
+              <li class="nav-item"><a href="/logout" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Counts Section -->
 
 
-</div>
-</div>
+    <section class="charts">
+      <div class="container-fluid">
+        @if(Session()->has('success'))
+        <div class="alert alert-success" role="alert">
+          {{Session()->get('success')}}
+        </div>
+        @endif
+        @if(Session()->has('echo'))
+        <div class="alert alert-danger" role="alert">
+          {{Session()->get('echo')}}
+        </div>
+        @endif
+        @if(Session()->has('warning'))
+        <div class="alert alert-danger" role="alert">
+          {{Session()->get('warning')}}
+        </div>
+        @endif
+        {{csrf_field()}}
+        @yield('body')
+      </div>
+
+    </section>
 
 
-
-
-
-<div class="w3-container " style="margin-top:60px;">
-
-  @if(Session()->has('success'))
-  <div class="alert alert-success" role="alert">
-    {{Session()->get('success')}}
-  </div>
-  @endif
-  @if(Session()->has('echo'))
-  <div class="alert alert-danger" role="alert">
-    {{Session()->get('echo')}}
-  </div>
-  @endif
-  @if(Session()->has('warning'))
-  <div class="alert alert-danger" role="alert">
-    {{Session()->get('warning')}}
-  </div>
-  @endif
-  {{csrf_field()}}
-  @yield('body')
-
-</div>
-
-<script>
-  function openLeftMenu() {
-    var x = document.getElementById("leftMenu");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  }
-  // function openLeftMenu() {
-  //   document.getElementById("leftMenu").style.display = "block";
-  // }
-
-  // function closeLeftMenu() {
-  //   document.getElementById("leftMenu").style.display = "none";
-  // }
-
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
-
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var dropdownContent = this.nextElementSibling;
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-      }
-    });
-  }
-
-
-  function clickIE() {
-    if (document.all) {
-      alert(message);
-      return false;
-    }
-  }
-
-  function clickNS(e) {
-    if (document.layers || (document.getElementById && !document.all)) {
-      if (e.which == 2 || e.which == 3) {
-        alert(message);
-        return false;
-      }
-    }
-  }
-  if (document.layers) {
-    document.captureEvents(Event.MOUSEDOWN);
-    document.onmousedown = clickNS;
-  } else {
-    document.onmouseup = clickNS;
-    document.oncontextmenu = clickIE;
-  }
-  document.oncontextmenu = new Function("return false")
-
- 
-</script>
-
+    <!-- JavaScript files-->
+</body>
+<script src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/grasp_mobile_progress_circle-1.0.0.min.js')}}"></script>
+<script src="{{asset('vendor/jquery.cookie/jquery.cookie.js')}}"> </script>
+<script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>
+<script src="{{asset('vendor/jquery-validation/jquery.validate.min.js')}}"></script>
+<script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script src="{{asset('js/charts-home.js')}}"></script>
+<!-- Main File-->
+<script src="{{asset('js/front.js')}}"></script>
 
 
 </html>
+
+
+
+

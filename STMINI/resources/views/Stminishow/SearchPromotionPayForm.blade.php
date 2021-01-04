@@ -13,7 +13,14 @@
       </div>
     </div>
   </form>
-  <a class="btn btn-green my-2 " href="/Stminishow/createPromotionPay">เพิ่มโปรโมชั่นยอดชำระ</a>
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-green my-2 " href="/Stminishow/createPromotionPay">เพิ่มโปรโมชั่นยอดชำระ</a>
+    </div>
+    <div class="col">
+      <div class="countall">รายการข้อมูลทั้งหมด   {{$promotionpays->appends(['searchPOM'=>request()->query('searchPOM')])->count()}} รายการ</div>
+    </div>
+  </div>
   <table class="table">
     <thead class="thead-green">
       <tr class="line">

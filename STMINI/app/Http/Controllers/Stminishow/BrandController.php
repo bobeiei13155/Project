@@ -18,8 +18,9 @@ class BrandController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $brands = brand::paginate(5);
-                return view('Stminishow.BrandForm', compact("brands"));
+                $brands = brand::where('Status', '=', 0)->paginate(5);
+                $count = brand::where('Status', '=', 0)->count();
+                return view('Stminishow.BrandForm', compact("brands"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -49,7 +50,8 @@ class BrandController extends Controller
                 $brands = DB::table('brands')
                     ->where('Id_Brand', "LIKE", "%{$searchBND}%")
                     ->orwhere('Name_Brand', "LIKE", "%{$searchBND}%")->paginate(5);
-                return view("Stminishow.SearchBrandForm")->with("brands", $brands);
+                $count = brand::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchBrandForm")->with("brands", $brands)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -157,7 +159,9 @@ class BrandController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                brand::destroy($Id_Brand);
+                $brand =   brand::find($Id_Brand);
+                $brand->Status = 1;
+                $brand->save();
                 return redirect('/Stminishow/createBrand');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

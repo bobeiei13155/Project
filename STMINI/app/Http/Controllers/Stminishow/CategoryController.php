@@ -18,8 +18,9 @@ class CategoryController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $categories = category::paginate(5);
-                return view('Stminishow.CategoryForm', compact("categories"));
+                $categories = category::where('Status', '=', 0)->paginate(5);
+                $count = category::where('Status', '=', 0)->count();
+                return view('Stminishow.CategoryForm', compact("categories"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -39,7 +40,8 @@ class CategoryController extends Controller
                 $categories = DB::table('categories')
                     ->where('Id_Category', "LIKE", "%{$searchCRP}%")
                     ->orwhere('Name_Category', "LIKE", "%{$searchCRP}%")->paginate(5);
-                return view("Stminishow.SearchCategoryForm")->with("categories", $categories);
+                $count = category::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchCategoryForm")->with("categories", $categories)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -93,7 +95,7 @@ class CategoryController extends Controller
         $category = new Category;
         $category->Id_Category = $Id_Category;
         $category->Name_Category = $request->Name_Category;
-        #$category->save();
+        $category->save();
         return redirect('/Stminishow/createCategory');
     }
 
@@ -160,7 +162,9 @@ class CategoryController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                category::destroy($Id_Category);
+                $category = category::find($Id_Category);
+                $category->Status = 1;
+                $category->save();
                 return redirect('/Stminishow/createCategory');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

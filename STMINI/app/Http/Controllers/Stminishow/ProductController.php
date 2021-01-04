@@ -13,7 +13,7 @@ use App\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -28,7 +28,26 @@ class ProductController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $products = product::paginate(3);
+                $products = product::paginate(5);
+
+                $GenId = DB::table('products')->max('Id_Product');
+
+                if (is_null($GenId)) {
+                    $Id_Product = "PRO" . "-" . date('Y') . date('m') . "-" . "000";
+                } else {
+
+                    $GenId_PRO = substr($GenId, 11, 14) + 1;
+
+                    if ($GenId_PRO < 10) {
+                        $Id_Product = "PRO" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PRO;
+                    } elseif ($GenId_PRO >= 10 && $GenId_PRO < 100) {
+                        $Id_Product = "PRO" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PRO;
+                    } elseif ($GenId_PRO >= 100) {
+                        $Id_Product = "PRO" . "-" . date('Y') . date('m') . "-" . $GenId_PRO;
+                    }
+                }
+
+                Session::put('Id_Product', $Id_Product);
 
                 return view('Stminishow.ProductForm', compact("products"))
                     ->with('gens', gen::all())
@@ -68,7 +87,8 @@ class ProductController extends Controller
                     ->orwhere('Name_Category', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Brand', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Gen', "LIKE", "%{$searchPRO}%")->paginate(5);
-                return view("Stminishow.SearchProductForm")->with("products", $products)
+                    $count = Product::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchProductForm")->with("products", $products)->with("count", $count)
                     ->with('gens', gen::all())
                     ->with('brands', brand::all())
                     ->with('categories', Category::all());
@@ -162,13 +182,14 @@ class ProductController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
                 $products = product::paginate(3);
-
+                $count = product::where('Status', '=', 0)->count();
                 return view('Stminishow.ShowProductForm', compact("products"))
                     ->with('gens', gen::all())
                     ->with('brands', brand::all())
                     ->with('patterns', pattern::all())
                     ->with('colors', color::all())
-                    ->with('categories', category::all());
+                    ->with('categories', category::all())
+                    ->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -228,7 +249,7 @@ class ProductController extends Controller
             'Purchase' => 'required',
             'Price' => 'required',
             'Detail' => 'required',
-           
+
 
         ]);
 

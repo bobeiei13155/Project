@@ -43,10 +43,10 @@
       <th scope="row">{{$gen->Id_Gen}}</th>
       <td>{{$gen->Name_Gen}}</td>
       <td>
-          <a href="/Stminishow/editGen/{{$gen->Id_Gen}}" class ="btn btn-info">Edit</a>
+          <a href="/Stminishow/editGen/{{$gen->Id_Gen}}" class ="btn btn-info">แก้ไข</a>
       </td>
       <td>
-          <a href="/Stminishow/deleteGen/{{$gen->Id_Gen}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteGen/{{$gen->Id_Gen}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">ลบ</a>
       </td>
     </tr>
     @endforeach

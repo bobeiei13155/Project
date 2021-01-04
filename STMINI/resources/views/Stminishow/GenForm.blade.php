@@ -15,7 +15,7 @@
 <form action="/Stminishow/SearchGen" method="GET" enctype="multipart/form-data">
     <div class="container  font_green">
         <br>
-        <h2 class="font_green">ข้อมูลGen</h2>
+        <h2 class="font_green">ข้อมูลGEN</h2>
 
         <div class="row">
             <div class="col-md-2">
@@ -33,8 +33,8 @@
         <div class="form-group font_green" >
             <div class="row ">
                 <div class="col-md-5 ">
-                    <label for="Name_Gen" class="font_green">ชื่อGen</label>
-                    <input type="text" class="form-control" name="Name_Gen" id="Name_Gen" placeholder="ชื่อGen" required>
+                    <label for="Name_Gen" class="font_green">ชื่อGEN</label>
+                    <input type="text" class="form-control" name="Name_Gen" id="Name_Gen" placeholder="ชื่อGEN" required>
                 </div>
             </div>
         </div>
@@ -45,8 +45,8 @@
 <table class="table ">
   <thead class="thead-green">
     <tr class="line">
-      <th scope="col">รหัสGen</th>
-      <th scope="col">ชื่อGen</th>
+      <th scope="col">รหัสGEN</th>
+      <th scope="col">ชื่อGEN</th>
       <th scope="col">แก้ไข</th>
       <th scope="col">ลบ</th>
     </tr>
@@ -57,10 +57,10 @@
       <th scope="row">{{$gen->Id_Gen}}</th>
       <td>{{$gen->Name_Gen}}</td>
       <td>
-          <a href="/Stminishow/editGen/{{$gen->Id_Gen}}" class ="btn btn-info">Edit</a>
+          <a href="/Stminishow/editGen/{{$gen->Id_Gen}}" class ="btn btn-info">แก้ไข</a>
       </td>
       <td>
-          <a href="/Stminishow/deleteGen/{{$gen->Id_Gen}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteGen/{{$gen->Id_Gen}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">ลบ</a>
       </td>
     </tr>
     @endforeach

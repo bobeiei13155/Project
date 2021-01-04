@@ -19,8 +19,9 @@ class ColorController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $colors = color::paginate(5);
-                return view('Stminishow.ColorForm', compact("colors"));
+                $colors = color::where('Status', '=', 0)->paginate(5);
+                $count = color::where('Status', '=', 0)->count();
+                return view('Stminishow.ColorForm', compact("colors"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -41,7 +42,8 @@ class ColorController extends Controller
                 $colors = DB::table('colors')
                     ->where('Id_Color', "LIKE", "%{$searchCLR}%")
                     ->orwhere('Name_Color', "LIKE", "%{$searchCLR}%")->paginate(5);
-                return view("Stminishow.SearchColorForm")->with("colors", $colors);
+                    $count = color::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchColorForm")->with("colors", $colors)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

@@ -25,7 +25,14 @@
             </div>
         </div>
     </form>
-    <a class="btn btn-green my-2 " href="/Stminishow/createPosition">เพิ่มตำแหน่ง</a>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-green my-2 " href="/Stminishow/createPosition">เพิ่มตำแหน่ง</a>
+        </div>
+        <div class="col">
+            <div class="countall">รายการข้อมูลทั้งหมด {{$count}} รายการ</div>
+        </div>
+    </div>
 </div>
 <div class="container my-2 font_green">
     <table class="table">

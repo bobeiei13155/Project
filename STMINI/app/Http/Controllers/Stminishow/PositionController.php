@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\position;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class PositionController extends Controller
 {
@@ -23,8 +24,9 @@ class PositionController extends Controller
                 $searchPOS = $request->searchPOS;
                 $positions = DB::table('positions')
                     ->where('Id_Position', "LIKE", "%{$searchPOS}%")
-                    ->orwhere('Name_Position', "LIKE", "%{$searchPOS}%")->paginate(4);
-                return view("Stminishow.SearchPositionForm")->with("positions", $positions);
+                    ->orwhere('Name_Position', "LIKE", "%{$searchPOS}%")->paginate(5);
+                $count = position::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchPositionForm")->with("positions", $positions)->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -40,7 +42,24 @@ class PositionController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                $positions = position::paginate(4);
+                $positions = position::paginate(5);
+                $GenId = DB::table('positions')->max('Id_Position');
+
+                if (is_null($GenId)) {
+                    $Id_Position = "POS" . "-" . date('Y') . date('m') . "-" . "000";
+                } else {
+                    $GenId_GEN = substr($GenId, 11, 14) + 1;
+
+                    if ($GenId_GEN < 10) {
+                        $Id_Position = "POS" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_GEN;
+                    } elseif ($GenId_GEN >= 10 && $GenId_GEN < 100) {
+                        $Id_Position = "POS" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_GEN;
+                    } elseif ($GenId_GEN >= 100) {
+                        $Id_Position = "POS" . "-" . date('Y') . date('m') . "-" . $GenId_GEN;
+                    }
+                }
+                Session::put('Id_Position', $Id_Position);
+
                 return view('Stminishow.PositionForm', compact("positions"));
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -58,8 +77,9 @@ class PositionController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                $positions = position::paginate(4);
-                return view('Stminishow.ShowPositionForm', compact("positions"));
+                $positions = position::where('Status', '=', 0)->paginate(5);
+                $count = position::where('Status', '=', 0)->count();
+                return view('Stminishow.ShowPositionForm', compact("positions"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -149,6 +169,16 @@ class PositionController extends Controller
         } else {
             $sell = 1;
         }
+        if (is_null($request->preorder)) {
+            $preorder = 0;
+        } else {
+            $preorder = 1;
+        }
+        if (is_null($request->receivepreorder)) {
+            $receivepreorder = 0;
+        } else {
+            $receivepreorder = 1;
+        }
         if (is_null($request->Claim)) {
             $Claim = 0;
         } else {
@@ -162,7 +192,7 @@ class PositionController extends Controller
 
         $userpositions = $employee . $position . $product . $partner .
             $member . $promotion . $premiumpro . $offerorder . $approveorder .
-            $order . $receive . $sell . $Claim . $report;
+            $order . $receive . $sell . $preorder . $receivepreorder . $Claim . $report;
 
 
         // dd($userpositions);
@@ -231,8 +261,10 @@ class PositionController extends Controller
                 $order = substr($Permission, 25, 1);
                 $receive = substr($Permission, 26, 1);
                 $sell = substr($Permission, 27, 1);
-                $Claim = substr($Permission, 28, 1);
-                $report = substr($Permission, 29, 1);
+                $preorder = substr($Permission, 28, 1);
+                $receivepreorder = substr($Permission, 29, 1);
+                $Claim = substr($Permission, 30, 1);
+                $report = substr($Permission, 31, 1);
 
                 return view('Stminishow.EditPositionForm', ['position' => $position])
                     ->with('employee', $employee)->with('pmposition', $pmposition)
@@ -240,7 +272,7 @@ class PositionController extends Controller
                     ->with('member', $member)->with('promotion', $promotion)->with('premiumpro', $premiumpro)
                     ->with('offerorder', $offerorder)->with('approveorder', $approveorder)
                     ->with('order', $order)->with('receive', $receive)
-                    ->with('sell', $sell)->with('Claim', $Claim)
+                    ->with('sell', $sell)->with('preorder', $preorder)->with('receivepreorder', $receivepreorder)->with('Claim', $Claim)
                     ->with('report', $report);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -322,6 +354,16 @@ class PositionController extends Controller
         } else {
             $sell = 1;
         }
+        if (is_null($request->preorder)) {
+            $preorder = 0;
+        } else {
+            $preorder = 1;
+        }
+        if (is_null($request->receivepreorder)) {
+            $receivepreorder = 0;
+        } else {
+            $receivepreorder = 1;
+        }
         if (is_null($request->Claim)) {
             $Claim = 0;
         } else {
@@ -335,7 +377,7 @@ class PositionController extends Controller
 
         $userpositions = $employee . $position . $product . $partner .
             $member . $promotion . $premiumpro . $offerorder . $approveorder .
-            $order . $receive . $sell . $Claim . $report;
+            $order . $receive . $sell . $preorder . $receivepreorder . $Claim . $report;
 
         $request->validate([
             'Name_Position' => 'required'
@@ -361,7 +403,9 @@ class PositionController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                position::destroy($Id_Position);
+                $position = position::find($Id_Position);
+                $position->Status = 1;
+                $position->save();
                 return redirect('/Stminishow/showPosition');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

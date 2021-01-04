@@ -37,10 +37,10 @@
         </td>
         <td style="vertical-align:middle" >{{$PremiumPro->Amount_Premium_Pro}}</td>
         <td style="vertical-align:middle" >
-          <a href="/Stminishow/editPremiumPro/{{$PremiumPro->Id_Premium_Pro}}" class="btn btn-info">Edit</a>
+          <a href="/Stminishow/editPremiumPro/{{$PremiumPro->Id_Premium_Pro}}" class="btn btn-info">แก้ไข</a>
         </td>
         <td style="vertical-align:middle" >
-          <a href="/Stminishow/deletePremiumPro/{{$PremiumPro->Id_Premium_Pro}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deletePremiumPro/{{$PremiumPro->Id_Premium_Pro}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
         </td>
       </tr>
       @endforeach

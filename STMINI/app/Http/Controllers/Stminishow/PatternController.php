@@ -19,8 +19,9 @@ class PatternController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $patterns = pattern::paginate(3);
-                return view('Stminishow.PatternForm', compact("patterns"));
+                $patterns = pattern::where('Status', '=', 0)->paginate(5);
+                $count = pattern::where('Status', '=', 0)->count();
+                return view('Stminishow.PatternForm', compact("patterns"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -41,7 +42,8 @@ class PatternController extends Controller
                 $patterns = DB::table('patterns')
                     ->where('Id_Pattern', "LIKE", "%{$searchPTN}%")
                     ->orwhere('Name_Pattern', "LIKE", "%{$searchPTN}%")->paginate(5);
-                return view("Stminishow.SearchPatternForm")->with("patterns", $patterns);
+                $count = pattern::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchPatternForm")->with("patterns", $patterns)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -162,7 +164,9 @@ class PatternController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
-                Pattern::destroy($Id_Pattern);
+                $Pattern =  Pattern::find($Id_Pattern);
+                $Pattern->Status = 1;
+                $Pattern->save();
                 return redirect('/Stminishow/createPattern');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

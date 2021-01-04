@@ -50,6 +50,11 @@ class LoginController extends Controller
         $Username = json_decode(json_encode($checkusername), true);
         $Password = json_decode(json_encode($checkpassword), true);
 
+        $Fnameold = DB::table('employees')
+        ->select('FName_Emp',)
+        ->where('Username_Emp', '=', "{$Usernameold}")->get();
+        $Fnamenew = json_decode(json_encode($Fnameold), true);
+
         if (empty($Username) || empty($Password)) {
             Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
             return redirect('/login');
@@ -63,7 +68,8 @@ class LoginController extends Controller
              {
             
                 $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
-                return view('/Stminishow/indexform')->with('login', $request->session());
+                $request->session()->put(['fname' => $Fnameold[0]->FName_Emp]);
+                return view('/Stminishow/indexform')->with('login', $request->session())->with('fname', $request->session());
             }
 
             Session()->flash("success", "เข้าสู่ระบบสำเร็จ");
@@ -79,6 +85,7 @@ class LoginController extends Controller
                 substr($Permission[0]->Permission, 12, 1),
             ];
             $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
+            $request->session()->put(['fname' => $Fnameold[0]->FName_Emp]);
             if ($loginpermission[0] == 1) {
                 $request->session()->put(['loginpermission1' => $loginpermission[0]]);
             }
@@ -121,7 +128,7 @@ class LoginController extends Controller
             }
 
 
-            return view('/Stminishow/indexform')->with('login', $request->session());
+            return view('/Stminishow/indexform')->with('login', $request->session())->with('fname', $request->session());
         };
 
 

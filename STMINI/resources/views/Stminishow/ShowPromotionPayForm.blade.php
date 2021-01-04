@@ -13,7 +13,15 @@
       </div>
     </div>
   </form>
-  <a class="btn btn-green my-2 " href="/Stminishow/createPromotionPay">เพิ่มโปรโมชั่นยอดชำระ</a>
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-green my-2 " href="/Stminishow/createPromotionPay">เพิ่มโปรโมชั่นยอดชำระ</a>
+    </div>
+    <div class="col">
+      <div class="countall">รายการข้อมูลทั้งหมด {{$promotionpaycount}} รายการ</div>
+    </div>
+  </div>
+
   <table class="table">
     <thead class="thead-green">
       <tr class="line">
@@ -45,10 +53,10 @@
 
 
         <td>
-          <a href="/Stminishow/editPromotionPay/{{$promotionpay->Id_Promotion}}" class="btn btn-info">Edit</a>
+          <a href="/Stminishow/editPromotionPay/{{$promotionpay->Id_Promotion}}" class="btn btn-info">แก้ไข</a>
         </td>
         <td>
-          <a href="/Stminishow/deletePromotionPay/{{$promotionpay->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deletePromotionPay/{{$promotionpay->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
         </td>
       </tr>
       @endforeach

@@ -24,6 +24,9 @@
             <div class="col-md-2">
                 <button type="submit" name="submit" class="btn btn-green "><i class="fas fa-search"></i></button>
             </div>
+            <div class="col-md-8">
+                <div class="countall">รายการข้อมูลทั้งหมด {{$count}} รายการ</div>
+            </div>
         </div>
     </div>
 </form>
@@ -43,16 +46,16 @@
       <th scope="row">{{$brand->Id_Brand}}</th>
       <td>{{$brand->Name_Brand}}</td>
       <td>
-          <a href="/Stminishow/editBrand/{{$brand->Id_Brand}}" class ="btn btn-info">Edit</a>
+          <a href="/Stminishow/editBrand/{{$brand->Id_Brand}}" class ="btn btn-info">แก้ไข</a>
       </td>
       <td>
-          <a href="/Stminishow/deleteBrand/{{$brand->Id_Brand}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
+          <a href="/Stminishow/deleteBrand/{{$brand->Id_Brand}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">ลบ</a>
       </td>
     </tr>
     @endforeach
   </tbody>
 </table>
-{{$brands->links()}}
+{{$brands->appends(['searchBND'=>request()->query('searchBND')])->links()}}
 </div>
 
 @endsection

@@ -28,7 +28,7 @@
                 
             </div>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">อัปเดต</button>
+        <button type="submit" name="submit" class="btn btn-success">แก้ไข</button>
         <a class="btn btn-danger my-2" href="/Stminishow/createCategorymember">กลับ</a>
     </form>
 </div>

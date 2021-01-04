@@ -30,16 +30,12 @@ class EmployeeController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
-                //dd($request->searchEmp);
+
 
                 $searchEmp = $request->searchEmp;
 
-                // if ($searchposition != Null){
 
-                // };
-                // $datasearch = json_decode(json_encode($searchposition), true);
-
-                //  dd($searchposition);
+                $count = DB::table('employees')->where('Status', '=', 0)->count();
                 $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')
                     ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
                     ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
@@ -49,7 +45,7 @@ class EmployeeController extends Controller
                     ->orwhere('Salary_Emp', "LIKE", "%{$searchEmp}%")
                     ->orwhere('Name_Position', "LIKE", "%{$searchEmp}%")->paginate(5);
 
-                return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('positions', Position::all());
+                return view("Stminishow.SearchEmployeeForm")->with("employees", $employees)->with('count', $count)->with('positions', Position::all());
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -69,6 +65,26 @@ class EmployeeController extends Controller
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
                 $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
                 $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+                $GenId = DB::table('employees')->max('Id_Emp');
+                $GenId_Emp = substr($GenId, 11, 14) + 1;
+                if (is_null($GenId)) {
+                    $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "000";
+                } else {
+
+                    if ($GenId_Emp < 10) {
+                        $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_Emp;
+                    } elseif ($GenId_Emp >= 10 && $GenId_Emp < 100) {
+                        $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_Emp;
+                    } elseif ($GenId_Emp >= 100) {
+                        $Id_Emp = "EMP" . "-" . date('Y') . date('m') . "-" . $GenId_Emp;
+                    }
+                }
+                $Id_Emp = json_decode(json_encode($Id_Emp), true);
+                
+               
+                Session::put('Id_Emp', $Id_Emp);
+                
+                
                 return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -139,10 +155,11 @@ class EmployeeController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
-                $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')->paginate(5);
+                $count = DB::table('employees')->where('Status', '=', 0)->count();
+                $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')->where('Status', '=', 0)->paginate(5);
                 $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
                 $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
-                return view('Stminishow.ShowEmployeeForm')->with('employees', $employees)->with('list', $list)->with('am', $am)->with('positions', Position::all());
+                return view('Stminishow.ShowEmployeeForm')->with('employees', $employees)->with('count', $count)->with('list', $list)->with('am', $am)->with('positions', Position::all());
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -225,7 +242,7 @@ class EmployeeController extends Controller
         if (is_null($request['Tel_Emp'])) {
 
             $request->validate([
-         
+
                 'Tel_Emp0' =>  'required'
             ]);
         } else {
@@ -310,7 +327,7 @@ class EmployeeController extends Controller
         $request->validate([
             'Tel_Emp.*' => 'required',
             'Username_Emp' => 'required',
-            'Idcard_Emp' => 'required', 
+            'Idcard_Emp' => 'required',
         ]);
 
         $Tel_Emp = DB::table('telemps')
@@ -388,7 +405,12 @@ class EmployeeController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission1')) {
                 Session()->forget("warning", "ห้ามมีเบอร์ซ้ำกัน");
-                Employee::destroy($Id_Emp);
+                $Employee = Employee::find($Id_Emp);
+                $Employee->Status = 1;
+                $Employee->save();
+                $Telemp = Telemp::find($Id_Emp);
+                $Telemp->Status = 1;
+                $Telemp->save();
                 return redirect('/Stminishow/showEmployee');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

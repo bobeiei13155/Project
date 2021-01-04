@@ -2,15 +2,15 @@
 @section('body')
 
 <div class="container">
-@if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
 </div>
 <form action="/Stminishow/SearchBrand" method="GET" enctype="multipart/form-data">
     <div class="container  font_green">
@@ -30,7 +30,7 @@
 <div class="container font_green">
     <form action="/Stminishow/createBrand" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
-        <div class="form-group font_green" >
+        <div class="form-group font_green">
             <div class="row ">
                 <div class="col-md-5 ">
                     <label for="Name_Brand" class="font_green">ชื่อยี่ห้อสินค้า</label>
@@ -38,35 +38,42 @@
                 </div>
             </div>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
+        <div class="row">
+            <div class="col">
+                <button type="submit" name="submit" class="btn btn-success">เพิ่ม</button>
+            </div>
+            <div class="col">
+                <div class="countall">รายการข้อมูลทั้งหมด {{$count}} รายการ</div>
+            </div>
+        </div>
     </form>
 </div>
 <div class="container my-2 ">
-<table class="table ">
-  <thead class="thead-green">
-    <tr class="line">
-      <th scope="col">รหัสยี่ห้อสินค้า</th>
-      <th scope="col">ชื่อยี่ห้อสินค้า</th>
-      <th scope="col">แก้ไข</th>
-      <th scope="col">ลบ</th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach($brands as $brand) 
-      <tr class="font_green">
-      <th scope="row">{{$brand->Id_Brand}}</th>
-      <td>{{$brand->Name_Brand}}</td>
-      <td>
-          <a href="/Stminishow/editBrand/{{$brand->Id_Brand}}" class ="btn btn-info">Edit</a>
-      </td>
-      <td>
-          <a href="/Stminishow/deleteBrand/{{$brand->Id_Brand}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class ="btn btn-danger">Delete</a>
-      </td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-{{$brands->links()}}
+    <table class="table ">
+        <thead class="thead-green">
+            <tr class="line">
+                <th scope="col">รหัสยี่ห้อสินค้า</th>
+                <th scope="col">ชื่อยี่ห้อสินค้า</th>
+                <th scope="col">แก้ไข</th>
+                <th scope="col">ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($brands as $brand)
+            <tr class="font_green">
+                <th scope="row">{{$brand->Id_Brand}}</th>
+                <td>{{$brand->Name_Brand}}</td>
+                <td>
+                    <a href="/Stminishow/editBrand/{{$brand->Id_Brand}}" class="btn btn-info">แก้ไข</a>
+                </td>
+                <td>
+                    <a href="/Stminishow/deleteBrand/{{$brand->Id_Brand}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{$brands->links()}}
 </div>
 
 @endsection

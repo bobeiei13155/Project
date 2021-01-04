@@ -6,13 +6,31 @@
 .btn-secondary {
     background-color: #cfdef5;
 }
-.btn-green {
+.btn-green  {
     z-index: 1;
     background-color: #8ec641;
     color: #000;
-   
 }
-
+.btn-success  {
+    z-index: 1;
+    background-color: #8ec641;
+    color: #000;
+    border: #8ec641;
+}
+.btn-success:hover
+{
+    z-index: 1;
+    background-color: #8ec641;
+    color: #000;
+}
+.w3-sidebar {
+    height: 100%;
+    width: 250px;
+    background-color: #fff;
+    position: fixed !important;
+    z-index: 1;
+    overflow: auto;
+}
 .bg-navbar-green {
     position: fixed;
     width: 100%;
@@ -24,7 +42,6 @@
 .bg-sidebar-green {
     background-color: #9ebb77;
 }
-
 
 /* Fixed sidenav, full height */
 .sidenav {
@@ -56,18 +73,22 @@
 }
 
 /* On mouse-over */
-.dropdown-btn:hover {
+/* .dropdown-btn:hover {
     color: #f1f1f1;
-}
+    text-decoration: none;
+} */
 
 /* Main content */
 
 /* Add an active class to the active dropdown button */
-
+.dropdown-btn a:hover {
+    color: #f1f1f1;
+    text-decoration: none;
+}
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
     display: none;
-    background-color: #262626;
+    background-color: #1a1e24;
     padding-left: 8px;
 }
 
@@ -196,11 +217,24 @@ table {
     color: #8ec641;
 }
 
-.dropbtn {
+.kiki .droplabel label b {
     color: #000;
-    padding: 25px;
+    padding: 30px;
     font-size: 16px;
     border: none;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: bold;
+}
+a:hover .dropa {
+    color: #fff;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    text-decoration: none;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .dropdown {
@@ -236,4 +270,10 @@ table {
 
 .dropdown:hover .dropbtn {
     color: #818181;
+}
+.countall{
+    color: #8ec641;
+    text-align: right;
+    margin-top: 25px;
+    font-size: 18px;
 }

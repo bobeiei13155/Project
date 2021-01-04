@@ -54,12 +54,12 @@
             </td>
             <td>
 
-                <a href="/Stminishow/editPromotionPro/{{$promotion->Id_Promotion}}" class="btn btn-info">Edit</a>
+                <a href="/Stminishow/editPromotionPro/{{$promotion->Id_Promotion}}" class="btn btn-info">แก้ไข</a>
             </td>
 
 
             <td>
-                <a href="/Stminishow/deletePromotionPro/{{$promotion->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">Delete</a>
+                <a href="/Stminishow/deletePromotionPro/{{$promotion->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger">ลบ</a>
             </td>
             </tr>
             @endforeach
