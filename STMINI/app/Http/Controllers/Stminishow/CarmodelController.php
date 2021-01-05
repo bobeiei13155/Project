@@ -19,9 +19,9 @@ class CarmodelController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $carmodels = Carmodel::paginate(3);
-
-                return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all());
+                $carmodels = Carmodel::paginate(5);
+                $count = Carmodel::where('Status', '=', 0)->count();
+                return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all())->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -42,7 +42,8 @@ class CarmodelController extends Controller
                     ->where('Id_Carmodel', "LIKE", "%{$searchCMP}%")
                     ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")
                     ->orwhere('Name_Gen', "LIKE", "%{$searchCMP}%")->paginate(5);
-                return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels)->with('gens', gen::all());
+                    $count = Carmodel::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchCarmodelForm")->with("carmodels", $carmodels)->with('gens', gen::all())->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

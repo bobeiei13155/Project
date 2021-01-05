@@ -12,7 +12,7 @@
 @endif
 <div class="container font_green">
     <br>
-    <h2>แก้ไขประเภทสินค้า </h2>
+    <h2>แก้ไขประเภทลูกค้า </h2>
     <form action="/Stminishow/updateCategorymember/{{$categorymembers->Id_Cmember}}" method="post">
         {{csrf_field()}}
         <div class="form-group font_green">

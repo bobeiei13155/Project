@@ -18,8 +18,9 @@ class GenController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $gens = Gen::paginate(3);
-                return view('Stminishow.GenForm', compact("gens"));
+                $gens = Gen::paginate(5);
+                $count = Gen::where('Status', '=', 0)->count();
+                return view('Stminishow.GenForm', compact("gens"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -37,8 +38,9 @@ class GenController extends Controller
                 $searchGEN = $request->searchGEN;
                 $gens = DB::table('gens')
                     ->where('Id_Gen', "LIKE", "%{$searchGEN}%")
-                    ->orwhere('Name_Gen', "LIKE", "%{$searchGEN}%")->paginate(3);
-                return view("Stminishow.SearchGenForm")->with("gens", $gens);
+                    ->orwhere('Name_Gen', "LIKE", "%{$searchGEN}%")->paginate(5);
+                    $count = Gen::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchGenForm")->with("gens", $gens)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

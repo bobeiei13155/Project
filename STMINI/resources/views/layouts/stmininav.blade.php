@@ -66,8 +66,8 @@
               <li> <a href="/Stminishow/createBrand">ข้อมูลยี่ห้อ</a></li>
               <li> <a href="/Stminishow/createPattern">ข้อมูลลาย</a></li>
               <li> <a href="/Stminishow/createColor">ข้อมูลสี</a></li>
-              <li> <a href="/Stminishow/createCarmodel">ข้อมูลรุ่นรถ</a></li>
               <li> <a href="/Stminishow/createGen">ข้อมูลGen</a></li>
+              <li> <a href="/Stminishow/createCarmodel">ข้อมูลรุ่นรถ</a></li>
             </ul>
           </li>
         </ul>
@@ -82,7 +82,7 @@
           <li><a href="#memberDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-users"></i>ข้อมูลลูกค้า</a>
             <ul id="memberDropdown" class="collapse list-unstyled ">
               <li> <a href="/Stminishow/showMember">ข้อมูลลูกค้า</a></li>
-
+              <li> <a href="/Stminishow/createCategorymember">ข้อมูลประเภทลูกค้า</a></li>
             </ul>
           </li>
         </ul>

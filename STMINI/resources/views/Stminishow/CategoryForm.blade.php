@@ -1,7 +1,15 @@
 @extends('layouts.stmininav')
 
 @section('body')
-
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <section class="charts">
     <div class="container-fluid">
         <header>
@@ -24,12 +32,12 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createCategory" method="GET" enctype="multipart/form-data">
-                    <div class="col">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="Name_Category" id="Name_Category"  style="width: 300px;" placeholder="ชื่อประเภทสินค้า" required >
-                            <button type="submit" name="submit" class="btn btn-primary"><i class="fas fa-plus" style="margin-right: 5px;"></i> เพิ่มประเภทสินค้า</button>
+                        <div class="col">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="Name_Category" id="Name_Category" style="width: 300px;" placeholder="ชื่อประเภทสินค้า" required>
+                                <button type="submit" name="submit" class="btn btn-primary"><i class="fas fa-plus" style="margin-right: 5px;"></i> เพิ่มประเภทสินค้า</button>
+                            </div>
                         </div>
-                    </div>
                     </form>
                     <div class="col">
                         <div class="text-right "> รายการข้อมูลทั้งหมด {{$count}} รายการ </div>
