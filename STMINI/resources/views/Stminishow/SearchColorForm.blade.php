@@ -32,6 +32,7 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createColor" method="GET" enctype="multipart/form-data">
+                    {{csrf_field()}}
                         <div class="col">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสีสินค้า" style="width: 300px;" required>

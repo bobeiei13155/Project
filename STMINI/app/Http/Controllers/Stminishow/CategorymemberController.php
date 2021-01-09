@@ -20,7 +20,8 @@ class CategorymemberController extends Controller
             if (session()->has('loginpermission5')) {
 
                 $categorymembers = categorymember::paginate(5);
-                return view('Stminishow.CategorymemberForm', compact("categorymembers"));
+                $count = categorymember::where('Status', '=', 0)->count();
+                return view('Stminishow.CategorymemberForm', compact("categorymembers"))->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -41,7 +42,8 @@ class CategorymemberController extends Controller
                     ->where('Id_Cmember', "LIKE", "%{$searchCMB}%")
                     ->orwhere('Name_Cmember', "LIKE", "%{$searchCMB}%")
                     ->orwhere('Discount_Cmember', "LIKE", "%{$searchCMB}%")->paginate(5);
-                return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers);
+                    $count = categorymember::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchCategorymemberForm")->with("categorymembers", $categorymembers)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

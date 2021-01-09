@@ -80,11 +80,11 @@ class EmployeeController extends Controller
                     }
                 }
                 $Id_Emp = json_decode(json_encode($Id_Emp), true);
-                
-               
+
+
                 Session::put('Id_Emp', $Id_Emp);
-                
-                
+
+
                 return view('Stminishow.EmployeeForm')->with('list', $list)->with('am', $am)->with('positions', Position::all());
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -324,6 +324,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $Id_Emp)
     {
 
+
         $request->validate([
             'Tel_Emp.*' => 'required',
             'Username_Emp' => 'required',
@@ -341,6 +342,7 @@ class EmployeeController extends Controller
 
         //   dd($data);
 
+       
 
         //  dd($Tel_Emp);
         if (is_null($request['Tel_Emp'])) {
@@ -368,8 +370,6 @@ class EmployeeController extends Controller
                 }
             }
         }
-
-
 
 
 

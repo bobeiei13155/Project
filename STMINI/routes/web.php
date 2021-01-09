@@ -77,7 +77,7 @@ Route::post('/Stminishow/createMember/f_districts', 'Stminishow\MemberController
 Route::post('/Stminishow/createMember/f_postcode', 'Stminishow\MemberController@f_postcode')->name('Member.f_postcode');
 Route::get('/Stminishow/editMember/{Id_Member}', 'Stminishow\MemberController@edit'); //ทำสิทธิ์แล้ว
 Route::post('/Stminishow/updateMember/{Id_Member}', 'Stminishow\MemberController@update');
-Route::get('/Stminishow/deleteMember/{Id_Cmember}', 'Stminishow\MemberController@delete'); //ทำสิทธิ์แล้ว
+Route::get('/Stminishow/deleteMember/{Id_Member}', 'Stminishow\MemberController@delete'); //ทำสิทธิ์แล้ว
 //ลบ
 
 

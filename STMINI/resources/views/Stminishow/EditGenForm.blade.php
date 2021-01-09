@@ -25,6 +25,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/updateGen/{{$gens->Id_Gen}}" method="post">
+                        {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">

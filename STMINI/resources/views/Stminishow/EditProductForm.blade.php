@@ -26,6 +26,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/updateProduct/{{$products->Id_Product}}" method="post" enctype="multipart/form-data">
+                        {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">

@@ -25,6 +25,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/createEmployee" method="post" enctype="multipart/form-data">
+                        {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">

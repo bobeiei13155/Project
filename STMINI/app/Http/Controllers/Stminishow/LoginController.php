@@ -82,7 +82,8 @@ class LoginController extends Controller
                 substr($Permission[0]->Permission, 6, 1), substr($Permission[0]->Permission, 7, 1),
                 substr($Permission[0]->Permission, 8, 1), substr($Permission[0]->Permission, 9, 1),
                 substr($Permission[0]->Permission, 10, 1), substr($Permission[0]->Permission, 11, 1),
-                substr($Permission[0]->Permission, 12, 1),
+                substr($Permission[0]->Permission, 12, 1),substr($Permission[0]->Permission, 13, 1),
+                substr($Permission[0]->Permission, 14, 1),substr($Permission[0]->Permission, 15, 1)
             ];
             $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
             $request->session()->put(['fname' => $Fnameold[0]->FName_Emp]);
@@ -125,6 +126,15 @@ class LoginController extends Controller
             }
             if ($loginpermission[12] == 1) {
                 $request->session()->put(['loginpermission13' => $loginpermission[12]]);
+            }
+            if ($loginpermission[13] == 1) {
+                $request->session()->put(['loginpermission14' => $loginpermission[13]]);
+            }
+            if ($loginpermission[14] == 1) {
+                $request->session()->put(['loginpermission15' => $loginpermission[14]]);
+            }
+            if ($loginpermission[15] == 1) {
+                $request->session()->put(['loginpermission16' => $loginpermission[15]]);
             }
 
 

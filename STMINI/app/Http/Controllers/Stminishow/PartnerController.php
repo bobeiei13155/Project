@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\costs;
-
+use Illuminate\Support\Facades\Session;
 class PartnerController extends Controller
 {
     /**
@@ -20,27 +20,35 @@ class PartnerController extends Controller
 
     public function searchPTN(Request $request)
     {
+        Session()->forget("echo", "คุณไม่มีสิทธิ์");
+        if (session()->has('login')) {
+            if (session()->has('loginpermission4')) {
+                $count = partner::where('Status', '=', 0)->count();
+                
+                $searchPTN = $request->searchPTN;
 
+                $partners = DB::table('partners')
 
-        $searchPTN = $request->searchPTN;
+                    ->Join('telptns', 'partners.Id_Partner', '=', 'telptns.Id_Partner')
+                    ->select('partners.Id_Partner','partners.Name_Partner','telptns.Tel_PTN')
+                    ->where('partners.Id_Partner', "LIKE", "%{$searchPTN}%")
+                    ->orwhere('partners.Name_Partner', "LIKE", "%{$searchPTN}%")
+                    ->orwhere('telptns.Tel_PTN', "LIKE", "%{$searchPTN}%")
+                    ->groupBy('partners.Id_Partner','partners.Name_Partner','telptns.Tel_PTN')->orderBy('partners.Id_Partner', 'DESC')
+                    ->paginate(5);
 
+            
+             
+    
+                 return view("Stminishow.SearchPartnerForm")->with("partners", $partners)->with('count', $count);
+            } else {
+                Session()->flash("echo", "คุณไม่มีสิทธิ์");
+                return view('layouts.stmininav');
+            }
+        } else {
 
-        // if ($searchposition != Null){
-
-        // };
-        // $datasearch = json_decode(json_encode($searchposition), true);
-
-        //  dd($searchposition);
-        $partners = DB::table('partners')
-            ->join('telptns', 'partners.Id_Partner', '=', 'telptns.Id_Partner')
-            ->where('partners.Id_Partner', "LIKE", "%{$searchPTN}%")
-            ->orwhere('Name_Partner', "LIKE", "%{$searchPTN}%")
-            ->orwhere('Tel_PTN', "LIKE", "%{$searchPTN}%")
-            ->paginate(3);
-
-
-        // dd($partners);
-        return view("Stminishow.SearchPartnerForm")->with("partners", $partners)->with('telptns', Telptn::all());
+            return redirect('/login');
+        }
     }
 
 
@@ -48,24 +56,38 @@ class PartnerController extends Controller
     public function ShowPTN()
     {
         $partners = DB::table('partners')->orderBy('Id_Partner', 'DESC')->paginate(5);
-        // $telptns = Telptn::where($partners)->first();
+    
         $telptns = Telptn::all();
-
-        //  $telptns = DB::table('telptns'); 
-        //   $splitName = explode(' ',$telptns);
-        // dd($telptns);
-        //  $first_name = $splitName[0];
-
-        //  $telptns = DB::table('partner')
-        //  ->join('telptns', 'partner.Id_Partner', '=', 'telptns.Id_Partner')
-        //  ->where('Id_Partner')->groupBy('Id_Partner');
-        // $telptns = Telptn::first();
-        return view('Stminishow.ShowPartnerForm')->with('partners', $partners)->with('telptns', $telptns);
+        $count = partner::where('Status', '=', 0)->count();
+        return view('Stminishow.ShowPartnerForm')->with('partners', $partners)->with('telptns', $telptns)->with('count', $count);
     }
     public function index()
     {
         $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
         $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+
+       
+        $GenId = DB::table('partners')->max('Id_Partner');
+        if (is_null($GenId)) {
+            $Id_Partner = "PTN" . "-" . date('Y') . date('m') . "-" . "000";
+        } else {
+
+            $GenId_PTN = substr($GenId, 11, 14) + 1;
+            if ($GenId_PTN < 10) {
+                $Id_Partner = "PTN" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PTN;
+            } elseif ($GenId_PTN >= 10 && $GenId_PTN < 100) {
+                $Id_Partner = "PTN" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PTN;
+            } elseif ($GenId_PTN >= 100) {
+                $Id_Partner = "PTN" . "-" . date('Y') . date('m') . "-" . $GenId_PTN;
+            }
+        }
+
+        $Id_Partner = json_decode(json_encode($Id_Partner), true);
+
+       
+        Session::put('Id_Partner', $Id_Partner);
+
+
 
         return view('Stminishow.PartnerForm')->with('list', $list)->with('am', $am)->with('products', product::all());
     }
@@ -251,7 +273,7 @@ class PartnerController extends Controller
 
         $costs = DB::table('costs')
             ->select('Id_Partner')
-            ->where('Id_Partner','=', $Id_Partner)->get();
+            ->where('Id_Partner', '=', $Id_Partner)->get();
 
         $datacost =    json_decode(json_encode($costs), true);
 

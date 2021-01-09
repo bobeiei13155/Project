@@ -14,6 +14,7 @@
     <div class="container-fluid">
         <header>
             <form action="/Stminishow/SearchCategory" method="GET" enctype="multipart/form-data">
+            {{csrf_field()}}
                 <div class="row">
                     <div class="col">
                         <h1 class="h1">ข้อมูลประเภทสินค้า</h1>

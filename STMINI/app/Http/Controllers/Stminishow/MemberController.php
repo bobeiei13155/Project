@@ -8,6 +8,7 @@ use App\Categorymember;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class MemberController extends Controller
 {
@@ -23,6 +24,30 @@ class MemberController extends Controller
 
                 $list = DB::table('province')->orderBy('PROVINCE_NAME', 'asc')->get();
                 $am = DB::table('amphur')->orderBy('AMPHUR_NAME', 'asc')->get();
+
+
+                $GenId = DB::table('members')->max('Id_Member');
+                if (is_null($GenId)) {
+                    $Id_Member = "MEM" . "-" . date('Y') . date('m') . "-" . "000";
+                } else {
+
+
+                    $GenId_Mem = substr($GenId, 11, 14) + 1;
+                    if ($GenId_Mem < 10) {
+                        $Id_Member = "MEM" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_Mem;
+                    } elseif ($GenId_Mem >= 10 && $GenId_Mem < 100) {
+                        $Id_Member = "MEM" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_Mem;
+                    } elseif ($GenId_Mem >= 100) {
+                        $Id_Member = "MEM" . "-" . date('Y') . date('m') . "-" . $GenId_Mem;
+                    }
+                }
+
+                $Id_Member = json_decode(json_encode($Id_Member), true);
+
+
+                Session::put('Id_Member', $Id_Member);
+
+
                 return view('Stminishow.MemberForm')->with('list', $list)->with('am', $am)->with('categorymembers', categorymember::all());
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -38,8 +63,10 @@ class MemberController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission5')) {
                 $members = member::paginate(5);
+
                 $telmems = Telmem::all();
-                return view('Stminishow.ShowMemberForm', compact("members"))->with('telmems', $telmems)->with('categorymembers', categorymember::all());
+                $count = member::where('Status', '=', 0)->count();
+                return view('Stminishow.ShowMemberForm', compact("members"))->with('telmems', $telmems)->with('categorymembers', categorymember::all())->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -62,11 +89,17 @@ class MemberController extends Controller
                 $members = DB::table('members')
                     ->join('categorymembers', 'members.Cmember_Id', "LIKE", 'categorymembers.Id_Cmember')
                     ->join('telmems', 'members.Id_Member', '=', 'telmems.Id_Member')
+                    ->select('members.Id_Member', 'members.FName_Member', 'members.LName_Member', 'categorymembers.Name_Cmember', 'telmems.Tel_MEM')
                     ->where('members.Id_Member', "LIKE", "%{$searchMEM}%")
                     ->orwhere('FName_Member', "LIKE", "%{$searchMEM}%")
                     ->orwhere('LName_Member', "LIKE", "%{$searchMEM}%")
-                    ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")->paginate(5);
-                return view("Stminishow.SearchMemberForm")->with("members", $members)->with('categorymembers', categorymember::all())->with('telmems', telmem::all());
+                    ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")
+                    ->groupBy('members.Id_Member', 'members.FName_Member', 'members.LName_Member', 'categorymembers.Name_Cmember', 'telmems.Tel_MEM')
+                    ->orderBy('members.Id_Member', 'DESC')
+                    ->paginate(5);
+
+                $count = member::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchMemberForm")->with("members", $members)->with('categorymembers', categorymember::all())->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

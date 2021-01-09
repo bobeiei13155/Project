@@ -32,6 +32,7 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createPattern" method="GET" enctype="multipart/form-data">
+                    {{csrf_field()}}
                         <div class="col">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="Name_Gen" id="Name_Gen" placeholder="ชื่อGEN" style="width: 300px;" required>
