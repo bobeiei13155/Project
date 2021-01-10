@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\PremiumPro;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Session;
 class PremiumProController extends Controller
 {
     /**
@@ -30,7 +30,9 @@ class PremiumProController extends Controller
                     ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->paginate(2);
-                return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros);
+
+                $count = PremiumPro::where('Status', '=', 0)->count();
+                return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros)->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -48,7 +50,8 @@ class PremiumProController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission7')) {
-                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(2));
+                $count = PremiumPro::where('Status', '=', 0)->count();
+                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(2))->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -69,6 +72,28 @@ class PremiumProController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission7')) {
+                
+                $GenId = DB::table('premium_pros')->max('Id_Premium_Pro');
+
+                if (is_null($GenId)) {
+                    $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "000";
+                } else {
+
+                    $GenId_PMP = substr($GenId, 11, 14) + 1;
+
+                    if ($GenId_PMP < 10) {
+                        $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "00" . $GenId_PMP;
+                    } elseif ($GenId_PMP >= 10 && $GenId_PMP < 100) {
+                        $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . "0" . $GenId_PMP;
+                    } elseif ($GenId_PMP >= 100) {
+                        $Id_PremiumPro = "PMP" . "-" . date('Y') . date('m') . "-" . $GenId_PMP;
+                    }
+                }
+
+                Session::put('Id_PremiumPro', $Id_PremiumPro);
+
+                
+
                 return view('Stminishow.PremiumProForm');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
@@ -181,7 +206,7 @@ class PremiumProController extends Controller
         $request->validate([
             'Name' => 'required',
             'Amount' => 'required'
-          
+
 
         ]);
 
