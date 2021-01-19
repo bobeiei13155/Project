@@ -50,8 +50,8 @@
                     </thead>
                     <tbody>
                         @foreach($categories as $category)
+                        @if($category->Status == 0 )
                         <tr>
-
                             <td scope="row">{{$category->Id_Category}}</td>
                             <td>{{$category->Name_Category}}</td>
                             <td>
@@ -61,6 +61,10 @@
                                 <a href="/Stminishow/deleteCategory/{{$category->Id_Category}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
                             </td>
                         </tr>
+                        @else
+                        <tr style="display: none;">
+                        </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

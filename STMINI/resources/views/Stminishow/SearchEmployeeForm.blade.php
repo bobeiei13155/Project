@@ -36,6 +36,7 @@
           <thead>
             <tr>
               <th>รหัสพนักงาน</th>
+              <th>รูป</th>
               <th>ชื่อ</th>
               <th>นามสกุล</th>
               <th>อีเมล</th>
@@ -47,9 +48,12 @@
           </thead>
           <tbody>
             @foreach($employees as $employee)
+            @if($employee->Status == 0 )
             <tr>
-
               <td scope="row">{{$employee->Id_Emp}}</td>
+              <td>
+                <img src="{{asset('storage')}}/Emp_image/{{$employee->Img_Emp}}" alt="" width="80px" height="80px">
+              </td>
               <td>{{$employee->FName_Emp}}</td>
               <td>{{$employee->LName_Emp}}</td>
               <td>{{$employee->Email_Emp}}</td>
@@ -69,6 +73,10 @@
                 <a href="/Stminishow/deleteEmployee/{{$employee->Id_Emp}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
               </td>
             </tr>
+            @else
+            <tr style="display: none;">
+            </tr>
+            @endif
             @endforeach
           </tbody>
         </table>

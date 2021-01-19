@@ -22,7 +22,7 @@ class PositionController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
                 $searchPOS = $request->searchPOS;
-                $positions = DB::table('positions')
+                $positions = DB::table('positions')->select('Id_Position','Name_Position','Status')->where('Status', '=', 0)
                     ->where('Id_Position', "LIKE", "%{$searchPOS}%")
                     ->orwhere('Name_Position', "LIKE", "%{$searchPOS}%")->paginate(5);
                 $count = position::where('Status', '=', 0)->count();

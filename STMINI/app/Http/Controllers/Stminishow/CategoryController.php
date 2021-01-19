@@ -37,10 +37,12 @@ class CategoryController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
                 $searchCRP = $request->searchCRP;
-                $categories = DB::table('categories')
+                $categories = DB::table('categories')->select('Id_Category','Name_Category','Status')->where('Status', '=', 0)
                     ->where('Id_Category', "LIKE", "%{$searchCRP}%")
                     ->orwhere('Name_Category', "LIKE", "%{$searchCRP}%")->paginate(5);
                 $count = category::where('Status', '=', 0)->count();
+                
+                
                 return view("Stminishow.SearchCategoryForm")->with("categories", $categories)->with('count', $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

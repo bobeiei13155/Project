@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
 use App\Telemp;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
@@ -38,6 +40,10 @@ class EmployeeController extends Controller
                 $count = DB::table('employees')->where('Status', '=', 0)->count();
                 $employees = DB::table('employees')->orderBy('Id_Emp', 'DESC')
                     ->join('positions', 'employees.Position_Id', "LIKE", 'positions.Id_Position')
+                    ->select('employees.Id_Emp','employees.FName_Emp','employees.LName_Emp','employees.Email_Emp',
+                    'employees.Salary_Emp','positions.Name_Position','employees.Status','employees.Img_Emp',
+                    'positions.Id_Position','employees.Position_Id')
+                    ->where('employees.Status', '=', 0)
                     ->where('Id_Emp', "LIKE", "%{$searchEmp}%")
                     ->orwhere('FName_Emp', "LIKE", "%{$searchEmp}%")
                     ->orwhere('LName_Emp', "LIKE", "%{$searchEmp}%")
@@ -201,6 +207,13 @@ class EmployeeController extends Controller
 
         ]);
 
+        $stringImageReFormat = base64_encode('_' . time());
+        $ext = $request->file('image')->getClientOriginalExtension();
+        $imageName = $stringImageReFormat . "." . $ext;
+        $imageEncoded = File::get($request->image);
+
+        Storage::disk('local')->put('public/Emp_image/' . $imageName, $imageEncoded);
+
 
 
 
@@ -235,7 +248,7 @@ class EmployeeController extends Controller
         $employee->District_Id = $request->District_Id;
         $employee->Postcode_Id = $request->Postcode_Id;
         $employee->Subdistrict_Id = $request->Subdistrict_Id;
-
+        $employee->Img_Emp = $imageName;
 
         $employee->save();
 
@@ -331,6 +344,17 @@ class EmployeeController extends Controller
             'Idcard_Emp' => 'required',
         ]);
 
+        if ($request->hasFile("image")) {
+            $Employee = Employee::find($Id_Emp);
+            
+            $exists = Storage::disk('local')->exists("public/Emp_image/" . $Employee->Img_Emp); //เจอไฟล์ภาพชื่อตรงกัน
+            if ($exists) {
+                Storage::delete("public/Emp_image/" . $Employee->Img_Emp);
+            }
+            $request->image->storeAs("public/Emp_image/", $Employee->Img_Emp);
+        }
+
+
         $Tel_Emp = DB::table('telemps')
             ->select('telemps.Id_Emp')
             ->where('telemps.Id_Emp', '=', $Id_Emp)->get();
@@ -342,7 +366,7 @@ class EmployeeController extends Controller
 
         //   dd($data);
 
-       
+
 
         //  dd($Tel_Emp);
         if (is_null($request['Tel_Emp'])) {

@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\PremiumPro;
 use Illuminate\Support\Facades\File;
+use App\PremiumPro;
+
 use Illuminate\Support\Facades\Session;
 class PremiumProController extends Controller
 {
@@ -29,7 +30,7 @@ class PremiumProController extends Controller
                 $PremiumPros = DB::table('premium_pros')
                     ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
-                    ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->paginate(2);
+                    ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->paginate(5);
 
                 $count = PremiumPro::where('Status', '=', 0)->count();
                 return view("Stminishow.SearchPremiumProForm")->with("premium_pros", $PremiumPros)->with("count", $count);
@@ -51,7 +52,7 @@ class PremiumProController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission7')) {
                 $count = PremiumPro::where('Status', '=', 0)->count();
-                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(2))->with("count", $count);
+                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(5))->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');

@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/updateEmployee/{{$employee->Id_Emp}}" method="post" enctype="multipart/form-data">
-                        {{csrf_field()}}
+                            {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -50,20 +50,22 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
-                                    <label for="Sex_Emp">เพศ</label>
-                                    <select class="form-control" name="Sex_Emp">
-                                        @if($employee->Sex_Emp == "ชาย" ){
-                                        <option value="ชาย" selected>
-                                            {{$employee->Sex_Emp}}</option>
-                                        <option value="หญิง">หญิง</option>
-                                        }@else{
+                                        <label for="Sex_Emp">เพศ</label>
+                                        <select class="form-control" name="Sex_Emp">
+                                            @if($employee->Sex_Emp == "ชาย" ){
+                                            <option value="ชาย" selected>
+                                                {{$employee->Sex_Emp}}
+                                            </option>
+                                            <option value="หญิง">หญิง</option>
+                                            }@else{
 
-                                        <option value="หญิง" selected>
-                                            {{$employee->Sex_Emp}}</option>
-                                        <option value="ชาย">ชาย</option>
-                                        }
-                                        @endif
-                                    </select>
+                                            <option value="หญิง" selected>
+                                                {{$employee->Sex_Emp}}
+                                            </option>
+                                            <option value="ชาย">ชาย</option>
+                                            }
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +108,6 @@
                                                     @foreach($list as $row)
                                                     @if($employee->Province_Id == $row->PROVINCE_ID)
                                                     {{$row->PROVINCE_NAME}}
-
                                                     @endif
                                                     @endforeach
                                                 </option>
@@ -178,10 +179,14 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <label for="image" class="font_green">รูปพนักงาน</label>
+                                        <input type="file" class="form-control" name="image" id="image" required>
+                                    </div>
+                                    <div class="col-md-6">
                                         <table class="table table-borderd" id="tel">
                                             <tr>
                                                 <th class="font_green th1">เบอร์โทรศัพท์</th>
-                                                <th> <button type="button"  class="btn btn-success addRowTel" ><i class="fas fa-plus" ></i></button></th>
+                                                <th> <button type="button" class="btn btn-success addRowTel"><i class="fas fa-plus"></i></button></th>
                                             </tr>
                                             @foreach($telemps as $row)
                                             <tr>
@@ -194,17 +199,22 @@
                                                     </div>
 
                                                 </th>
-                                                <th> <button type="button"  class="btn btn-danger remove" ><i class="fas fa-minus" ></i></button></th>
+                                                <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>
                                             </tr>
                                             @endforeach
                                         </table>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{asset('storage')}}/Emp_image/{{$employee->Img_Emp}}" alt="" width="150px" height="150px">
+                                    </div>
+                                </div>
                             </div>
 
 
-                            <button type="submit" name="submit" class="btn btn-success"><i class="fas fa-pen"  style="margin-right: 5px;"></i> แก้ไข</button>
-                            <a class="btn btn-danger my-2" href="/Stminishow/showEmployee"> <i class="fas fa-arrow-left"  style="margin-right: 5px;"></i>กลับ</a>
+                            <button type="submit" name="submit" class="btn btn-success"><i class="fas fa-pen" style="margin-right: 5px;"></i> แก้ไข</button>
+                            <a class="btn btn-danger my-2" href="/Stminishow/showEmployee"> <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>กลับ</a>
 
                         </form>
                     </div>

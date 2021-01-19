@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/createEmployee" method="post" enctype="multipart/form-data">
-                        {{csrf_field()}}
+                            {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -90,7 +90,7 @@
                                     <div class="col-md-3">
                                         <label for="province" class="font_green">จังหวัด</label>
                                         <div class="form-group">
-                                            <select name="Province_Id" id="province" class="form-control province" required>    
+                                            <select name="Province_Id" id="province" class="form-control province" required>
                                                 <option value="" selected>เลือกจังหวัด</option>
                                                 @foreach($list as $row)
                                                 <option value="{{$row->PROVINCE_ID}}">{{$row->PROVINCE_NAME}}</option>
@@ -140,10 +140,15 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <label for="image" class="font_green">รูปพนักงาน</label>
+                                        <input type="file" class="form-control" name="image" id="image" required>
+                                    </div>
+
+                                    <div class="col-md-6">
                                         <table class="table" id="tel">
                                             <tr>
                                                 <th class="">เบอร์โทรศัพท์</th>
-                                                <th> <button type="button"  class="btn btn-success addRowTel" ><i class="fas fa-plus" ></i></button></th>
+                                                <th> <button type="button" class="btn btn-success addRowTel"><i class="fas fa-plus"></i></button></th>
                                             </tr>
                                             <tr>
                                                 <th>
@@ -151,14 +156,14 @@
                                                         <input type="text" class="form-control" name="Tel_Emp[]" id="Tel_Emp" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeypress="return onlyNumberKey(event)" required>
                                                     </div>
                                                 </th>
-                                                <th> <button type="button"  class="btn btn-danger remove" ><i class="fas fa-minus" ></i></button></th>
+                                                <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" name="submit" id="submit" class="btn btn-success" > <i class="fas fa-plus" style="margin-right: 5px;"></i>เพิ่ม</button>
-                            <a class="btn btn-danger my-2" href="/Stminishow/showEmployee" > <i class="fas fa-arrow-left"  style="margin-right: 5px;"></i>กลับ</a>
+                            <button type="submit" name="submit" id="submit" class="btn btn-success"> <i class="fas fa-plus" style="margin-right: 5px;"></i>เพิ่ม</button>
+                            <a class="btn btn-danger my-2" href="/Stminishow/showEmployee"> <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>กลับ</a>
 
                         </form>
                     </div>

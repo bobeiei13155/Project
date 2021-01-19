@@ -53,7 +53,16 @@ class LoginController extends Controller
         $Fnameold = DB::table('employees')
         ->select('FName_Emp',)
         ->where('Username_Emp', '=', "{$Usernameold}")->get();
-        $Fnamenew = json_decode(json_encode($Fnameold), true);
+        // $Fnamenew = json_decode(json_encode($Fnameold), true);
+
+
+        $Lnameold = DB::table('employees')
+        ->select('LName_Emp',)
+        ->where('Username_Emp', '=', "{$Usernameold}")->get();
+
+        $img = DB::table('employees')
+        ->select('Img_Emp',)
+        ->where('Username_Emp', '=', "{$Usernameold}")->get();
 
         if (empty($Username) || empty($Password)) {
             Session()->flash("warning", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
@@ -69,7 +78,9 @@ class LoginController extends Controller
             
                 $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
                 $request->session()->put(['fname' => $Fnameold[0]->FName_Emp]);
-                return view('/Stminishow/indexform')->with('login', $request->session())->with('fname', $request->session());
+                $request->session()->put(['lname' => $Lnameold[0]->LName_Emp]);
+                $request->session()->put(['Img_Emp' => $img[0]->Img_Emp]);
+                return view('/Stminishow/indexform')->with('login', $request->session())->with('Img_Emp', $request->session())->with('fname', $request->session())->with('lname', $request->session());
             }
 
             Session()->flash("success", "เข้าสู่ระบบสำเร็จ");
@@ -87,6 +98,8 @@ class LoginController extends Controller
             ];
             $request->session()->put(['login' => $checkusername[0]->Username_Emp]);
             $request->session()->put(['fname' => $Fnameold[0]->FName_Emp]);
+            $request->session()->put(['lname' => $Lnameold[0]->LName_Emp]);
+            $request->session()->put(['Img_Emp' => $img[0]->Img_Emp]);
             if ($loginpermission[0] == 1) {
                 $request->session()->put(['loginpermission1' => $loginpermission[0]]);
             }
@@ -138,7 +151,7 @@ class LoginController extends Controller
             }
 
 
-            return view('/Stminishow/indexform')->with('login', $request->session())->with('fname', $request->session());
+            return view('/Stminishow/indexform')->with('login', $request->session())->with('Img_Emp', $request->session())->with('fname', $request->session())->with('lname', $request->session());
         };
 
 

@@ -36,6 +36,7 @@
           <thead>
             <tr>
               <th>รหัสพนักงาน</th>
+              <th>รูป</th>
               <th>ชื่อ</th>
               <th>นามสกุล</th>
               <th>อีเมล</th>
@@ -50,6 +51,9 @@
             <tr>
 
               <td scope="row">{{$employee->Id_Emp}}</td>
+              <td>
+                <img src="{{asset('storage')}}/Emp_image/{{$employee->Img_Emp}}" alt="" width="80px" height="80px">
+              </td>
               <td>{{$employee->FName_Emp}}</td>
               <td>{{$employee->LName_Emp}}</td>
               <td>{{$employee->Email_Emp}}</td>

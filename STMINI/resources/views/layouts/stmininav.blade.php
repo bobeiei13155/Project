@@ -41,8 +41,8 @@
       <!-- Sidebar Header    -->
       <div class="sidenav-header d-flex align-items-center justify-content-center">
         <!-- User Info-->
-        <div class="sidenav-header-inner text-center"><img src="{{asset('img/avatar-7.jpg')}}" alt="person" class="img-fluid rounded-circle">
-          <h2 class="h5">{{session()->get('fname')}}</h2>
+        <div class="sidenav-header-inner text-center"><img src="{{asset('storage')}}/Emp_image/{{session()->get('Img_Emp')}}" alt="person" class="img-fluid rounded-circle">
+          <h2 class="h5">{{session()->get('fname')}} {{session()->get('lname')}}</h2>
         </div>
         <!-- Small Brand information, appears on minimized sidebar-->
         <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-light">T</strong></a></div>

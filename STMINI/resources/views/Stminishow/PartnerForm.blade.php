@@ -143,7 +143,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_amphures')}}",
+                url: "{{route('Partner.f_amphures')}}",
                 method: "POST",
                 data: {
                     select: select,
@@ -160,7 +160,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_districts')}}",
+                url: "{{route('Partner.f_districts')}}",
                 method: "POST",
                 data: {
                     select: select,
@@ -177,7 +177,7 @@
             var select = $(this).val();
             var _token = $('input[name="_token"]').val();
             $.ajax({
-                url: "{{route('Employee.f_postcode')}}",
+                url: "{{route('Partner.f_postcode')}}",
                 method: "POST",
                 data: {
                     select: select,
