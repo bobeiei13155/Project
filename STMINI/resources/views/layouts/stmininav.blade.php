@@ -168,7 +168,7 @@
             <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
 
               <!-- Log out-->
-              <li class="nav-item"><a href="/logout" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
+              <li class="nav-item"><a href="/logout" class="nav-link logout"> <span class="d-none d-sm-inline-block">ออกจากระบบ</span><i class="fa fa-sign-out"></i></a></li>
             </ul>
           </div>
         </div>

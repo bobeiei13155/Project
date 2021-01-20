@@ -158,7 +158,9 @@ class GenController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                gen::destroy($Id_Gen);
+                $gen = gen::find($Id_Gen);
+                $gen->Status = 1;
+                $gen->save();
                 return redirect('/Stminishow/createGen');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

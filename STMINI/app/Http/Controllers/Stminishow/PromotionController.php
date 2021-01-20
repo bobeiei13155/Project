@@ -15,6 +15,7 @@ use App\promotion_prod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\promotionpays;
+use App\brand;
 use Illuminate\Support\Facades\Route;
 
 class PromotionController extends Controller
@@ -33,17 +34,40 @@ class PromotionController extends Controller
 
 
                 $searchPOP = $request->searchPOP;
+                $producttest = DB::table('promotion_prods')->orderBy('promotion_prods.Id_Promotion', 'DESC')
+                    ->join('products', 'promotion_prods.Id_Product', "LIKE", 'products.Id_Product')
+                    ->join('promotions', 'promotion_prods.Id_Promotion', "LIKE", 'promotions.Id_Promotion')
+                    ->select(
+                        'promotion_prods.Id_Product',
+                        'products.Id_Product',
+                        'promotion_prods.Id_Promotion',
+                        'promotions.Id_Promotion',
+                        'products.Name_Product'
+                    )
 
+                    ->where('promotions.Status', '=', 0)->distinct('promotion_prods.Id_Product')->get();
                 $Promotion = DB::table('promotion_prods')->orderBy('promotion_prods.Id_Promotion', 'DESC')
                     ->join('products', 'promotion_prods.Id_Product', "LIKE", 'products.Id_Product')
                     ->join('promotions', 'promotion_prods.Id_Promotion', "LIKE", 'promotions.Id_Promotion')
+                    ->select(
+                        'promotion_prods.Id_Product',
+                        'products.Id_Product',
+                        'promotion_prods.Id_Promotion',
+                        'promotions.Id_Promotion',
+                        'promotions.Name_Promotion',
+                        'products.Name_Product',
+                        'promotions.Sdate_Promotion',
+                        'promotions.Edate_Promotion',
+                        'products.Name_Product',
+                        'promotions.Status'
+                    )
                     ->where('promotions.Status', '=', 0)
                     ->where('promotion_prods.Id_Promotion', "LIKE", "%{$searchPOP}%")
                     ->orwhere('products.Name_Product', "LIKE", "%{$searchPOP}%")
                     ->orwhere('promotions.Name_Promotion', "LIKE", "%{$searchPOP}%")
                     ->orwhere('promotions.Sdate_Promotion', "LIKE", "%{$searchPOP}%")
                     ->orwhere('promotions.Edate_Promotion', "LIKE", "%{$searchPOP}%")
-                    ->paginate(5);
+                    ->distinct('promotion_prods.Id_Product')->paginate(5);
                 $product = Product::all();
                 $PremiumPro = PremiumPro::all();
 
@@ -51,7 +75,7 @@ class PromotionController extends Controller
                 $Promotion_Prod = promotion_prod::all();
 
                 $count = promotion::where('Status', '=', 0)->count();
-                return view("Stminishow.SearchPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro)->with("count", $count);
+                return view("Stminishow.SearchPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('producttest', $producttest)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro)->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -67,11 +91,25 @@ class PromotionController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission6')) {
                 $product = Product::all();
+                $producttest = DB::table('promotion_prods')->orderBy('promotion_prods.Id_Promotion', 'DESC')
+                    ->join('products', 'promotion_prods.Id_Product', "LIKE", 'products.Id_Product')
+                    ->join('promotions', 'promotion_prods.Id_Promotion', "LIKE", 'promotions.Id_Promotion')
+                    ->select(
+                        'promotion_prods.Id_Product',
+                        'products.Id_Product',
+                        'promotion_prods.Id_Promotion',
+                        'promotions.Id_Promotion',
+                        'products.Name_Product'
+                    )
+
+                    ->where('promotions.Status', '=', 0)->distinct('promotion_prods.Id_Product')->get();
+
+                //  dd( $producttest);
                 $PremiumPro = PremiumPro::all();
                 $Promotion = DB::table('promotions')->orderBy('promotions.Id_Promotion', 'DESC')->where('Status', '=', 0)->paginate(5);
                 $count = promotion::where('Status', '=', 0)->count();
                 $Promotion_Prod = promotion_prod::all();
-                return view("Stminishow.ShowPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro)->with("count", $count);
+                return view("Stminishow.ShowPromotionProForm")->with('promotion_prods', $Promotion_Prod)->with('producttest', $producttest)->with('promotions', $Promotion)->with('products', $product)->with('PremiumPros', $PremiumPro)->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -174,7 +212,7 @@ class PromotionController extends Controller
                 $product = Product::all();
                 $PremiumPro = PremiumPro::all();
                 $Promotion = promotion::find($Id_Promotion);
-                
+
 
                 $Promotion_Prod = promotion_prod::all();
 
@@ -190,7 +228,7 @@ class PromotionController extends Controller
                     ->where('Id_Promotion', $Id_Promotion)->get();
 
                 $joinpre = $join1[0]->Id_Premium_Pro;
-             
+
 
                 return view("Stminishow.EditPromotionProForm", ['promotions' => $Promotion])->with('joinpro', $joinpro)
                     ->with('join1', $join1)
@@ -261,13 +299,23 @@ class PromotionController extends Controller
 
                 $promotionpays = DB::table('promotion_payments')->orderBy('promotion_payments.Id_Promotion', 'DESC')
                     ->join('promotionpays', 'promotion_payments.Id_Promotion', "LIKE", 'promotionpays.Id_Promotion')
+                    ->select(
+                        'promotion_payments.Id_Promotion',
+                        'promotionpays.Id_Promotion',
+                        'promotionpays.Payment_Amount',
+                        'promotionpays.Name_Promotion',
+                        'promotionpays.Sdate_Promotion',
+                        'promotionpays.Edate_Promotion',
+                        'promotionpays.Status'
+                    )
                     ->where('promotionpays.Status', '=', 0)
                     ->where('promotion_payments.Id_Promotion', "LIKE", "%{$searchPOM}%")
-                    ->orwhere('promotion_payments.Payment_Amount', "LIKE", "%{$searchPOM}%")
+                    ->orwhere('promotionpays.Payment_Amount', "LIKE", "%{$searchPOM}%")
                     ->orwhere('promotionpays.Name_Promotion', "LIKE", "%{$searchPOM}%")
                     ->orwhere('promotionpays.Sdate_Promotion', "LIKE", "%{$searchPOM}%")
                     ->orwhere('promotionpays.Edate_Promotion', "LIKE", "%{$searchPOM}%")
-                    ->paginate(5);
+                    ->distinct('promotionpays.Name_Promotion')->paginate(5);
+               
                 $count = promotionpays::where('Status', '=', 0)->count();
                 $promotion_payments = promotion_payments::all();
 
@@ -311,7 +359,7 @@ class PromotionController extends Controller
 
     public function indexPay()
     {
-
+        $brands = brand::all();
         $PremiumPro = PremiumPro::all();
 
         $GenId = DB::table('promotionpays')->max('Id_Promotion');
@@ -333,11 +381,11 @@ class PromotionController extends Controller
 
         Session::put('Id_PromotionPay', $Id_PromotionPay);
 
-        return view("Stminishow.PromotionPayForm")->with('PremiumPros', $PremiumPro);
+        return view("Stminishow.PromotionPayForm")->with('brands', $brands)->with('PremiumPros', $PremiumPro);
     }
     public function createPromotionPay(Request $request)
     {
-        //dd($request);
+        // dd($request);
         $GenId = DB::table('promotionpays')->max('Id_Promotion');
 
         if (is_null($GenId)) {
@@ -366,12 +414,25 @@ class PromotionController extends Controller
         $promotionpays = new promotionpays;
         $promotionpays->Id_Promotion = $Id_Promotion;
         $promotionpays->Name_Promotion = $request->Name_Promotion;
+        $promotionpays->Brand_Id = $request->Brand_Id;
+        $promotionpays->Payment_Amount = $request->Payment_Amount;
         $promotionpays->Sdate_Promotion = $request->Sdate_Promotion;
         $promotionpays->Edate_Promotion = $request->Edate_Promotion;
 
 
-        // $promotionpays->save();
+        $promotionpays->save();
 
+        foreach ($request['Id_Premium_Pro'] as $item => $value) {
+            $request2 = array(
+                'Id_Promotion' => $Id_Promotion,
+                'Id_Premium_Pro' => $request['Id_Premium_Pro'][$item],
+                'Amount_Premium_Pro' => $request['Amount_Premium_Pro'][$item]
+
+            );
+            // dd( $request2);
+
+            promotion_payments::create($request2);
+        }
 
 
         // $request2 = array(
@@ -394,18 +455,18 @@ class PromotionController extends Controller
                 $PremiumPro = PremiumPro::all();
                 $promotionpay = promotionpays::find($Id_Promotion);
                 $promotion_payment = promotion_payments::all();
+                $brands = brand::all();
 
-                $paymentamounts = DB::table('promotion_payments')->select('Payment_Amount')->where('Id_Promotion', $Id_Promotion)->get();
 
                 $join1 = DB::table('promotion_payments')
                     ->join('premium_pros', 'premium_pros.Id_Premium_Pro', '=', 'promotion_payments.Id_Premium_Pro')
-                    ->select('premium_pros.Name_Premium_Pro', 'promotion_payments.Id_Premium_Pro', 'premium_pros.Id_Premium_Pro')
+                    ->select('premium_pros.Name_Premium_Pro', 'promotion_payments.Id_Premium_Pro', 'premium_pros.Id_Premium_Pro', 'promotion_payments.Amount_Premium_Pro')
                     ->where('Id_Promotion', $Id_Promotion)->get();
                 $joinpre = $join1[0]->Id_Premium_Pro;
 
-                $paymentamount = $paymentamounts[0]->Payment_Amount;
+
                 return view("Stminishow.EditPromotionPayForm", ['promotionpays' => $promotionpay])
-                    ->with('joinpre', $joinpre)->with('paymentamount', $paymentamount)
+                    ->with('join1', $join1)->with('brands', $brands)
                     ->with('promotion_payments', $promotion_payment)->with('PremiumPros', $PremiumPro);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

@@ -27,7 +27,7 @@ class PremiumProController extends Controller
                 $searchPMP = $request->searchPMP;
 
 
-                $PremiumPros = DB::table('premium_pros')
+                $PremiumPros = DB::table('premium_pros')->where('Status', '=', 0)
                     ->where('Id_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Name_Premium_Pro', "LIKE", "%{$searchPMP}%")
                     ->orwhere('Amount_Premium_Pro', "LIKE", "%{$searchPMP}%")->paginate(5);
@@ -52,7 +52,7 @@ class PremiumProController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission7')) {
                 $count = PremiumPro::where('Status', '=', 0)->count();
-                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::paginate(5))->with("count", $count);
+                return view('Stminishow.ShowPremiumProForm')->with("premium_pros", PremiumPro::where('Status', '=', 0)->paginate(5))->with("count", $count);
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");
                 return view('layouts.stmininav');
@@ -241,11 +241,13 @@ class PremiumProController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission7')) {
                 $PremiumPro = PremiumPro::find($Id_Premium_Pro);
-                $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
-                if ($exists) {
-                    Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
-                }
-                PremiumPro::destroy($Id_Premium_Pro);
+                // $exists = Storage::disk('local')->exists("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro); //เจอไฟล์ภาพชื่อตรงกัน
+                // if ($exists) {
+                //     Storage::delete("public/PremiumPro_image/" . $PremiumPro->Img_Premium_Pro);
+                // }
+           
+                $PremiumPro->Status = 1;
+                $PremiumPro->save();
                 return redirect('/Stminishow/ShowPremiumPro');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

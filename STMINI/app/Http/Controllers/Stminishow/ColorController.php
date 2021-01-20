@@ -163,7 +163,9 @@ class ColorController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                color::destroy($Id_Color);
+                $color = color::find($Id_Color);
+                $color->Status = 1;
+                $color->save();
                 return redirect('/Stminishow/createColor');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

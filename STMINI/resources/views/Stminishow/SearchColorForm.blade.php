@@ -32,7 +32,7 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createColor" method="GET" enctype="multipart/form-data">
-                    {{csrf_field()}}
+                        {{csrf_field()}}
                         <div class="col">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="Name_Color" id="Name_Color" placeholder="ชื่อสีสินค้า" style="width: 300px;" required>
@@ -57,6 +57,7 @@
                     </thead>
                     <tbody>
                         @foreach($colors as $color)
+                        @if($color->Status == 0 )
                         <tr>
 
                             <td scope="row">{{$color->Id_Color}}</td>
@@ -68,6 +69,10 @@
                                 <a href="/Stminishow/deleteColor/{{$color->Id_Color}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
                             </td>
                         </tr>
+                        @else
+                        <tr style="display: none;">
+                        </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

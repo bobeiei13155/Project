@@ -81,13 +81,16 @@ class ProductController extends Controller
                     ->join('categories', 'products.Category_Id', "LIKE", 'categories.Id_Category')
                     ->join('brands', 'products.Brand_Id', "LIKE", 'brands.Id_Brand')
                     ->join('gens', 'products.Gen_Id', "LIKE", 'gens.Id_Gen')
-
+                    ->select('products.Category_Id','categories.Id_Category','products.Brand_Id','brands.Id_Brand',
+                    'products.Gen_Id','gens.Id_Gen','products.Id_Product','products.Img_Product','products.Name_Product',
+                    'categories.Name_Category','brands.Name_Brand','gens.Name_Gen','products.Price','products.Status')
+                    ->where('products.Status', '=', 0)
                     ->where('Id_Product', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Product', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Category', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Brand', "LIKE", "%{$searchPRO}%")
                     ->orwhere('Name_Gen', "LIKE", "%{$searchPRO}%")->paginate(5);
-                    $count = Product::where('Status', '=', 0)->count();
+                $count = Product::where('Status', '=', 0)->count();
                 return view("Stminishow.SearchProductForm")->with("products", $products)->with("count", $count)
                     ->with('gens', gen::all())
                     ->with('brands', brand::all())
@@ -181,7 +184,7 @@ class ProductController extends Controller
         Session()->forget("echo", "คุณไม่มีสิทธิ์");
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $products = product::paginate(3);
+                $products = product::where('Status', '=', 0)->paginate(5);
                 $count = product::where('Status', '=', 0)->count();
                 return view('Stminishow.ShowProductForm', compact("products"))
                     ->with('gens', gen::all())
@@ -290,11 +293,13 @@ class ProductController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
                 $products = Product::find($Id_Product);
-                $exists = Storage::disk('local')->exists("public/Products_image/" . $products->Img_Product); //เจอไฟล์ภาพชื่อตรงกัน
-                if ($exists) {
-                    Storage::delete("public/Products_image/" . $products->Img_Product);
-                }
-                Product::destroy($Id_Product);
+                $products->Status = 1;
+                $products->save();
+                // $exists = Storage::disk('local')->exists("public/Products_image/" . $products->Img_Product); //เจอไฟล์ภาพชื่อตรงกัน
+                // if ($exists) {
+                //     Storage::delete("public/Products_image/" . $products->Img_Product);
+                // }
+
                 return redirect('/Stminishow/ShowProduct');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

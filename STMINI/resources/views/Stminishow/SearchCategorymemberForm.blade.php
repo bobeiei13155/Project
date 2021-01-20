@@ -32,10 +32,10 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createCategorymember" method="GET" enctype="multipart/form-data">
-                    {{csrf_field()}}
+                        {{csrf_field()}}
                         <div class="col">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="Name_Cmember" id="Name_Cmember" placeholder="ชื่อประเภทลูกค้า"  style="width: 300px;" required >
+                                <input type="text" class="form-control" name="Name_Cmember" id="Name_Cmember" placeholder="ชื่อประเภทลูกค้า" style="width: 300px;" required>
                                 <input type="number" class="form-control" name="Discount_Cmember" id="Discount_Cmember" placeholder="จำนวนส่วนลดลูกค้า" min="0" max="100" required>
                                 <button type="submit" name="submit" class="btn btn-primary"><i class="fas fa-plus" style="margin-right: 5px;"></i> เพิ่มข้อมูลประเภทลูกค้า</button>
                             </div>
@@ -59,6 +59,7 @@
                     </thead>
                     <tbody>
                         @foreach($categorymembers as $categorymember)
+                        @if($categorymember->Status == 0 )
                         <tr>
 
                             <th scope="row">{{$categorymember->Id_Cmember}}</th>
@@ -71,6 +72,10 @@
                                 <a href="/Stminishow/deleteCategorymember/{{$categorymember->Id_Cmember}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
                             </td>
                         </tr>
+                        @else
+                        <tr style="display: none;">
+                        </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

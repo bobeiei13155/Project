@@ -53,13 +53,12 @@
                                 {{$promotion->Name_Promotion}}
                             </td>
                             <td>
-                                @foreach($products as $product)
-                                @foreach($promotion_prods as $promotion_prod)
-                                @if($promotion->Id_Promotion == $promotion_prod->Id_Promotion && $promotion_prod->Id_Product == $product->Id_Product)
-                                {{$product->Name_Product}}
-                                @endif
-                                @endforeach
-                                @endforeach
+                            @foreach($producttest as $row)
+                            @if($promotion->Id_Promotion == $row->Id_Promotion)
+                            {{$row->Name_Product}}
+                            @endif
+                           
+                            @endforeach
                             </td>
                             <td>
                                 {{$promotion->Sdate_Promotion}}

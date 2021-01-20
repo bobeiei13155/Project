@@ -19,7 +19,7 @@ class CategorymemberController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission5')) {
 
-                $categorymembers = categorymember::paginate(5);
+                $categorymembers = categorymember::where('Status', '=', 0)->paginate(5);
                 $count = categorymember::where('Status', '=', 0)->count();
                 return view('Stminishow.CategorymemberForm', compact("categorymembers"))->with('count', $count);
             } else {
@@ -168,7 +168,9 @@ class CategorymemberController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission5')) {
-                categorymember::destroy($Id_Cmember);
+                $categorymember = categorymember::find($Id_Cmember);
+                $categorymember->Status = 1;
+                $categorymember->save();
                 return redirect('/Stminishow/createCategorymember');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

@@ -19,7 +19,7 @@ class CarmodelController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                $carmodels = Carmodel::paginate(5);
+                $carmodels = Carmodel::where('Status', '=', 0)->paginate(5);
                 $count = Carmodel::where('Status', '=', 0)->count();
                 return view('Stminishow.CarmodelForm', compact("carmodels"))->with('gens', gen::all())->with('count', $count);
             } else {
@@ -39,6 +39,7 @@ class CarmodelController extends Controller
                 $searchCMP = $request->searchCMD;
                 $carmodels = DB::table('carmodels')
                     ->join('gens', 'carmodels.Gen_Id', "LIKE", 'gens.Id_Gen')
+                    ->select('carmodels.Id_Carmodel', 'carmodels.Gen_Id','carmodels.Name_Carmodel','gens.Name_Gen', 'gens.Id_Gen','carmodels.Status')
                     ->where('Id_Carmodel', "LIKE", "%{$searchCMP}%")
                     ->orwhere('Name_Carmodel', "LIKE", "%{$searchCMP}%")
                     ->orwhere('Name_Gen', "LIKE", "%{$searchCMP}%")->paginate(5);
@@ -160,12 +161,14 @@ class CarmodelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($Id_Category)
+    public function delete($Id_Carmodel)
     {
 
         if (session()->has('login')) {
             if (session()->has('loginpermission3')) {
-                carmodel::destroy($Id_Category);
+                $carmodel = carmodel::find($Id_Carmodel);
+                $carmodel->Status = 1;
+                $carmodel->save();
                 return redirect('/Stminishow/createCarmodel');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

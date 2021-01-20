@@ -73,6 +73,7 @@
                                         <table class="table table-borderd" id="permium_pro">
                                             <tr>
                                                 <th class="">สินค้าของแถม</th>
+                                                <th></th>
                                                 <th> <button type="button" class="btn btn-success addRowpermium_pro"><i class="fas fa-plus"></i></button></th>
                                             </tr>
                                             <tr>

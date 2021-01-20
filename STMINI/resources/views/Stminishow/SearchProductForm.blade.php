@@ -48,6 +48,7 @@
           </thead>
           <tbody>
             @foreach($products as $product)
+            @if($product->Status == 0 )
             <tr>
 
               <td scope="row">{{$product->Id_Product}}</td>
@@ -87,6 +88,10 @@
                 <a href="/Stminishow/deleteProduct/{{$product->Id_Product}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
               </td>
             </tr>
+            @else
+            <tr style="display: none;">
+            </tr>
+            @endif
             @endforeach
           </tbody>
         </table>

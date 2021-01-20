@@ -46,18 +46,19 @@
           </thead>
           <tbody>
             @foreach($members as $member)
+            @if($member->Status == 0 )
             <tr>
 
               <td scope="row">{{$member->Id_Member}}</td>
               <td>{{$member->FName_Member}}</td>
               <td>{{$member->LName_Member}}</td>
               <td>
-              {{$member->Tel_MEM}}
+                {{$member->Tel_MEM}}
 
 
               </td>
               <td>
-              {{$member->Name_Cmember}}
+                {{$member->Name_Cmember}}
               </td>
               <td>
                 <a href="/Stminishow/editMember/{{$member->Id_Member}}" class="btn btn-info" style="border-radius: 5px; width: 90px; "> <i class="fas fa-pen" style="margin-right: 5px;"></i> แก้ไข</a>
@@ -66,6 +67,10 @@
                 <a href="/Stminishow/deleteMember/{{$member->Id_Member}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
               </td>
             </tr>
+            @else
+            <tr style="display: none;">
+            </tr>
+            @endif
             @endforeach
           </tbody>
         </table>

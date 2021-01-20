@@ -62,7 +62,7 @@ class MemberController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission5')) {
-                $members = member::paginate(5);
+                $members = member::where('Status', '=', 0)->paginate(5);
 
                 $telmems = Telmem::all();
                 $count = member::where('Status', '=', 0)->count();
@@ -89,12 +89,15 @@ class MemberController extends Controller
                 $members = DB::table('members')
                     ->join('categorymembers', 'members.Cmember_Id', "LIKE", 'categorymembers.Id_Cmember')
                     ->join('telmems', 'members.Id_Member', '=', 'telmems.Id_Member')
-                    ->select('members.Id_Member', 'members.FName_Member', 'members.LName_Member', 'categorymembers.Name_Cmember', 'telmems.Tel_MEM')
+                    ->select('members.Id_Member', 'members.FName_Member', 'members.LName_Member',
+                     'categorymembers.Name_Cmember',  'telmems.Id_Member','telmems.Tel_MEM',
+                     'members.Status', 'members.Cmember_Id', 'categorymembers.Id_Cmember')
+                    ->where('members.Status', '=', 0)
                     ->where('members.Id_Member', "LIKE", "%{$searchMEM}%")
                     ->orwhere('FName_Member', "LIKE", "%{$searchMEM}%")
                     ->orwhere('LName_Member', "LIKE", "%{$searchMEM}%")
                     ->orwhere('Tel_MEM', "LIKE", "%{$searchMEM}%")
-                    ->groupBy('members.Id_Member', 'members.FName_Member', 'members.LName_Member', 'categorymembers.Name_Cmember', 'telmems.Tel_MEM')
+                    
                     ->orderBy('members.Id_Member', 'DESC')
                     ->paginate(5);
 
@@ -292,7 +295,9 @@ class MemberController extends Controller
     {
         if (session()->has('login')) {
             if (session()->has('loginpermission5')) {
-                Member::destroy($Id_Member);
+                $Member = Member::find($Id_Member);
+                $Member->Status = 1;
+                $Member->save();
                 return redirect('/Stminishow/showMember');
             } else {
                 Session()->flash("echo", "คุณไม่มีสิทธิ์");

@@ -45,15 +45,16 @@
           </thead>
           <tbody>
             @foreach($premium_pros as $PremiumPro)
+            @if($PremiumPro->Status == 0 )
             <tr>
 
-              <td scope="row" >{{$PremiumPro->Id_Premium_Pro}}</td>
+              <td scope="row">{{$PremiumPro->Id_Premium_Pro}}</td>
               <td>
                 <img src="{{asset('storage')}}/PremiumPro_image/{{$PremiumPro->Img_Premium_Pro}}" alt="" width="80px" height="80px">
               </td>
               <td>{{$PremiumPro->Name_Premium_Pro}}</td>
               <td>
-              {{$PremiumPro->Amount_Premium_Pro}}
+                {{$PremiumPro->Amount_Premium_Pro}}
               </td>
               <td>
                 <a href="/Stminishow/editPremiumPro/{{$PremiumPro->Id_Premium_Pro}}" class="btn btn-info" style="border-radius: 5px; width: 90px; "> <i class="fas fa-pen" style="margin-right: 5px;"></i> แก้ไข</a>
@@ -62,6 +63,10 @@
                 <a href="/Stminishow/deletePremiumPro/{{$PremiumPro->Id_Premium_Pro}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
               </td>
             </tr>
+            @else
+            <tr style="display: none;">
+            </tr>
+            @endif
             @endforeach
           </tbody>
         </table>

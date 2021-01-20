@@ -47,30 +47,27 @@
           <tbody>
             @foreach($promotionpays as $promotionpay)
             <tr>
-
               <td scope="row">{{$promotionpay->Id_Promotion}}</td>
               <td>
                 {{$promotionpay->Name_Promotion}}
               </td>
               <td>
-                @foreach($promotion_payments as $promotion_payment)
-                @if($promotionpay->Id_Promotion == $promotion_payment->Id_Promotion)
-                {{number_format($promotion_payment->Payment_Amount,2)}}
-                @endif
-                @endforeach
-              </td>
-              <td>
-              {{$promotionpay->Sdate_Promotion}}
+
+                {{number_format($promotionpay->Payment_Amount,2)}}
 
               </td>
               <td>
-              {{$promotionpay->Edate_Promotion}}
+                {{$promotionpay->Sdate_Promotion}}
+
+              </td>
+              <td>
+                {{$promotionpay->Edate_Promotion}}
               </td>
               <td>
                 <a href="/Stminishow/editPromotionPay/{{$promotionpay->Id_Promotion}}" class="btn btn-info" style="border-radius: 5px; width: 90px; "> <i class="fas fa-pen" style="margin-right: 5px;"></i> แก้ไข</a>
               </td>
               <td>
-                <a href="/Stminishow/editPromotionPay/{{$promotionpay->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
+                <a href="/Stminishow/deletePromotionPay/{{$promotionpay->Id_Promotion}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
               </td>
             </tr>
             @endforeach

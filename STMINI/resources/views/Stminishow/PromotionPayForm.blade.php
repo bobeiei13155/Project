@@ -33,15 +33,24 @@
                                         <label for="Name_Promotion" class="font_green">ชื่อโปรโมชั่น</label>
                                         <input type="text" class="form-control" name="Name_Promotion" id="Name_Promotion" placeholder="ชื่อโปรโมชั่น">
                                     </div>
+                                    <div class="col-md-2">
+                                        <label for="Brand_Id" class="font_green">ยี่ห้อ</label>
+                                        <select class="form-control" name="Brand_Id">
+                                            <option value="">เลือกยี่ห้อ</option>
+                                            @foreach($brands as $brand)
+                                            <option value="{{$brand->Id_Brand}}">{{$brand->Name_Brand}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-md-3">
                                         <label for="Salary_Emp" class="font_green">กำหนดยอดชำระ</label>
                                         <input type="text" class=" form-control" name="Payment_Amount" placeholder="กำหนดยอดชำระ" min="0" step="0.01" onkeypress="return onlyNumberKey(event)" required>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label for="Sdate_Promotion" class="font_green">วันเริ่มต้น</label>
                                         <input type="date" class="form-control" name="Sdate_Promotion" id="Sdate_Promotion">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label for="Edate_Promotion" class="font_green">วันสิ้นสุด</label>
                                         <input type="date" class="form-control" name="Edate_Promotion" id="Edate_Promotion">
                                     </div>
@@ -50,16 +59,19 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <table class="table table-borderd" id="costs">
+                                    <div class="col-md-6">
+                                        <table class="table table-borderd" id="permium_pro">
                                             <tr>
-                                                <th class="font_green th1">สินค้าของแถม</th>
+                                                <th class="">สินค้าของแถม</th>
+                                                <th></th>
+                                                <th> <button type="button" class="btn btn-success addRowpermium_pro"><i class="fas fa-plus"></i></button></th>
+                                              
                                             </tr>
                                             <tr>
                                                 <div class="row">
                                                     <th>
-                                                        <div class="col-md form-group">
-                                                            <select class="form-control" name="Id_Premium_Pro" oninvalid="this.setCustomValidity('กรุณากรอกเลือกสินค้าของแถมเพื่อจัดโปรโมชั่น')" oninput="setCustomValidity('')" required>
+                                                        <div class="col-md- form-group">
+                                                            <select class="form-control" name="Id_Premium_Pro[]" oninvalid="this.setCustomValidity('กรุณากรอกเลือกสินค้าของแถมเพื่อจัดโปรโมชั่น')" oninput="setCustomValidity('')" required>
                                                                 <option value="" selected>เลือกสินค้าของแถม </option>
                                                                 @foreach($PremiumPros as $PremiumPro)
                                                                 <option value="{{$PremiumPro->Id_Premium_Pro}}">{{$PremiumPro->Name_Premium_Pro}}</option>
@@ -67,7 +79,12 @@
                                                             </select>
                                                         </div>
                                                     </th>
-
+                                                    <th>
+                                                        <div class="col-sm form-group">
+                                                            <input type="text" class="form-control" name="Amount_Premium_Pro[]" id="Amount_Premium_Pro" placeholder="จำนวน" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                                        </div>
+                                                    </th>
+                                                    <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>
                                                 </div>
                                             </tr>
                                         </table>
@@ -86,6 +103,36 @@
 
 {{csrf_field()}}
 <script type="text/javascript">
+    $('.addRowpermium_pro').on('click', function() {
+        addRowpermium_pro();
+    });
 
+    function addRowpermium_pro() {
+        var addrow = '<tr>' +
+            '     <div class="row">' +
+            '<th>' +
+            '  <div class="col-md- form-group">' +
+            '   <select class="form-control" name="Id_Premium_Pro[]" >' +
+            '   <option value="" selected>เลือกสินค้าของแถม  </option>' +
+            '@foreach($PremiumPros as $PremiumPro)' +
+            '   <option value="{{$PremiumPro->Id_Premium_Pro}}">{{$PremiumPro->Name_Premium_Pro}}</option>' +
+            '   @endforeach' +
+            '       </select>' +
+            '   </div>' +
+            ' </th>' +
+            ' <th>' +
+            ' <div class="col-sm form-group">' +
+            '   <input type="text" class="form-control" name="Amount_Premium_Pro[]" id="Amount_Premium_Pro" placeholder="จำนวน" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
+            '</div>' +
+            '  </th>' +
+
+            '        <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>' +
+            '   </div>' +
+            '</tr>'
+        $('#permium_pro').append(addrow);
+    }
+    $(document).on('click', '.remove', function() {
+        $(this).parent().parent().remove();
+    });
 </script>
 @endsection

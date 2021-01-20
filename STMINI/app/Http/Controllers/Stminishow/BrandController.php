@@ -48,7 +48,7 @@ class BrandController extends Controller
             if (session()->has('loginpermission3')) {
                 $searchBND = $request->searchBND;
                 $brands = DB::table('brands')
-                    ->where('Id_Brand', "LIKE", "%{$searchBND}%")
+                    ->where('Id_Brand', "LIKE", "%{$searchBND}%")->select('Id_Brand', 'Name_Brand', 'Status')->where('Status', '=', 0)
                     ->orwhere('Name_Brand', "LIKE", "%{$searchBND}%")->paginate(5);
                 $count = brand::where('Status', '=', 0)->count();
                 return view("Stminishow.SearchBrandForm")->with("brands", $brands)->with('count', $count);

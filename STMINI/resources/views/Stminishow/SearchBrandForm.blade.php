@@ -32,7 +32,7 @@
                 <div class="row">
                     <!-- <label for="Name_Category" >ชื่อประเภทสินค้า</label> -->
                     <form action="/Stminishow/createBrand" method="GET" enctype="multipart/form-data">
-                    {{csrf_field()}}
+                        {{csrf_field()}}
                         <div class="col">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="Name_Brand" id="Name_Brand" placeholder="ชื่อยี่ห้อสินค้า" style="width: 300px;" required>
@@ -57,6 +57,7 @@
                     </thead>
                     <tbody>
                         @foreach($brands as $brand)
+                        @if($brand->Status == 0 )
                         <tr>
 
                             <td scope="row">{{$brand->Id_Brand}}</td>
@@ -68,6 +69,10 @@
                                 <a href="/Stminishow/deleteBrand/{{$brand->Id_Brand}}" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่ ?')" class="btn btn-danger" style="border-radius: 5px; width: 90px; "> <i class="fas fa-trash" style="margin-right: 5px;"></i> ลบ</a>
                             </td>
                         </tr>
+                        @else
+                        <tr style="display: none;">
+                        </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -77,14 +82,3 @@
     </div>
 </section>
 @endsection
-
-
-
-
-
-
-
-
-
-
-

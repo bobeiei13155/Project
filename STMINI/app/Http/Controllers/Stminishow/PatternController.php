@@ -39,7 +39,7 @@ class PatternController extends Controller
         if (session()->has('login')) {
             if (session()->has('loginpermission2')) {
                 $searchPTN = $request->searchPTN;
-                $patterns = DB::table('patterns')
+                $patterns = DB::table('patterns')->select('Id_Pattern','Name_Pattern','Status')->where('Status', '=', 0)
                     ->where('Id_Pattern', "LIKE", "%{$searchPTN}%")
                     ->orwhere('Name_Pattern', "LIKE", "%{$searchPTN}%")->paginate(5);
                 $count = pattern::where('Status', '=', 0)->count();

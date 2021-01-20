@@ -140,7 +140,7 @@
                                                     </th>
                                                     <th>
                                                         <div class="col-sm form-group">
-                                                            <input type="text" class="form-control" name="cost[]" id="cost" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">
+                                                            <input type="text" class="form-control" name="cost[]" id="cost" value="{{$costs->Cost}}" placeholder="ราคาทุน" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                                         </div>
                                                     </th>
                                                     <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>
