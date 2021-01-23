@@ -22,11 +22,34 @@
             <div class="col-lg-10">
                 <div class="card">
                     <div class="card-header  align-items-center">
-                        <h4>ID : {{$products->Id_Product}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <h4>ID : {{$products->Id_Product}}</h4>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <select class="form-control" name="Statuspre">
+                                    @if($products->Statuspre == "0" ){
+                                    <option value="0" selected>
+                                        สั่งจองสินค้าได้
+                                    </option>
+                                    <option value="1">ไม่สามารถสั่งจองสินค้าได้</option>
+                                    }@else{
+
+                                    <option value="1" selected>
+                                        ไม่สามารถสั่งจองสินค้าได้
+                                    </option>
+                                    <option value="0">สั่งจองสินค้าได้</option>
+                                    }
+                                    @endif
+
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/updateProduct/{{$products->Id_Product}}" method="post" enctype="multipart/form-data">
-                        {{csrf_field()}}
+                            {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -37,7 +60,7 @@
                                         <label for="Category_Id" class="font_green">ประเภทสินค้า</label>
                                         <select name="Category_Id" class="form-control">
                                             @foreach($categories as $category)
-                                            <option value="{{$category->Category_Id}}" @if($category->Category_Id == $products->Category_Id)selected
+                                            <option value="{{$category->Id_Category}}" @if($category->Id_Category == $products->Category_Id)selected
                                                 @endif
                                                 >{{$category->Name_Category}}
                                             </option>
@@ -47,16 +70,13 @@
                                     <div class="col-md-2">
                                         <label for="Brand_Id" class="font_green">ยี่ห้อ</label>
                                         <select class="form-control" name="Brand_Id">
-                                            <option value="{{$products->Brand_Id}}">
-                                                @foreach($brands as $brand)
-                                                @if($products->Brand_Id == $brand->Id_Brand)
-                                                {{$brand->Name_Brand}}
-                                                @endif
-                                                @endforeach
-                                            </option>
                                             @foreach($brands as $brand)
-                                            <option value="{{$brand->Id_Brand}}">{{$brand->Name_Brand}}</option>
+                                            <option value="{{$brand->Id_Brand}}" @if($brand->Id_Brand == $products->Brand_Id)selected
+                                                @endif
+                                                > {{$brand->Name_Brand}}
+                                            </option>
                                             @endforeach
+
                                         </select>
                                     </div>
                                     <div class="col-md-2">

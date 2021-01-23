@@ -166,6 +166,7 @@ class ProductController extends Controller
         $products->Purchase = $request->Purchase;
         $products->Price = $request->Price;
         $products->Detail = $request->Detail;
+        $products->Statuspre = $request->Statuspre;
         $products->Img_Product = $imageName;
 
         $products->save();
@@ -240,7 +241,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $Id_Product)
     {
-
+      
         $request->validate([
             'Name_Product' => 'required',
             'Category_Id' => 'required',
@@ -275,6 +276,7 @@ class ProductController extends Controller
         $products->Purchase = $request->Purchase;
         $products->Price = $request->Price;
         $products->Detail = $request->Detail;
+        $products->Statuspre = $request->Statuspre;
 
         $products->save();
 

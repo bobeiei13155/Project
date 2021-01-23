@@ -34,9 +34,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <button type="submit" name="submit" id="submit" class="btn btn-success"> <i class="fas fa-pen" style="margin-right: 5px;"></i>แก้ไข</button>
+                            <button type="submit" name="submit" id="submit" class="btn btn-success"> <i class="fas fa-pen" style="margin-right: 5px;"></i>แก้ไข</button>
                         <a class="btn btn-danger my-2" href="/Stminishow/createGen"> <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>กลับ</a>
+                        </form>
+                     
                     </div>
                 </div>
             </div>

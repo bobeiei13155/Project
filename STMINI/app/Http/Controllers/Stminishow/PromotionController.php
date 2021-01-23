@@ -190,7 +190,8 @@ class PromotionController extends Controller
             $request2 = array(
                 'Id_Promotion' => $Id_Promotion,
                 'Id_Product' => $request->Id_Product,
-                'Id_Premium_Pro' => $request['Id_Premium_Pro'][$item]
+                'Id_Premium_Pro' => $request['Id_Premium_Pro'][$item],
+                'Amount_Premium_Pro' => $request['Amount_Premium_Pro'][$item]
 
             );
 
@@ -224,7 +225,7 @@ class PromotionController extends Controller
 
                 $join1 = DB::table('promotion_prods')
                     ->join('premium_pros', 'premium_pros.Id_Premium_Pro', '=', 'promotion_prods.Id_Premium_Pro')
-                    ->select('premium_pros.Name_Premium_Pro', 'promotion_prods.Id_Premium_Pro', 'premium_pros.Id_Premium_Pro')
+                    ->select('premium_pros.Name_Premium_Pro', 'promotion_prods.Id_Premium_Pro', 'premium_pros.Id_Premium_Pro', 'promotion_prods.Amount_Premium_Pro')
                     ->where('Id_Promotion', $Id_Promotion)->get();
 
                 $joinpre = $join1[0]->Id_Premium_Pro;
@@ -265,7 +266,10 @@ class PromotionController extends Controller
             $request2 = array(
                 'Id_Promotion' => $Id_Promotion,
                 'Id_Product' => $request->Id_Product,
-                'Id_Premium_Pro' => $request['Id_Premium_Pro'][$item]
+                'Id_Premium_Pro' => $request['Id_Premium_Pro'][$item],
+                'Amount_Premium_Pro' => $request['Amount_Premium_Pro'][$item]
+
+
 
             );
 
@@ -315,7 +319,7 @@ class PromotionController extends Controller
                     ->orwhere('promotionpays.Sdate_Promotion', "LIKE", "%{$searchPOM}%")
                     ->orwhere('promotionpays.Edate_Promotion', "LIKE", "%{$searchPOM}%")
                     ->distinct('promotionpays.Name_Promotion')->paginate(5);
-               
+
                 $count = promotionpays::where('Status', '=', 0)->count();
                 $promotion_payments = promotion_payments::all();
 

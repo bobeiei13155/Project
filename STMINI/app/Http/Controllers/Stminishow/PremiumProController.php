@@ -116,7 +116,7 @@ class PremiumProController extends Controller
     {
         $request->validate([
 
-            'Name' => 'required|unique:premium_pros',
+            'Name' => 'required',
             'Amount' => 'required',
             'image' => 'required|file|image|mimes:jpeg,png,jpg|max:5000 '
             //

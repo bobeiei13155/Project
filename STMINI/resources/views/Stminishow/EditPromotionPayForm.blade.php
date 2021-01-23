@@ -131,7 +131,7 @@
             '   <input type="text" class="form-control" name="Amount_Premium_Pro[]" id="Amount_Premium_Pro" placeholder="จำนวน" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
             '</div>' +
             '  </th>' +
-
+            
             '        <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>' +
             '   </div>' +
             '</tr>'

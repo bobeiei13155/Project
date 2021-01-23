@@ -76,6 +76,7 @@
                                         <table class="table table-borderd" id="permium_pro">
                                             <tr>
                                                 <th class="">สินค้าของแถม</th>
+                                                <th></th>
                                                 <th> <button type="button" class="btn btn-success addRowpermium_pro"><i class="fas fa-plus"></i></button></th>
                                             </tr>
                                             @foreach($join1 as $row)
@@ -91,6 +92,11 @@
                                                                 </option>
                                                                 @endforeach
                                                             </select>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="col-sm form-group">
+                                                            <input type="text" class="form-control" name="Amount_Premium_Pro[]" value="{{$row->Amount_Premium_Pro}}" id="Amount_Premium_Pro" placeholder="จำนวน" maxlength="10" onkeypress="return onlyNumberKey(event)">
                                                         </div>
                                                     </th>
                                                     <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>
@@ -130,6 +136,11 @@
             '       </select>' +
             '   </div>' +
             ' </th>' +
+            ' <th>' +
+            ' <div class="col-sm form-group">' +
+            '   <input type="text" class="form-control" name="Amount_Premium_Pro[]" id="Amount_Premium_Pro" placeholder="จำนวน" maxlength="10" onkeypress="return onlyNumberKey(event)">' +
+            '</div>' +
+            '  </th>' +
             '        <th> <button type="button" class="btn btn-danger remove"><i class="fas fa-minus"></i></button></th>' +
             '   </div>' +
             '</tr>'

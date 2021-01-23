@@ -22,11 +22,23 @@
             <div class="col-lg-10">
                 <div class="card">
                     <div class="card-header  align-items-center">
-                        <h4>ID : {{Session::get('Id_Product')}}</h4>
+                        <div class="row">
+                            <div class="col">
+                                <h4>ID : {{Session::get('Id_Product')}}</h4>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <select class="form-control" name="Statuspre">
+                                    <option value="">เลือกสถานะการสั่งจอง</option>
+                                    <option value="0">สั่งจองสินค้าได้</option>
+                                    <option value="1">ไม่สามารถสั่งจองสินค้าได้</option>
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="/Stminishow/createProduct" method="post" enctype="multipart/form-data">
-                        {{csrf_field()}}
+                            {{csrf_field()}}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
